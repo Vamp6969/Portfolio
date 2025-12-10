@@ -31,6 +31,20 @@
     <meta name="theme-color" content="#3b82f6">
 
     <style>
+
+            html::-webkit-scrollbar {
+            width: 10px; 
+        }
+
+            html::-webkit-scrollbar-track {
+            background-color: #121212;
+        }
+
+            html::-webkit-scrollbar-thumb {
+            background: #4e4e4e;
+            border-radius: 50px;
+        }
+ 
         /* --- 1. RESET & VARIABLES --- */
         :root {
             --bg-dark: #050505;
@@ -276,20 +290,6 @@
     <section id="experience">
         <h2 class="section-title reveal"><span class="section-number">01.</span> Where I've Worked</h2>
         <div class="timeline">
-            
-            <div class="job-card reveal">
-                <div class="job-header">
-                    <h3>Head of Ops <span>@ VioletVault.in</span></h3>
-                    <p class="job-meta">Jan 2025 - Present | Bangalore</p>
-                </div>
-                <div class="job-desc">
-                    <ul>
-                        <li>Orchestrating end-to-end supply chain operations for a D2C beauty brand.</li>
-                        <li>Automating order processing workflows via Shopify APIs.</li>
-                        <li>Driving data-driven market analysis to identify high-margin product trends.</li>
-                    </ul>
-                </div>
-            </div>
 
             <div class="job-card reveal">
                 <div class="job-header">
@@ -302,6 +302,20 @@
                         <li>Architected distributed bare-metal fleet on Hetzner Cloud (99.9% uptime).</li>
                         <li>Engineered isolated environments using Docker & Pterodactyl.</li>
                         <li>Mitigated volumetric DDoS attacks using UFW firewalls and Fail2Ban.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="job-card reveal">
+                <div class="job-header">
+                    <h3>Head of Ops <span>@ VioletVault.in</span></h3>
+                    <p class="job-meta">Jan 2025 - Present | Bangalore</p>
+                </div>
+                <div class="job-desc">
+                    <ul>
+                        <li>Orchestrating end-to-end supply chain operations for a D2C beauty brand.</li>
+                        <li>Automating order processing workflows via Shopify APIs.</li>
+                        <li>Driving data-driven market analysis to identify high-margin product trends.</li>
                     </ul>
                 </div>
             </div>
@@ -411,8 +425,11 @@
         </div>
 
         <div style="text-align: center;" class="reveal">
-            <a href="https://discord.com/users/844426168793825330" class="big-contact-btn">
+            <a href="https://discord.com/users/844426168793825330" class="big-contact-btn" target="_blank">
                 <i class="fa-regular fa-paper-plane"></i> Say Hello
+            </a>
+            <a href="Tushar_DevOps_Resume.pdf" class="big-contact-btn" target="_blank">
+                <i class="fa-regular fa-file"></i> My Resume
             </a>
         </div>
     </section>
@@ -438,7 +455,7 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Trigger once on load
+        reveal();
     </script>
 </body>
 </html>
