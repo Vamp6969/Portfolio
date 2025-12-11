@@ -452,10 +452,13 @@
 
     <footer class="reveal">
         <p>Designed & Built with <i class="fa-solid fa-heart" style="color:red;"></i> by Tushar A.</p>
-        <p style="margin-top: 10px; opacity: 0.6;">
-            <a href="https://github.com/Vamp6969" style="color:inherit; margin:0 10px;">GitHub</a> • 
-            <a href="https://www.linkedin.com/in/tushar-a-607371315/" style="color:inherit; margin:0 10px;">LinkedIn</a>
+        <br>
+        <p>
+            <i class="fa-solid fa-copyright" aria-hidden="true"></i> <span id="year-span"></span> Tushar A. All rights reserved.
         </p>
+        <script>
+            document.getElementById("year-span").textContent = new Date().getFullYear() + " ";
+        </script>
     </footer>
 
     <script>
