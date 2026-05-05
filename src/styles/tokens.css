@@ -1,21 +1,43 @@
 :root {
-  --bg: #050505;
-  --bg-elev: #0a0a0a;
-  --bg-card: rgba(20, 20, 24, 0.7);
-  --primary: #3b82f6;
-  --accent: #06b6d4;
-  --good: #00ff7a;
-  --text: #f3f4f6;
-  --muted: #9ca3af;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
+  /* Surface */
+  --bg: #050508;
+  --bg-elev: #0a0a10;
+  --tile-bg: rgba(255, 255, 255, 0.025);
+  --tile-bg-hover: rgba(255, 255, 255, 0.04);
+  --tile-border: rgba(255, 255, 255, 0.06);
+  --tile-border-hover: rgba(165, 180, 252, 0.3);
 
+  /* Brand */
+  --primary: #6366f1;        /* indigo-500 */
+  --primary-soft: #a5b4fc;   /* indigo-300 */
+  --accent: #c4b5fd;         /* violet-300 */
+  --accent-strong: #a855f7;  /* violet-500 */
+  --good: #00ff7a;
+  --good-soft: #6ee787;
+  --warn: #febc2e;
+
+  /* Text */
+  --text: #e7e9ee;
+  --text-strong: #ffffff;
+  --muted: #aab0bf;
+  --muted-2: #8b91a3;
+  --muted-3: #6c7086;
+
+  /* Borders / dividers */
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --divider: rgba(255, 255, 255, 0.04);
+
+  /* Type */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
 
+  /* Motion */
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
 
-  --max-w: 1100px;
-  --pad-x: clamp(20px, 5vw, 80px);
-  --section-pad-y: clamp(60px, 10vw, 120px);
+  /* Layout */
+  --max-w: 1280px;
+  --pad-x: clamp(16px, 4vw, 40px);
+  --tile-radius: 14px;
+  --tile-pad: clamp(16px, 2vw, 22px);
 }

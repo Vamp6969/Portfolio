@@ -10,16 +10,16 @@ import Footer from '../components/Footer.astro';
 >
   <Nav />
 
-  <main class="resume container">
+  <main class="container resume">
     <div class="resume-actions no-print">
       <a href="/" class="back-link">← Back to home</a>
       <div class="action-buttons">
-        <button onclick="window.print()" class="action-btn" type="button">Print / Save PDF</button>
-        <a href="/Resume.pdf" class="action-btn" target="_blank" rel="noopener">Download original PDF</a>
+        <button onclick="window.print()" class="btn btn-ghost" type="button">Print / Save PDF</button>
+        <a href="/Resume.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Original PDF</a>
       </div>
     </div>
 
-    <article class="resume-doc">
+    <article class="tile resume-doc">
       <header class="resume-head">
         <h1>Tushar A.</h1>
         <p class="resume-headline">Systems Engineer & Founder · Bangalore, India</p>
@@ -155,9 +155,9 @@ import Footer from '../components/Footer.astro';
 
 <style>
   .resume {
-    max-width: 880px;
-    padding-top: 120px;
-    padding-bottom: 80px;
+    max-width: 920px;
+    padding-top: 100px;
+    padding-bottom: 60px;
   }
 
   .resume-actions {
@@ -166,18 +166,18 @@ import Footer from '../components/Footer.astro';
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
 
   .back-link {
-    color: var(--muted);
+    color: var(--muted-3);
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     transition: color 0.2s var(--ease);
   }
 
   .back-link:hover {
-    color: var(--accent);
+    color: var(--primary-soft);
   }
 
   .action-buttons {
@@ -185,57 +185,41 @@ import Footer from '../components/Footer.astro';
     gap: 10px;
   }
 
-  .action-btn {
-    background: var(--bg-card);
-    border: 1px solid var(--border-strong);
-    color: var(--text);
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: all 0.2s var(--ease);
-  }
-
-  .action-btn:hover {
-    border-color: var(--primary);
-    color: var(--primary);
-  }
-
   .resume-doc {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 48px clamp(24px, 5vw, 56px);
+    padding: clamp(28px, 5vw, 48px);
   }
 
   .resume-head {
     border-bottom: 1px solid var(--border);
-    padding-bottom: 24px;
-    margin-bottom: 32px;
+    padding-bottom: 22px;
+    margin-bottom: 28px;
   }
 
   .resume-head h1 {
     font-size: clamp(1.8rem, 4vw, 2.4rem);
     font-weight: 800;
     letter-spacing: -1px;
+    color: var(--text-strong);
     margin-bottom: 6px;
-    color: var(--text);
+    background: linear-gradient(135deg, #fff, var(--primary-soft));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .resume-headline {
     color: var(--muted);
     font-size: 1rem;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .resume-contact {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 16px;
+    gap: 4px 16px;
     font-family: var(--font-mono);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
   }
 
   .resume-contact a {
@@ -244,11 +228,11 @@ import Footer from '../components/Footer.astro';
   }
 
   .resume-contact a:hover {
-    color: var(--primary);
+    color: var(--primary-soft);
   }
 
   .resume-section {
-    margin-bottom: 32px;
+    margin-bottom: 30px;
   }
 
   .resume-section:last-child {
@@ -256,25 +240,25 @@ import Footer from '../components/Footer.astro';
   }
 
   .resume-section h2 {
-    font-size: 1rem;
+    font-size: 0.85rem;
     color: var(--accent);
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
     padding-bottom: 6px;
     border-bottom: 1px solid var(--border);
   }
 
   .resume-section p {
     color: var(--muted);
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     line-height: 1.65;
   }
 
   .resume-skills {
     display: grid;
-    gap: 10px;
+    gap: 8px;
   }
 
   .resume-skills > div {
@@ -292,20 +276,20 @@ import Footer from '../components/Footer.astro';
   }
 
   .resume-skills dt {
-    color: var(--text);
+    color: var(--text-strong);
     font-weight: 600;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
   }
 
   .resume-skills dd {
     color: var(--muted);
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     line-height: 1.5;
   }
 
   .resume-job,
   .resume-project {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
 
   .resume-job:last-child,
@@ -315,39 +299,39 @@ import Footer from '../components/Footer.astro';
 
   .resume-job header,
   .resume-project h3 {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
 
   .resume-job h3,
   .resume-project h3 {
-    color: var(--text);
-    font-size: 1.05rem;
+    color: var(--text-strong);
+    font-size: 1rem;
     font-weight: 700;
   }
 
   .resume-job h3 a,
   .resume-project h3 a {
-    color: var(--primary);
+    color: var(--primary-soft);
   }
 
   .resume-job-meta {
-    color: var(--muted);
+    color: var(--muted-3);
     font-family: var(--font-mono);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     margin-top: 2px;
   }
 
   .resume-job ul {
     list-style: none;
-    margin-top: 8px;
+    margin-top: 6px;
   }
 
   .resume-job li {
     position: relative;
-    padding-left: 20px;
-    margin-bottom: 6px;
+    padding-left: 18px;
+    margin-bottom: 5px;
     color: var(--muted);
-    font-size: 0.93rem;
+    font-size: 0.9rem;
     line-height: 1.6;
   }
 
@@ -360,7 +344,7 @@ import Footer from '../components/Footer.astro';
 
   .resume-project p {
     color: var(--muted);
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     line-height: 1.6;
   }
 
@@ -371,9 +355,9 @@ import Footer from '../components/Footer.astro';
   }
 
   .resume-project .muted {
-    color: var(--muted);
+    color: var(--muted-3);
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 400;
   }
 
@@ -400,7 +384,12 @@ import Footer from '../components/Footer.astro';
       padding: 24px !important;
     }
 
-    .resume-head h1,
+    .resume-head h1 {
+      color: #000 !important;
+      -webkit-text-fill-color: #000 !important;
+      background: none !important;
+    }
+
     .resume-job h3,
     .resume-project h3,
     .resume-skills dt {

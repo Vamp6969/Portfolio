@@ -1,0 +1,192 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, tagline, description, tags, links, featured } = project.data;
+
+const ctas: Array<{ key: 'internal' | 'live' | 'repo'; label: string; url: string }> = [];
+if (links.internal) ctas.push({ key: 'internal', label: 'Read case study', url: links.internal });
+if (links.live) ctas.push({ key: 'live', label: 'Live', url: links.live });
+if (links.repo) ctas.push({ key: 'repo', label: 'GitHub', url: links.repo });
+
+const primary = ctas[0];
+const secondary = ctas[1];
+const isExternal = (url: string) => /^https?:\/\//.test(url);
+
+const spanClasses = featured ? 'span-5 row-3' : 'span-3 row-2';
+---
+
+<article class:list={['tile proj-tile reveal', spanClasses, { featured }]}>
+  {featured && <span class="featured-badge">★ Featured</span>}
+  <div class="proj-head">
+    <p class="tile-label">/projects</p>
+    {links.live && <span class="proj-flag">live</span>}
+  </div>
+
+  <h3 class="proj-title">{title}</h3>
+  <p class="proj-tagline">{tagline}</p>
+  {featured && description && <p class="proj-desc">{description}</p>}
+
+  <ul class="proj-tags" aria-label="Tags">
+    {tags.map((t) => <li class="proj-tag">{t}</li>)}
+  </ul>
+
+  <div class="proj-foot">
+    {primary && (
+      <a
+        href={primary.url}
+        class="proj-cta"
+        target={isExternal(primary.url) ? '_blank' : undefined}
+        rel={isExternal(primary.url) ? 'noopener' : undefined}
+      >
+        {primary.label} <span aria-hidden="true">→</span>
+      </a>
+    )}
+    {secondary && (
+      <a
+        href={secondary.url}
+        class="proj-cta-secondary"
+        target={isExternal(secondary.url) ? '_blank' : undefined}
+        rel={isExternal(secondary.url) ? 'noopener' : undefined}
+      >
+        {secondary.label}
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .proj-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 140px;
+  }
+
+  .proj-tile.featured {
+    background:
+      linear-gradient(135deg, rgba(168, 85, 247, 0.10), rgba(99, 102, 241, 0.04)),
+      radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.18), transparent 50%),
+      var(--tile-bg);
+    border-color: rgba(168, 85, 247, 0.18);
+  }
+
+  .featured-badge {
+    align-self: flex-start;
+    padding: 3px 8px;
+    background: rgba(168, 85, 247, 0.18);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+    border-radius: 4px;
+  }
+
+  .proj-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .proj-flag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--good-soft);
+    background: rgba(0, 255, 122, 0.06);
+    border: 1px solid rgba(0, 255, 122, 0.15);
+    padding: 1px 6px;
+    border-radius: 999px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .proj-title {
+    color: var(--text-strong);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .proj-tile.featured .proj-title {
+    font-size: 1.4rem;
+    letter-spacing: -0.5px;
+  }
+
+  .proj-tagline {
+    color: var(--text);
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .proj-tile.featured .proj-tagline {
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+
+  .proj-desc {
+    color: var(--muted-2);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin-top: 2px;
+  }
+
+  .proj-tags {
+    list-style: none;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .proj-tag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    padding: 2px 7px;
+    background: rgba(99, 102, 241, 0.08);
+    color: var(--accent);
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .proj-tile.featured .proj-tag {
+    background: rgba(168, 85, 247, 0.15);
+  }
+
+  .proj-foot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--divider);
+  }
+
+  .proj-cta {
+    color: var(--primary-soft);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: all 0.2s var(--ease);
+  }
+
+  .proj-cta:hover {
+    color: var(--accent);
+    transform: translateX(2px);
+  }
+
+  .proj-cta-secondary {
+    color: var(--muted-3);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    transition: color 0.2s var(--ease);
+  }
+
+  .proj-cta-secondary:hover {
+    color: var(--text);
+  }
+</style>

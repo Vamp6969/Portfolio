@@ -1,60 +1,47 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
-import Hero from '../components/Hero.astro';
+import HeroTile from '../components/HeroTile.astro';
 import StatsStrip from '../components/StatsStrip.astro';
-import NowBlock from '../components/NowBlock.astro';
-import Timeline from '../components/Timeline.astro';
-import ProjectGrid from '../components/ProjectGrid.astro';
-import SkillGroup from '../components/SkillGroup.astro';
-import ContactGrid from '../components/ContactGrid.astro';
+import NowTile from '../components/NowTile.astro';
+import ExperienceTile from '../components/ExperienceTile.astro';
+import ProjectTile from '../components/ProjectTile.astro';
+import SkillsTile from '../components/SkillsTile.astro';
+import ContactTile from '../components/ContactTile.astro';
 import Footer from '../components/Footer.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const featured = projects.find((p) => p.data.featured);
+const others = projects.filter((p) => !p.data.featured);
 
 const experience = [
   {
     role: 'Founder & Sole Operator',
     org: 'Witchly.host',
     link: 'https://witchly.host',
-    period: '2021 – Present',
-    location: 'Remote',
-    bullets: [
-      'Single-handedly own and operate a game-hosting ISP — infrastructure, ops, support, billing, and the customer-facing site.',
-      'Scaled to 10,000+ users on Hetzner bare-metal with zero external funding. 99.9% uptime under high-concurrency workloads.',
-      'Engineered isolated game environments using Docker and Pterodactyl with cgroup limits to prevent tenant resource contention.',
-      'Self-hosted Mailcow with full SPF/DKIM/DMARC/PTR; 10/10 deliverability for transactional email.',
-      'Mitigated volumetric DDoS attacks and unauthorized SSH attempts via UFW firewalls and Fail2Ban jails.',
-    ],
+    period: '2021 — Present',
+    blurb:
+      'Single-handedly own and operate a game-hosting ISP — infra, ops, support, billing, the public site. 10,000+ users on Hetzner bare-metal, 99.9% uptime. Docker + Pterodactyl tenant isolation. Self-hosted Mailcow at 10/10 deliverability.',
   },
   {
     role: 'Web Developer',
     org: 'MistyMC.xyz',
     link: 'https://mistymc.xyz',
-    period: 'May 2026 – Present',
-    location: 'Remote',
-    bullets: [
-      'Develops and maintains the main public site for a Minecraft network.',
-      'Scope is the website only — not infrastructure or the network itself.',
-    ],
+    period: 'May 2026 — Now',
+    blurb:
+      'Develop and maintain the main public site for a Minecraft network. Scope: website only.',
   },
 ];
 
-const skills = [
-  {
-    title: 'Infrastructure',
-    tags: ['Linux (Ubuntu / CentOS)', 'Docker', 'Pterodactyl', 'Bare Metal', 'Hetzner Cloud'],
-  },
-  {
-    title: 'Networking & Security',
-    tags: ['Nginx Reverse Proxy', 'Cloudflare DNS', 'UFW / Fail2Ban', 'SSL / TLS', 'Mailcow (SPF/DKIM/DMARC)'],
-  },
-  {
-    title: 'Backend & Languages',
-    tags: ['Python', 'TypeScript', 'C++', 'Java', 'Bash', 'MySQL / MariaDB', 'LAMP'],
-  },
-  {
-    title: 'AI/ML & Tools',
-    tags: ['OpenEnv', 'FastMCP', 'FastAPI', 'Hono', 'Next.js', 'Cloudflare Workers', 'Git'],
-  },
+const skillGroups = [
+  { cat: 'infra', tags: ['linux', 'docker', 'pterodactyl', 'bare-metal', 'hetzner'] },
+  { cat: 'net+sec', tags: ['nginx', 'cloudflare', 'ufw', 'fail2ban', 'mailcow'] },
+  { cat: 'code', tags: ['python', 'typescript', 'c++', 'java', 'bash', 'mysql'] },
+  { cat: 'ai/ml', tags: ['openenv', 'fastmcp', 'fastapi', 'hono', 'next.js'] },
 ];
 ---
 
@@ -63,33 +50,26 @@ const skills = [
   description="Systems Engineer & Founder. Scaling distributed infrastructure to 10,000+ users on bare-metal Linux, Docker, and Hetzner."
 >
   <Nav />
-  <main>
-    <Hero />
-    <StatsStrip />
-    <NowBlock />
-    <Timeline entries={experience} />
-    <ProjectGrid />
 
-    <section class="skills section" id="skills">
-      <div class="container">
-        <h2 class="section-title reveal">
-          <span class="section-number">03.</span> Technical arsenal
-        </h2>
-        <div class="skills-grid">
-          {skills.map((s) => <SkillGroup title={s.title} tags={s.tags} />)}
-        </div>
-      </div>
-    </section>
-
-    <ContactGrid />
+  <main class="container main">
+    <div class="bento" id="projects">
+      <HeroTile />
+      <StatsStrip />
+      <NowTile />
+      <ExperienceTile entries={experience} />
+      {featured && <ProjectTile project={featured} />}
+      {others.map((p) => <ProjectTile project={p} />)}
+      <SkillsTile groups={skillGroups} />
+      <ContactTile />
+    </div>
   </main>
+
   <Footer />
 </BaseLayout>
 
 <style>
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
+  .main {
+    padding-top: 88px;
+    padding-bottom: 32px;
   }
 </style>

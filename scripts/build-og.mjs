@@ -16,20 +16,20 @@ const svg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#050505"/>
-      <stop offset="100%" stop-color="#0a0a14"/>
+      <stop offset="0%" stop-color="#050508"/>
+      <stop offset="100%" stop-color="#0c0c18"/>
     </linearGradient>
-    <radialGradient id="glow1" cx="20%" cy="40%" r="40%">
-      <stop offset="0%" stop-color="rgba(59,130,246,0.25)"/>
-      <stop offset="100%" stop-color="rgba(59,130,246,0)"/>
+    <radialGradient id="glow1" cx="20%" cy="40%" r="42%">
+      <stop offset="0%" stop-color="rgba(99,102,241,0.30)"/>
+      <stop offset="100%" stop-color="rgba(99,102,241,0)"/>
     </radialGradient>
-    <radialGradient id="glow2" cx="80%" cy="70%" r="40%">
-      <stop offset="0%" stop-color="rgba(6,182,212,0.22)"/>
-      <stop offset="100%" stop-color="rgba(6,182,212,0)"/>
+    <radialGradient id="glow2" cx="80%" cy="70%" r="42%">
+      <stop offset="0%" stop-color="rgba(168,85,247,0.24)"/>
+      <stop offset="100%" stop-color="rgba(168,85,247,0)"/>
     </radialGradient>
     <linearGradient id="textgrad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#9ca3af"/>
+      <stop offset="100%" stop-color="#a5b4fc"/>
     </linearGradient>
   </defs>
 
@@ -37,19 +37,19 @@ const svg = `
   <rect width="${W}" height="${H}" fill="url(#glow1)"/>
   <rect width="${W}" height="${H}" fill="url(#glow2)"/>
 
-  <text x="80" y="180" fill="#06b6d4" font-family="ui-monospace, monospace" font-size="22" letter-spacing="2">// SYSTEMS ENGINEER &#38; FOUNDER</text>
+  <text x="80" y="180" fill="#a5b4fc" font-family="ui-monospace, monospace" font-size="22" letter-spacing="2">/about · SYSTEMS ENGINEER &#38; FOUNDER</text>
 
   <text x="80" y="320" fill="url(#textgrad)" font-family="system-ui, -apple-system, sans-serif" font-size="120" font-weight="800" letter-spacing="-4">Tushar A.</text>
 
-  <text x="80" y="410" fill="#9ca3af" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="800" letter-spacing="-2">I scale infrastructure.</text>
+  <text x="80" y="410" fill="#c4b5fd" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="800" letter-spacing="-2">I scale infrastructure.</text>
 
-  <text x="80" y="500" fill="#9ca3af" font-family="system-ui, -apple-system, sans-serif" font-size="26">Founded a game-hosting ISP at 17 → 10,000 users on bare-metal.</text>
+  <text x="80" y="500" fill="#aab0bf" font-family="system-ui, -apple-system, sans-serif" font-size="26">Founded a game-hosting ISP at 17 → 10,000 users on bare-metal.</text>
 
-  <rect x="80" y="540" width="280" height="44" rx="22" fill="rgba(59,130,246,0.12)" stroke="#3b82f6" stroke-opacity="0.6"/>
+  <rect x="80" y="540" width="280" height="44" rx="22" fill="rgba(0,255,122,0.06)" stroke="#00ff7a" stroke-opacity="0.5"/>
   <circle cx="106" cy="562" r="6" fill="#00ff7a"/>
-  <text x="124" y="569" fill="#3b82f6" font-family="ui-monospace, monospace" font-size="18">Available — full-time</text>
+  <text x="124" y="569" fill="#6ee787" font-family="ui-monospace, monospace" font-size="18">Available — full-time</text>
 
-  <text x="${W - 80}" y="${H - 60}" text-anchor="end" fill="#666" font-family="ui-monospace, monospace" font-size="22">tushar-a.dev</text>
+  <text x="${W - 80}" y="${H - 60}" text-anchor="end" fill="#6c7086" font-family="ui-monospace, monospace" font-size="22">tushar-a.dev</text>
 </svg>
 `;
 

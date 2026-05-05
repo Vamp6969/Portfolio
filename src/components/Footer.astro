@@ -16,36 +16,38 @@ const year = new Date().getFullYear();
         loading="lazy"
         class="footer-avatar"
       />
-      <span>Designed & built by Tushar A.</span>
+      <span>Designed & built by Tushar A. — © {year}</span>
     </div>
-    <p class="footer-copy">
-      © {year} Tushar A. All rights reserved.
-    </p>
+    <div class="footer-links">
+      <a href="https://github.com/Vamp6969" target="_blank" rel="noopener">github</a>
+      <a href="/Resume.pdf" target="_blank" rel="noopener">resume</a>
+      <a href="mailto:tushar@tushar-a.dev">email</a>
+    </div>
   </div>
 </footer>
 
 <style>
   .footer {
+    margin-top: 32px;
+    padding: 24px 0 32px;
     border-top: 1px solid var(--border);
-    padding: 32px 0;
-    margin-top: 40px;
   }
 
   .footer-inner {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
-    text-align: center;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .footer-brand {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: var(--muted);
+    color: var(--muted-3);
     font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-size: 0.78rem;
   }
 
   .footer-avatar {
@@ -53,9 +55,19 @@ const year = new Date().getFullYear();
     image-rendering: pixelated;
   }
 
-  .footer-copy {
-    color: var(--muted);
+  .footer-links {
+    display: flex;
+    gap: 18px;
+  }
+
+  .footer-links a {
+    color: var(--muted-3);
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
+    transition: color 0.2s var(--ease);
+  }
+
+  .footer-links a:hover {
+    color: var(--text);
   }
 </style>

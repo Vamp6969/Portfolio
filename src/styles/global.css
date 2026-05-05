@@ -33,16 +33,16 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-  background-color: #121212;
+  background-color: #08080c;
 }
 
 html::-webkit-scrollbar-thumb {
-  background: #4e4e4e;
+  background: #2a2a3a;
   border-radius: 50px;
 }
 
 html::-webkit-scrollbar-thumb:hover {
-  background: #6e6e6e;
+  background: #3a3a4a;
 }
 
 body {
@@ -53,10 +53,12 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   background-image:
-    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.08), transparent 25%);
+    radial-gradient(ellipse at 18% 10%, rgba(99, 102, 241, 0.10), transparent 50%),
+    radial-gradient(ellipse at 88% 80%, rgba(168, 85, 247, 0.08), transparent 55%);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
 a {
@@ -84,13 +86,13 @@ button {
   color: #fff;
 }
 
-/* Scroll-reveal — see src/scripts/reveal.client.ts */
+/* Scroll reveal — see src/scripts/reveal.client.ts */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(20px);
   transition:
-    opacity 0.8s var(--ease),
-    transform 0.8s var(--ease);
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
 }
 
 .reveal.active {
@@ -114,11 +116,10 @@ button {
   }
 }
 
-/* Focus ring */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--primary-soft);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 /* Layout helpers */
@@ -129,33 +130,147 @@ button {
   padding-inline: var(--pad-x);
 }
 
-.section {
-  padding-block: var(--section-pad-y);
+/* Bento grid + tile primitives */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(64px, auto);
+  gap: 12px;
 }
 
-.section-title {
-  font-size: clamp(1.6rem, 3vw, 2rem);
-  font-weight: 800;
-  margin-bottom: 60px;
-  display: flex;
-  align-items: center;
-  color: var(--text);
+.tile {
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  border-radius: var(--tile-radius);
+  padding: var(--tile-pad);
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    background 0.25s var(--ease);
 }
 
-.section-title::after {
-  content: '';
-  display: block;
-  flex: 1;
-  max-width: 200px;
-  height: 1px;
-  background: var(--border);
-  margin-left: 20px;
+.tile:hover {
+  border-color: var(--tile-border-hover);
+  background: var(--tile-bg-hover);
+  transform: translateY(-2px);
 }
 
-.section-number {
-  color: var(--primary);
+.tile-label {
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted-3);
   font-family: var(--font-mono);
-  font-size: 1rem;
-  margin-right: 12px;
-  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Spans are utility-style — used by individual tiles */
+.span-12 { grid-column: span 12; }
+.span-8  { grid-column: span 8; }
+.span-7  { grid-column: span 7; }
+.span-6  { grid-column: span 6; }
+.span-5  { grid-column: span 5; }
+.span-4  { grid-column: span 4; }
+.span-3  { grid-column: span 3; }
+.span-2  { grid-column: span 2; }
+.row-1 { grid-row: span 1; }
+.row-2 { grid-row: span 2; }
+.row-3 { grid-row: span 3; }
+.row-4 { grid-row: span 4; }
+
+@media (max-width: 960px) {
+  .span-7, .span-8 { grid-column: span 12; }
+  .span-5 { grid-column: span 12; }
+  .span-3, .span-4 { grid-column: span 6; }
+  .row-3, .row-4 { grid-row: auto; }
+}
+
+@media (max-width: 540px) {
+  .bento > * { grid-column: span 12 !important; grid-row: auto !important; }
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border: 1px solid transparent;
+  transition: all 0.2s var(--ease);
+  font-family: var(--font-sans);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #4f52e6;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(99, 102, 241, 0.35);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-soft);
+  background: rgba(165, 180, 252, 0.06);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: var(--tile-bg);
+  color: var(--text);
+  border: 1px solid var(--tile-border);
+}
+
+.btn-ghost:hover {
+  border-color: var(--primary-soft);
+  background: var(--tile-bg-hover);
+}
+
+/* Pill / badge */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(0, 255, 122, 0.05);
+  border: 1px solid rgba(0, 255, 122, 0.2);
+  color: var(--good-soft);
+  font-size: 0.76rem;
+  font-family: var(--font-mono);
+}
+
+.status-pill::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--good);
+  box-shadow: 0 0 8px var(--good);
+  animation: pulse 2s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-pill::before {
+    animation: none;
+  }
 }
