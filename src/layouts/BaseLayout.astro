@@ -7,11 +7,88 @@ interface Props {
   description: string;
   ogImage?: string;
   pageType?: 'website' | 'article';
+  noindex?: boolean;
+  /** Optional: long-form keywords for the meta tag (search-engine hint, low priority). */
+  keywords?: string;
 }
 
-const { title, description, ogImage = '/og.png', pageType = 'website' } = Astro.props;
+const {
+  title,
+  description,
+  ogImage = '/og.png',
+  pageType = 'website',
+  noindex = false,
+  keywords,
+} = Astro.props;
+
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const ogUrl = new URL(ogImage, Astro.site).toString();
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '/index.html';
+
+// JSON-LD: a Person schema (always) + a WebSite schema on the home page only.
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Tushar A.',
+  alternateName: ['Vamp', 'BigBadVamp'],
+  url: 'https://tushar-a.dev',
+  image: 'https://tushar-a.dev/MinecraftPFP-BigBadVamp.png',
+  jobTitle: 'Systems Engineer & Founder',
+  description:
+    'Systems Engineer & Founder. Scaled a game-hosting ISP solo to 10,000+ users on bare-metal Hetzner. Available for full-time DevOps / infrastructure roles.',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Witchly.host',
+    url: 'https://witchly.host',
+  },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Presidency University Bangalore',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bangalore',
+    addressCountry: 'IN',
+  },
+  email: 'mailto:tushar@tushar-a.dev',
+  knowsAbout: [
+    'Linux',
+    'Docker',
+    'Pterodactyl',
+    'Hetzner Cloud',
+    'Bare Metal Servers',
+    'Nginx',
+    'Cloudflare',
+    'Mailcow',
+    'TypeScript',
+    'Python',
+    'Model Context Protocol',
+    'OpenEnv',
+    'Reinforcement Learning',
+    'Distributed Infrastructure',
+  ],
+  sameAs: [
+    'https://github.com/Vamp6969',
+    'https://github.com/Witchly',
+    'https://www.linkedin.com/in/tushar-a-dev/',
+    'https://huggingface.co/Vamppog',
+  ],
+};
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Tushar A. — Systems Engineer & Founder',
+  url: 'https://tushar-a.dev',
+  description:
+    'Personal portfolio for Tushar A. — Systems Engineer & Founder of Witchly.host.',
+  author: {
+    '@type': 'Person',
+    name: 'Tushar A.',
+    url: 'https://tushar-a.dev',
+  },
+  inLanguage: 'en',
+};
 ---
 
 <!doctype html>
@@ -21,9 +98,14 @@ const ogUrl = new URL(ogImage, Astro.site).toString();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Tushar A" />
-    <meta name="theme-color" content="#3b82f6" />
+    {keywords && <meta name="keywords" content={keywords} />}
+    <meta name="author" content="Tushar A." />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
+
     <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
     <link rel="apple-touch-icon" href="/favicon-180.png" sizes="180x180" />
@@ -32,17 +114,37 @@ const ogUrl = new URL(ogImage, Astro.site).toString();
     <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
 
+    <!-- Open Graph -->
     <meta property="og:type" content={pageType} />
+    <meta property="og:site_name" content="Tushar A." />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:secure_url" content={ogUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Tushar A. — Systems Engineer & Founder. I scale infrastructure." />
+    {pageType === 'article' && (
+      <>
+        <meta property="article:author" content="Tushar A." />
+        <meta property="article:section" content="Engineering" />
+      </>
+    )}
 
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonical} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogUrl} />
+    <meta name="twitter:image:alt" content="Tushar A. — Systems Engineer & Founder. I scale infrastructure." />
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(personJsonLd)} />
+    {isHome && <script type="application/ld+json" is:inline set:html={JSON.stringify(websiteJsonLd)} />}
 
     <ClientRouter />
   </head>
