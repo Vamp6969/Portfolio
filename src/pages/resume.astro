@@ -1,0 +1,437 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Tushar A. — Resume"
+  description="Tushar A. resume — Systems Engineer, Founder of Witchly.host. Linux, Docker, Hetzner, Mailcow, MCP, OpenEnv."
+>
+  <Nav />
+
+  <main class="resume container">
+    <div class="resume-actions no-print">
+      <a href="/" class="back-link">← Back to home</a>
+      <div class="action-buttons">
+        <button onclick="window.print()" class="action-btn" type="button">Print / Save PDF</button>
+        <a href="/Resume.pdf" class="action-btn" target="_blank" rel="noopener">Download original PDF</a>
+      </div>
+    </div>
+
+    <article class="resume-doc">
+      <header class="resume-head">
+        <h1>Tushar A.</h1>
+        <p class="resume-headline">Systems Engineer & Founder · Bangalore, India</p>
+        <ul class="resume-contact">
+          <li><a href="mailto:tushar@tushar-a.dev">tushar@tushar-a.dev</a></li>
+          <li><a href="https://wa.me/+919113058142" target="_blank" rel="noopener">+91 9113058142</a></li>
+          <li><a href="https://tushar-a.dev" target="_blank" rel="noopener">tushar-a.dev</a></li>
+          <li><a href="https://github.com/Vamp6969" target="_blank" rel="noopener">github.com/Vamp6969</a></li>
+          <li><a href="https://www.linkedin.com/in/tushar-a-607371315" target="_blank" rel="noopener">linkedin.com/in/tushar-a</a></li>
+        </ul>
+      </header>
+
+      <section class="resume-section">
+        <h2>Summary</h2>
+        <p>
+          Systems Engineer and entrepreneur with 5+ years scaling distributed infrastructure.
+          Built and still run a game-hosting ISP serving 10,000+ users on bare-metal Hetzner with
+          zero funding. Ship AI/ML projects between contracts — OpenEnv RL environments, MCP
+          servers for financial data, a SaaS docs platform. Available for full-time DevOps,
+          infrastructure, or platform engineering roles.
+        </p>
+      </section>
+
+      <section class="resume-section">
+        <h2>Technical Skills</h2>
+        <dl class="resume-skills">
+          <div>
+            <dt>Infrastructure & DevOps</dt>
+            <dd>Linux (Ubuntu/CentOS), Docker, Pterodactyl, Bash, Nginx reverse proxy, UFW/Fail2Ban</dd>
+          </div>
+          <div>
+            <dt>Networking & Security</dt>
+            <dd>Cloudflare DNS, Mailcow (SPF/DKIM/DMARC/PTR), SSL/TLS, DDoS mitigation</dd>
+          </div>
+          <div>
+            <dt>Backend & Languages</dt>
+            <dd>Python, TypeScript, C++, Java, Bash, MySQL/MariaDB, LAMP</dd>
+          </div>
+          <div>
+            <dt>AI/ML & Tools</dt>
+            <dd>OpenEnv, FastMCP, FastAPI, Hono, Next.js, Cloudflare Workers, Git</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="resume-section">
+        <h2>Experience</h2>
+
+        <article class="resume-job">
+          <header>
+            <h3>Founder & Sole Operator · <a href="https://witchly.host" target="_blank" rel="noopener">Witchly.host</a></h3>
+            <p class="resume-job-meta">2021 – Present · Remote</p>
+          </header>
+          <ul>
+            <li>Single-handedly own and operate a game-hosting ISP — infrastructure, ops, support, billing, and the customer-facing site.</li>
+            <li>Scaled to 10,000+ registered users on bare-metal Ubuntu (Hetzner) with zero external funding. Sustained 99.9% uptime under high-concurrency workloads via kernel tuning.</li>
+            <li>Engineered isolated game environments using Docker + Pterodactyl with cgroup limits to prevent tenant contention.</li>
+            <li>Self-hosted a Mailcow stack with SPF/DKIM/DMARC/PTR — achieved 10/10 deliverability for transactional email.</li>
+            <li>Mitigated volumetric DDoS attacks and brute-force SSH attempts via UFW firewalls and Fail2Ban jails.</li>
+            <li>Spearheaded a custom billing dashboard, leading an external dev team and overseeing REST API integrations.</li>
+          </ul>
+        </article>
+
+        <article class="resume-job">
+          <header>
+            <h3>Web Developer · <a href="https://mistymc.xyz" target="_blank" rel="noopener">MistyMC.xyz</a></h3>
+            <p class="resume-job-meta">May 2026 – Present · Remote</p>
+          </header>
+          <ul>
+            <li>Develop and maintain the main public site for a Minecraft network.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="resume-section">
+        <h2>Selected Projects</h2>
+
+        <article class="resume-project">
+          <h3>India Finance MCP <span class="muted">— github.com/Vamp6969/Indian-finance-MCP</span></h3>
+          <p>
+            MCP server exposing Indian financial data to LLMs. Tools: <code>get_mutual_fund_nav</code>
+            (47k+ AMFI schemes) and <code>validate_gstin</code> (mod-36 checksum + parsing).
+            Single TS codebase, deployed both as an Apify Actor (FastMCP) and on Cloudflare Workers (Hono).
+          </p>
+        </article>
+
+        <article class="resume-project">
+          <h3>Auto-Examiner <span class="muted">— huggingface.co/spaces/Vamppog/Auto-examiner</span></h3>
+          <p>
+            Self-improving RL environment built on OpenEnv. The LLM agent generates a coding
+            challenge AND a solution; the env auto-creates 5 pytest assertions, sandboxes the run,
+            and adapts difficulty. Cyberpunk dashboard ships alongside the API as one Docker image.
+            Built for the Meta × Scaler OpenEnv Hackathon.
+          </p>
+        </article>
+
+        <article class="resume-project">
+          <h3>Code Debug Environment <span class="muted">— github.com/Vamp6969/code_debug_env</span></h3>
+          <p>
+            OpenEnv project. Agent receives broken Python, attempts a fix, environment scores by
+            running test cases. Meta × Scaler Hackathon entry.
+          </p>
+        </article>
+
+        <article class="resume-project">
+          <h3>Docspell <span class="muted">— docspell.dev</span></h3>
+          <p>
+            Two-tier SaaS docs platform. Free tier: Notion-style block editor. Paid tier:
+            connects a GitHub repo, AI reads the code and writes docs that resync on every push.
+            Next.js on Cloudflare D1/R2/Pages, Clerk auth, Stripe billing, Gemini + Claude.
+          </p>
+        </article>
+      </section>
+
+      <section class="resume-section">
+        <h2>Education</h2>
+        <article class="resume-job">
+          <header>
+            <h3>B.Tech, Computer Science & Engineering (AI/ML)</h3>
+            <p class="resume-job-meta">Presidency University, Bangalore · Expected 2028</p>
+          </header>
+          <ul>
+            <li>Currently on a strategic academic gap year — available for immediate full-time employment.</li>
+            <li>Relevant coursework: Data Structures & Algorithms, Operating Systems, Computer Networks, DBMS.</li>
+          </ul>
+        </article>
+      </section>
+    </article>
+  </main>
+
+  <div class="no-print"><Footer /></div>
+</BaseLayout>
+
+<style>
+  .resume {
+    max-width: 880px;
+    padding-top: 120px;
+    padding-bottom: 80px;
+  }
+
+  .resume-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .back-link {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    transition: color 0.2s var(--ease);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .action-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.2s var(--ease);
+  }
+
+  .action-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .resume-doc {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 48px clamp(24px, 5vw, 56px);
+  }
+
+  .resume-head {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+
+  .resume-head h1 {
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .resume-headline {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 14px;
+  }
+
+  .resume-contact {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+  }
+
+  .resume-contact a {
+    color: var(--accent);
+    transition: color 0.2s var(--ease);
+  }
+
+  .resume-contact a:hover {
+    color: var(--primary);
+  }
+
+  .resume-section {
+    margin-bottom: 32px;
+  }
+
+  .resume-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .resume-section h2 {
+    font-size: 1rem;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .resume-section p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .resume-skills {
+    display: grid;
+    gap: 10px;
+  }
+
+  .resume-skills > div {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  @media (max-width: 640px) {
+    .resume-skills > div {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+
+  .resume-skills dt {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .resume-skills dd {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .resume-job,
+  .resume-project {
+    margin-bottom: 18px;
+  }
+
+  .resume-job:last-child,
+  .resume-project:last-child {
+    margin-bottom: 0;
+  }
+
+  .resume-job header,
+  .resume-project h3 {
+    margin-bottom: 8px;
+  }
+
+  .resume-job h3,
+  .resume-project h3 {
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .resume-job h3 a,
+  .resume-project h3 a {
+    color: var(--primary);
+  }
+
+  .resume-job-meta {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    margin-top: 2px;
+  }
+
+  .resume-job ul {
+    list-style: none;
+    margin-top: 8px;
+  }
+
+  .resume-job li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 6px;
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+
+  .resume-job li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .resume-project p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .resume-project code {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: 0.85em;
+  }
+
+  .resume-project .muted {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 400;
+  }
+
+  /* Print styles — single A4 */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+
+    body {
+      background: #fff !important;
+      color: #000 !important;
+      background-image: none !important;
+    }
+
+    .resume {
+      padding: 0 !important;
+      max-width: 100% !important;
+    }
+
+    .resume-doc {
+      background: #fff !important;
+      border: none !important;
+      padding: 24px !important;
+    }
+
+    .resume-head h1,
+    .resume-job h3,
+    .resume-project h3,
+    .resume-skills dt {
+      color: #000 !important;
+    }
+
+    .resume-section h2 {
+      color: #000 !important;
+      border-bottom-color: #999 !important;
+    }
+
+    .resume-section p,
+    .resume-skills dd,
+    .resume-job li,
+    .resume-project p {
+      color: #222 !important;
+    }
+
+    .resume-contact a,
+    .resume-job h3 a,
+    .resume-project h3 a {
+      color: #1a4f9a !important;
+    }
+
+    .resume-job li::before {
+      color: #444 !important;
+    }
+
+    @page {
+      size: A4;
+      margin: 12mm 10mm;
+    }
+  }
+</style>

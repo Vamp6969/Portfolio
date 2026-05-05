@@ -1,0 +1,382 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+  title="Witchly — Scaling a game-hosting ISP to 10,000 users | Tushar A."
+  description="Case study: how I scaled Witchly.host from zero to 10,000+ users on Hetzner bare-metal, solo, with no funding. Architecture, security, email deliverability, and lessons."
+  pageType="article"
+>
+  <Nav />
+
+  <main class="case container">
+    <header class="case-head reveal">
+      <a href="/" class="back-link">← Back to home</a>
+      <p class="case-eyebrow">Case study · Infrastructure</p>
+      <h1 class="case-title">Witchly</h1>
+      <p class="case-deck">
+        Scaling a game-hosting ISP from zero to 10,000+ users on Hetzner bare-metal —
+        solo, with zero external funding.
+      </p>
+      <div class="case-meta">
+        <span>2021 – Present</span>
+        <span>·</span>
+        <span>Founder & sole operator</span>
+        <span>·</span>
+        <a href="https://witchly.host" target="_blank" rel="noopener">witchly.host →</a>
+      </div>
+    </header>
+
+    <section class="case-stats reveal">
+      <div class="case-stat">
+        <span class="case-stat-value">10,000+</span>
+        <span class="case-stat-label">Users</span>
+      </div>
+      <div class="case-stat">
+        <span class="case-stat-value">99.9%</span>
+        <span class="case-stat-label">Uptime</span>
+      </div>
+      <div class="case-stat">
+        <span class="case-stat-value">$0</span>
+        <span class="case-stat-label">External funding</span>
+      </div>
+      <div class="case-stat">
+        <span class="case-stat-value">10/10</span>
+        <span class="case-stat-label">Email deliverability</span>
+      </div>
+    </section>
+
+    <section class="case-intro reveal">
+      <p>
+        Witchly started in 2021 as a single Hetzner box hosting Minecraft servers for friends.
+        Five years later it's a multi-node game-hosting ISP serving thousands of paying users —
+        and I still run all of it: infrastructure, ops, support, billing, and the customer-facing site.
+      </p>
+      <p>
+        The case study PDF below covers how that happened. It walks through the architecture
+        choices, scaling milestones, security incidents (DDoS storms, SSH brute-force, the day
+        a misconfigured cgroup ate someone's gigabit), and the slow grind of getting transactional
+        email to a 10/10 deliverability score. <strong>This page renders the PDF inline; you can also <a href="/Case-Study/Witchly-scaling.pdf" target="_blank" rel="noopener">download it directly</a>.</strong>
+      </p>
+    </section>
+
+    <section class="case-pdf reveal" aria-label="Witchly case study PDF">
+      <object
+        data="/Case-Study/Witchly-scaling.pdf"
+        type="application/pdf"
+        class="pdf-frame"
+        aria-label="Witchly case study"
+      >
+        <div class="pdf-fallback">
+          <p>
+            Your browser can't display the PDF inline.
+            <a href="/Case-Study/Witchly-scaling.pdf" target="_blank" rel="noopener">
+              Download the case study →
+            </a>
+          </p>
+        </div>
+      </object>
+    </section>
+
+    <section class="case-stack reveal">
+      <h2>Stack at a glance</h2>
+      <div class="stack-grid">
+        <div class="stack-item">
+          <h3>Infrastructure</h3>
+          <p>Hetzner bare-metal Ubuntu, kernel-tuned for high concurrency.</p>
+        </div>
+        <div class="stack-item">
+          <h3>Container orchestration</h3>
+          <p>Docker + Pterodactyl, cgroup-isolated tenant environments.</p>
+        </div>
+        <div class="stack-item">
+          <h3>Edge & DNS</h3>
+          <p>Cloudflare in front of Nginx reverse proxies; SSL via Let's Encrypt.</p>
+        </div>
+        <div class="stack-item">
+          <h3>Security</h3>
+          <p>UFW + Fail2Ban, hardened SSH, automated DDoS mitigation playbooks.</p>
+        </div>
+        <div class="stack-item">
+          <h3>Email</h3>
+          <p>Self-hosted Mailcow with full SPF / DKIM / DMARC / PTR.</p>
+        </div>
+        <div class="stack-item">
+          <h3>Data</h3>
+          <p>MariaDB with replication, scheduled backups to off-site object storage.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-cta reveal">
+      <h2>Want to chat about scaling, hosting, or infra security?</h2>
+      <div class="case-cta-row">
+        <a href="/#contact" class="btn btn-primary">Get in touch</a>
+        <a href="/Case-Study/Witchly-scaling.pdf" class="btn btn-outline" target="_blank" rel="noopener">
+          Download PDF
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .case {
+    padding-top: 120px;
+    padding-bottom: 80px;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-bottom: 32px;
+    transition: color 0.2s var(--ease);
+  }
+
+  .back-link:hover {
+    color: var(--accent);
+  }
+
+  .case-head {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 36px;
+    margin-bottom: 48px;
+  }
+
+  .case-eyebrow {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .case-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    background: linear-gradient(to right, #fff, #9ca3af);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+  }
+
+  .case-deck {
+    color: var(--text);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    max-width: 740px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+  }
+
+  .case-meta {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .case-meta a {
+    color: var(--primary);
+    transition: color 0.2s var(--ease);
+  }
+
+  .case-meta a:hover {
+    color: var(--accent);
+  }
+
+  .case-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 56px;
+  }
+
+  @media (max-width: 720px) {
+    .case-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px 16px;
+    }
+  }
+
+  .case-stat {
+    text-align: center;
+  }
+
+  .case-stat-value {
+    display: block;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .case-stat-label {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .case-intro {
+    max-width: 740px;
+    margin-bottom: 48px;
+  }
+
+  .case-intro p {
+    color: var(--muted);
+    font-size: 1.1rem;
+    line-height: 1.75;
+    margin-bottom: 18px;
+  }
+
+  .case-intro strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .case-intro a {
+    color: var(--primary);
+    border-bottom: 1px dashed currentColor;
+  }
+
+  .case-intro a:hover {
+    color: var(--accent);
+  }
+
+  .case-pdf {
+    margin-bottom: 56px;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 8px;
+  }
+
+  .pdf-frame {
+    width: 100%;
+    height: 80vh;
+    min-height: 600px;
+    border-radius: 10px;
+    background: #1a1a1a;
+  }
+
+  .pdf-fallback {
+    padding: 60px 30px;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .pdf-fallback a {
+    color: var(--primary);
+  }
+
+  .case-stack {
+    margin-bottom: 56px;
+  }
+
+  .case-stack h2 {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .stack-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+  }
+
+  .stack-item h3 {
+    font-size: 1rem;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  .stack-item p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .case-cta {
+    text-align: center;
+    padding: 48px 24px;
+    background:
+      linear-gradient(135deg, rgba(59, 130, 246, 0.06), rgba(6, 182, 212, 0.06));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+
+  .case-cta h2 {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+
+  .case-cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 26px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition: all 0.25s var(--ease);
+    font-size: 0.95rem;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+
+  .btn-outline:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+</style>
