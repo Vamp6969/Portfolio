@@ -1,0 +1,21 @@
+:root {
+  --bg: #050505;
+  --bg-elev: #0a0a0a;
+  --bg-card: rgba(20, 20, 24, 0.7);
+  --primary: #3b82f6;
+  --accent: #06b6d4;
+  --good: #00ff7a;
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
+
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --max-w: 1100px;
+  --pad-x: clamp(20px, 5vw, 80px);
+  --section-pad-y: clamp(60px, 10vw, 120px);
+}
