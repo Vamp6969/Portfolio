@@ -16,11 +16,11 @@ const { entries } = Astro.props;
 ---
 
 <section class="experience section" id="experience">
-  <h2 class="section-title reveal">
-    <span class="section-number">01.</span> Where I've worked
-  </h2>
-
   <div class="container">
+    <h2 class="section-title reveal">
+      <span class="section-number">01.</span> Where I've worked
+    </h2>
+
     <div class="timeline">
       {entries.map((e) => (
         <article class="job reveal">
@@ -36,8 +36,8 @@ const { entries } = Astro.props;
           </ul>
         </article>
       ))}
+      </div>
     </div>
-  </div>
 </section>
 
 <style>

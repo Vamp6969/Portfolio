@@ -8,11 +8,11 @@ const projects = (await getCollection('projects')).sort(
 ---
 
 <section class="projects section" id="projects">
-  <h2 class="section-title reveal">
-    <span class="section-number">02.</span> Things I've built and shipped
-  </h2>
-
   <div class="container">
+    <h2 class="section-title reveal">
+      <span class="section-number">02.</span> Things I've built and shipped
+    </h2>
+
     <div class="project-grid">
       {projects.map((p) => (
         <div class:list={['project-cell reveal', { 'span-full': p.data.featured }]}>
