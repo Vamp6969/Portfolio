@@ -1,13 +1,12 @@
 ---
 order: 4
 title: India Finance MCP
-tagline: MCP server for Indian financial data — mutual fund NAV, GSTIN validation.
+tagline: MCP server + REST API for Indian financial data — NAV, GSTIN, more.
 description: |
-  Single TypeScript codebase, two deployment targets: Apify Actor (FastMCP) for
-  MCP clients like Claude Desktop, and Cloudflare Workers (Hono) for REST.
-  Tools: get_mutual_fund_nav (47k+ AMFI schemes), validate_gstin (mod-36
-  checksum + parsing). Stock quotes coming in v1.1.
-tags: [mcp, typescript, cloudflare, hono]
+  Real-time NAV from AMFI (47,000+ schemes) and GSTIN validation with checksum
+  verification. Built on Hono + Cloudflare Workers; deployed on Apify so AI
+  agents (Claude, ChatGPT, Cursor) can discover and use it.
+tags: [mcp, hono, cloudflare, typescript, apify]
 links:
   live: https://india-finance-mcp.vamp-fa0.workers.dev
   repo: https://github.com/Vamp6969/Indian-finance-MCP

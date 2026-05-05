@@ -1,7 +1,6 @@
 {
   "softFail": [
-    "https://mistymc.xyz",
-    "https://www.linkedin.com/in/tushar-a-dev/"
+    "https://mistymc.xyz"
   ],
-  "_comment": "Domains in 'softFail' warn but do not fail the build. Remove an entry once the link is consistently reachable. Do NOT add calendar dates here — soft-fail status persists until the user removes the entry. LinkedIn vanity URL 'tushar-a-dev' needs to be claimed in LinkedIn settings → Edit public profile & URL — until then it 404s."
+  "_comment": "Domains in 'softFail' warn but do not fail the build. Remove an entry once the link is consistently reachable. Do NOT add calendar dates here — soft-fail status persists until the user removes the entry."
 }

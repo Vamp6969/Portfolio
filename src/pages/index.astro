@@ -12,51 +12,61 @@ import Footer from '../components/Footer.astro';
 
 const experience = [
   {
-    role: 'Founder & Sole Operator',
+    role: 'Founder & Lead Systems Engineer',
     org: 'Witchly.host',
     link: 'https://witchly.host',
     period: '2021 — Present',
     location: 'Remote',
     bullets: [
-      'Single-handedly own and operate a game-hosting ISP — infrastructure, ops, support, billing, and the customer-facing site.',
-      'Scaled to 10,000+ users on Hetzner bare-metal with zero external funding. 99.9% uptime under high-concurrency workloads via kernel tuning.',
-      'Engineered isolated game environments with Docker + Pterodactyl and cgroup limits to prevent tenant resource contention.',
-      'Self-hosted Mailcow with full SPF/DKIM/DMARC/PTR — 10/10 deliverability for transactional email.',
-      'Mitigated volumetric DDoS attacks and brute-force SSH attempts via UFW firewalls and Fail2Ban jails.',
+      'Founded a free game-server hosting platform; scaled to 10,000+ registered users and thousands of concurrent Docker containers, fully bootstrapped with zero external funding.',
+      'Architected a distributed bare-metal cluster on Hetzner with cgroup-based tenant isolation (CPU pinning, RAM limits) — 99.9% uptime at a fraction of equivalent cloud compute cost (€100/mo vs $3,000+/mo on AWS).',
+      'Mitigated a 50 Gbps+ L7 DDoS through layered edge / network / host defences; full service restored in under 20 minutes with zero data loss.',
+      "Built an automated order-to-provision pipeline via a custom Discord bot integrated with payment-gateway APIs — instant server activation, no manual intervention.",
+      'Shipped a custom dashboard from scratch with native Stripe billing, real-time per-server resource visibility, and REST APIs for provisioning and lifecycle management.',
     ],
   },
   {
-    role: 'Web Developer',
+    role: 'Co-Founder & Web Developer',
     org: 'MistyMC.xyz',
     link: 'https://mistymc.xyz',
-    period: 'May 2026 — Present',
+    period: '2025 — Present',
     location: 'Remote',
     bullets: [
-      'Develop and maintain the main public site for a Minecraft network. Scope: website only — not the network or its infrastructure.',
+      'Co-founded a Minecraft server network; designed, built, and maintain the public-facing site and web infrastructure supporting a growing player community.',
     ],
   },
 ];
 
 const skillGroups = [
   {
-    cat: 'infra',
-    description: 'Bare-metal Linux, container orchestration, the boring foundations.',
-    tags: ['Linux (Ubuntu/CentOS)', 'Docker', 'Pterodactyl', 'Bare Metal', 'Hetzner Cloud'],
+    cat: 'languages',
+    description: 'What I write in day to day.',
+    tags: ['TypeScript', 'Rust', 'Python', 'C++', 'Java', 'Bash'],
   },
   {
-    cat: 'net+sec',
-    description: 'Edge, DNS, mail authentication, intrusion mitigation.',
-    tags: ['Nginx Reverse Proxy', 'Cloudflare DNS', 'UFW / Fail2Ban', 'SSL / TLS', 'Mailcow'],
+    cat: 'frontend',
+    description: 'Web and cross-platform UI work.',
+    tags: ['React', 'Expo (RN)', 'Tauri', 'Tailwind CSS', 'Astro'],
   },
   {
-    cat: 'code',
-    description: 'Languages and storage I reach for daily.',
-    tags: ['Python', 'TypeScript', 'C++', 'Java', 'Bash', 'MySQL / MariaDB', 'LAMP'],
+    cat: 'backend',
+    description: 'API frameworks and edge runtimes.',
+    tags: ['Hono', 'Cloudflare Workers', 'FastAPI', 'Node.js', 'Nginx'],
+  },
+  {
+    cat: 'infrastructure',
+    description: 'Bare-metal, containers, the boring foundations.',
+    tags: ['Linux (Ubuntu/CentOS)', 'Docker', 'Pterodactyl', 'Hetzner', 'UFW / Fail2Ban'],
+  },
+  {
+    cat: 'data',
+    description: 'Storage and persistence.',
+    tags: ['PostgreSQL', 'MySQL / MariaDB', 'Cloudflare D1', 'Cloudflare R2'],
   },
   {
     cat: 'ai/ml',
-    description: 'Newer plumbing — RL environments, MCP servers, edge runtimes.',
-    tags: ['OpenEnv', 'FastMCP', 'FastAPI', 'Hono', 'Next.js', 'Cloudflare Workers'],
+    description: 'Models, agent runtimes, and the MCP world.',
+    tags: ['PyTorch', 'OpenEnv', 'MCP Protocol', 'OpenAI API', 'Gemini API', 'Claude API'],
   },
 ];
 ---

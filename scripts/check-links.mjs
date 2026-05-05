@@ -18,11 +18,12 @@ const softFail = new Set(config.softFail ?? []);
 // Skip self-canonicals — these will only resolve once the site is deployed.
 const SELF_PREFIX = 'https://tushar-a.dev';
 
-// LinkedIn returns HTTP 999 to bot-like User-Agents but the URL is fine.
-// We treat 999 from linkedin.com as OK.
+// LinkedIn aggressively blocks bot-like User-Agents — sometimes 999, sometimes
+// 404 (vanity URLs only resolve when scraped with a session cookie).
+// We trust the URL if it returned any of these statuses.
 const QUIRKY_HOSTS = {
-  'linkedin.com': new Set([999]),
-  'www.linkedin.com': new Set([999]),
+  'linkedin.com': new Set([404, 999]),
+  'www.linkedin.com': new Set([404, 999]),
 };
 
 const TIMEOUT_MS = 8000;

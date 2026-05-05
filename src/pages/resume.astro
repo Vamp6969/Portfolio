@@ -18,8 +18,9 @@ import Footer from '../components/Footer.astro';
       <p class="section-eyebrow">/resume</p>
       <h1 class="resume-title">Resume</h1>
       <p class="resume-deck">
-        Systems Engineer & Founder. Bangalore, India. 5+ years scaling distributed
-        infrastructure. Available for full-time DevOps / infrastructure / platform roles.
+        Systems engineer and startup founder. 4+ years building distributed
+        infrastructure, developer tools, and consumer platforms across TypeScript,
+        Rust, Python, React, and Cloudflare Workers.
       </p>
       <div class="resume-meta">
         <a href="mailto:tushar@tushar-a.dev">tushar@tushar-a.dev</a>
@@ -35,7 +36,7 @@ import Footer from '../components/Footer.astro';
     <section class="resume-stats reveal" aria-label="Resume highlights">
       <div class="resume-stats-row">
         <div class="rstat">
-          <span class="rstat-value">5+</span>
+          <span class="rstat-value">4+</span>
           <span class="rstat-label">Years experience</span>
         </div>
         <div class="rstat-divider" aria-hidden="true"></div>
@@ -45,8 +46,8 @@ import Footer from '../components/Footer.astro';
         </div>
         <div class="rstat-divider" aria-hidden="true"></div>
         <div class="rstat">
-          <span class="rstat-value">5</span>
-          <span class="rstat-label">Projects shipped</span>
+          <span class="rstat-value">Finalist</span>
+          <span class="rstat-label">Meta×Scaler hackathon</span>
         </div>
         <div class="rstat-divider" aria-hidden="true"></div>
         <div class="rstat">
@@ -60,21 +61,39 @@ import Footer from '../components/Footer.astro';
       <h2 class="resume-h">What's inside</h2>
       <ul class="resume-bullets">
         <li>
-          <strong>Witchly.host</strong> — founded a game-hosting ISP at 17, still running it
-          solo. Bare-metal Hetzner, Docker + Pterodactyl, Mailcow, custom billing.
+          <strong>Witchly.host</strong> — founder & lead systems engineer of a free
+          game-server hosting platform. 10,000+ users on bare-metal Hetzner with
+          cgroup tenant isolation. Mitigated a 50 Gbps L7 DDoS in under 20 minutes.
+          Built the dashboard, billing, and Discord-bot order pipeline from scratch.
         </li>
         <li>
-          <strong>MistyMC.xyz</strong> — currently maintaining the main site for a
-          Minecraft network.
+          <strong>MistyMC.xyz</strong> — co-founder & web developer. Designed and
+          maintain the public-facing site and web infrastructure for a Minecraft
+          server network.
         </li>
         <li>
-          <strong>Selected projects:</strong> India Finance MCP (Apify + Cloudflare Workers),
-          Auto-Examiner & Code Debug Env (OpenEnv RL hackathon entries),
-          Docspell (Notion-style SaaS docs platform).
+          <strong>Auto-Examiner</strong> — self-improving RL environment on PyTorch +
+          FastAPI. <em>Finalist</em> at the Meta PyTorch × Scaler Hackathon out of
+          31,000+ registered participants.
         </li>
         <li>
-          <strong>Education:</strong> B.Tech CSE (AI/ML), Presidency University Bangalore.
-          On a strategic gap year — available for immediate full-time work.
+          <strong>Code Debug Env</strong> — OpenEnv where AI agents debug
+          progressively harder Python via subprocess-sandboxed execution with
+          partial-credit scoring.
+        </li>
+        <li>
+          <strong>India Finance MCP</strong> — MCP server + REST API exposing
+          47,000+ AMFI mutual fund NAVs and GSTIN validation. Hono on Cloudflare
+          Workers; deployed on Apify for AI-agent discovery.
+        </li>
+        <li>
+          <strong>Docspell</strong> — AI document platform on Cloudflare Pages + D1
+          + R2 with Gemini and Claude APIs. Three-tier SaaS (Free / $16 Pro / $49
+          Team), in active development.
+        </li>
+        <li>
+          <strong>Education</strong> — B.Tech CSE (AI/ML), Presidency University
+          Bangalore. Expected 2028.
         </li>
       </ul>
     </article>
