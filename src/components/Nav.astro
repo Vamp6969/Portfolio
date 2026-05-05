@@ -2,22 +2,14 @@
 import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.png';
 
-const path = Astro.url.pathname;
-const isHome = path === '/' || path === '';
-
-const items = isHome
-  ? [
-      { label: 'About', href: '#about' },
-      { label: 'Now', href: '#now' },
-      { label: 'Work', href: '#experience' },
-      { label: 'Projects', href: '#projects' },
-      { label: 'Contact', href: '#contact' },
-    ]
-  : [
-      { label: 'Home', href: '/' },
-      { label: 'Witchly', href: '/witchly' },
-      { label: 'Resume', href: '/resume' },
-    ];
+// Same nav across every page. From a non-home page, anchors route through the home page.
+const items = [
+  { label: 'About', href: '/#about', section: 'about' },
+  { label: 'Now', href: '/#now', section: 'now' },
+  { label: 'Work', href: '/#experience', section: 'experience' },
+  { label: 'Projects', href: '/#projects', section: 'projects' },
+  { label: 'Contact', href: '/#contact', section: 'contact' },
+];
 ---
 
 <nav class="pill-nav" aria-label="Primary navigation">
@@ -41,7 +33,7 @@ const items = isHome
         <a
           href={item.href}
           class="pill-item"
-          data-section={item.href.startsWith('#') ? item.href.slice(1) : ''}
+          data-section={item.section}
           role="menuitem"
         >
           {item.label}
@@ -52,7 +44,7 @@ const items = isHome
 
   <span class="pill-divider" aria-hidden="true"></span>
 
-  <a href="/resume" class="pill-cta">
+  <a href="/Resume.pdf" class="pill-cta" target="_blank" rel="noopener">
     Resume
     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
       <path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -81,7 +73,6 @@ const items = isHome
       0 12px 40px rgba(0, 0, 0, 0.45),
       0 0 0 1px rgba(99, 102, 241, 0.05);
     transition:
-      transform 0.4s var(--ease),
       box-shadow 0.4s var(--ease),
       background 0.4s var(--ease);
     font-family: var(--font-mono);
@@ -129,7 +120,6 @@ const items = isHome
     gap: 0;
   }
 
-  /* Sliding active-state pill — animated via CSS vars set from JS */
   .pill-indicator {
     position: absolute;
     top: 50%;
@@ -221,7 +211,6 @@ const items = isHome
   }
 
   @media (max-width: 380px) {
-    /* Hide non-essential items on the smallest screens */
     .pill-item[data-section='now'],
     .pill-item[data-section='experience'] {
       display: none;
@@ -230,8 +219,8 @@ const items = isHome
 </style>
 
 <script>
-  // Floating-nav: scroll-aware backdrop, IntersectionObserver-driven active
-  // section, and a sliding pill indicator that morphs between items.
+  // Floating-nav: scroll-aware backdrop, hide-on-scroll-down/show-on-scroll-up,
+  // IntersectionObserver-driven active section, and a sliding pill indicator.
   const nav = document.querySelector<HTMLElement>('.pill-nav');
   const itemList = document.querySelector<HTMLElement>('.pill-items');
   const items = document.querySelectorAll<HTMLAnchorElement>('.pill-item[data-section]');
@@ -242,6 +231,7 @@ const items = isHome
     if (sec) sectionToItem.set(sec, item);
   }
 
+  // Sticky nav with backdrop intensifying on scroll.
   if (nav) {
     const onScroll = () => {
       nav.classList.toggle('scrolled', window.scrollY > 8);
@@ -250,6 +240,7 @@ const items = isHome
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  // Sliding indicator
   const moveIndicatorTo = (el: HTMLElement | null) => {
     if (!itemList) return;
     if (!el) {
@@ -265,7 +256,10 @@ const items = isHome
     itemList.dataset.hasActive = 'true';
   };
 
-  if (sectionToItem.size > 0) {
+  const onHomePage =
+    location.pathname === '/' || location.pathname === '/index.html';
+
+  if (sectionToItem.size > 0 && onHomePage) {
     const visible = new Map<string, number>();
 
     const setActive = () => {
@@ -310,7 +304,7 @@ const items = isHome
       if (el) io.observe(el);
     }
 
-    // Hover preview: temporarily glide indicator to the hovered item
+    // Hover preview: glide indicator to hovered item, restore on leave
     let restoreTimer: number | undefined;
     const findActive = () => Array.from(items).find((i) => i.dataset.active === 'true') ?? null;
 
@@ -324,7 +318,6 @@ const items = isHome
       });
     });
 
-    // Recompute on resize so indicator stays aligned
     window.addEventListener('resize', () => moveIndicatorTo(findActive()), { passive: true });
   }
 </script>

@@ -30,22 +30,27 @@ import Footer from '../components/Footer.astro';
       </div>
     </article>
 
-    <section class="bento case-stats reveal" aria-label="Witchly stats">
-      <div class="tile stat-tile span-3 row-1">
-        <p class="tile-label">/users</p>
-        <span class="case-stat-value">10,000+</span>
-      </div>
-      <div class="tile stat-tile span-3 row-1">
-        <p class="tile-label">/uptime</p>
-        <span class="case-stat-value good">99.9%</span>
-      </div>
-      <div class="tile stat-tile span-3 row-1">
-        <p class="tile-label">/funding</p>
-        <span class="case-stat-value">$0</span>
-      </div>
-      <div class="tile stat-tile span-3 row-1">
-        <p class="tile-label">/email</p>
-        <span class="case-stat-value">10/10</span>
+    <section class="case-stats reveal" aria-label="Witchly stats">
+      <div class="case-stats-row">
+        <div class="case-stat">
+          <span class="case-stat-value">10,000+</span>
+          <span class="case-stat-label">Users</span>
+        </div>
+        <div class="case-stat-divider" aria-hidden="true"></div>
+        <div class="case-stat">
+          <span class="case-stat-value good">99.9%</span>
+          <span class="case-stat-label">Uptime</span>
+        </div>
+        <div class="case-stat-divider" aria-hidden="true"></div>
+        <div class="case-stat">
+          <span class="case-stat-value">$0</span>
+          <span class="case-stat-label">Funding</span>
+        </div>
+        <div class="case-stat-divider" aria-hidden="true"></div>
+        <div class="case-stat">
+          <span class="case-stat-value">10/10</span>
+          <span class="case-stat-label">Email</span>
+        </div>
       </div>
     </section>
 
@@ -202,22 +207,36 @@ import Footer from '../components/Footer.astro';
     margin-bottom: 18px;
   }
 
-  .case-stats .stat-tile {
+  .case-stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px clamp(20px, 3vw, 36px);
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: var(--tile-radius);
+    backdrop-filter: blur(12px);
+  }
+
+  .case-stat {
+    flex: 1;
     text-align: center;
+    min-width: 0;
   }
 
   .case-stat-value {
     display: block;
-    font-size: clamp(1.4rem, 2.8vw, 2rem);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1.2px;
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum';
     background: linear-gradient(135deg, var(--primary-soft), var(--accent));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
-    line-height: 1;
-    font-family: var(--font-mono);
-    margin-top: 6px;
   }
 
   .case-stat-value.good {
@@ -225,6 +244,41 @@ import Footer from '../components/Footer.astro';
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .case-stat-label {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted-3);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .case-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .case-stats-row {
+      flex-wrap: wrap;
+      gap: 24px 16px;
+      padding: 24px 16px;
+    }
+    .case-stat {
+      flex: 0 1 calc(50% - 16px);
+    }
+    .case-stat-divider { display: none; }
+  }
+
+  @media (max-width: 380px) {
+    .case-stat {
+      flex: 0 1 100%;
+    }
   }
 
   .case-intro {
