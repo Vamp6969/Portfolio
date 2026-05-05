@@ -39,10 +39,16 @@ import avatar from '../assets/avatar.png';
         loading="eager"
         class="hero-avatar"
       />
-      <div class="hero-avatar-tag" aria-hidden="true">
-        <span class="dot"></span>
+      <a
+        href="https://discord.com/users/844426168793825330"
+        class="hero-avatar-tag"
+        target="_blank"
+        rel="noopener"
+        aria-label="Discord — @vamp_"
+      >
+        <span class="dot" aria-hidden="true"></span>
         @vamp
-      </div>
+      </a>
     </div>
   </div>
 
@@ -101,7 +107,28 @@ import avatar from '../assets/avatar.png';
   @media (max-width: 860px) {
     .hero-inner {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 28px;
+    }
+    .hero-avatar-wrap {
+      order: -1;
+      align-self: flex-start;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .hero {
+      padding-top: 84px;
+    }
+    .hero-avatar {
+      width: 120px !important;
+      height: 120px !important;
+      border-radius: 18px;
+    }
+    .hero-avatar-tag {
+      bottom: -10px;
+      right: -8px;
+      padding: 4px 9px;
+      font-size: 0.7rem;
     }
   }
 
@@ -205,6 +232,15 @@ import avatar from '../assets/avatar.png';
     font-family: var(--font-mono);
     font-size: 0.74rem;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: all 0.25s var(--ease);
+    cursor: pointer;
+  }
+
+  .hero-avatar-tag:hover {
+    background: rgba(99, 102, 241, 0.18);
+    border-color: var(--primary-soft);
+    color: var(--text-strong);
+    transform: translate(-2px, 2px);
   }
 
   .hero-avatar-tag .dot {

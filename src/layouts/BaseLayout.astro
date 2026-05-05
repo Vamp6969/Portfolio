@@ -24,7 +24,10 @@ const ogUrl = new URL(ogImage, Astro.site).toString();
     <meta name="author" content="Tushar A" />
     <meta name="theme-color" content="#3b82f6" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/JetBrainsMono-Variable.woff2" as="font" type="font/woff2" crossorigin />

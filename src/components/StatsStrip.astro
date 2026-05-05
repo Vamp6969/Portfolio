@@ -103,12 +103,19 @@ const stats: Stat[] = [
       flex-wrap: wrap;
       justify-content: center;
       gap: 24px 16px;
-      padding: 28px 20px;
+      padding: 24px 16px;
     }
     .stat {
       flex: 0 1 calc(50% - 16px);
+      min-width: 0;
     }
     .stat-divider { display: none; }
+  }
+
+  @media (max-width: 380px) {
+    .stat {
+      flex: 0 1 100%;
+    }
   }
 </style>
 

@@ -7,16 +7,16 @@ const isHome = path === '/' || path === '';
 
 const items = isHome
   ? [
-      { label: 'about', href: '#about' },
-      { label: 'now', href: '#now' },
-      { label: 'work', href: '#experience' },
-      { label: 'projects', href: '#projects' },
-      { label: 'contact', href: '#contact' },
+      { label: 'About', href: '#about' },
+      { label: 'Now', href: '#now' },
+      { label: 'Work', href: '#experience' },
+      { label: 'Projects', href: '#projects' },
+      { label: 'Contact', href: '#contact' },
     ]
   : [
-      { label: 'home', href: '/' },
-      { label: 'witchly', href: '/witchly' },
-      { label: 'resume', href: '/resume' },
+      { label: 'Home', href: '/' },
+      { label: 'Witchly', href: '/witchly' },
+      { label: 'Resume', href: '/resume' },
     ];
 ---
 
@@ -35,6 +35,7 @@ const items = isHome
   <span class="pill-divider" aria-hidden="true"></span>
 
   <ul class="pill-items" role="menubar">
+    <span class="pill-indicator" aria-hidden="true"></span>
     {items.map((item) => (
       <li role="none">
         <a
@@ -121,32 +122,63 @@ const items = isHome
   }
 
   .pill-items {
+    position: relative;
     list-style: none;
     display: flex;
     align-items: center;
     gap: 0;
   }
 
+  /* Sliding active-state pill — animated via CSS vars set from JS */
+  .pill-indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate3d(var(--ind-x, 0), -50%, 0);
+    width: var(--ind-w, 0);
+    height: 28px;
+    background: rgba(99, 102, 241, 0.16);
+    border: 1px solid rgba(165, 180, 252, 0.18);
+    border-radius: 999px;
+    pointer-events: none;
+    transition:
+      transform 0.45s cubic-bezier(0.5, 0, 0.1, 1),
+      width 0.45s cubic-bezier(0.5, 0, 0.1, 1),
+      opacity 0.3s var(--ease);
+    opacity: 0;
+    z-index: 0;
+  }
+
+  .pill-items[data-has-active='true'] .pill-indicator {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pill-indicator {
+      transition: opacity 0.2s var(--ease);
+    }
+  }
+
   .pill-item {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     padding: 7px 12px;
     color: var(--muted);
     font-size: 0.78rem;
+    font-weight: 500;
     border-radius: 999px;
-    transition:
-      color 0.2s var(--ease),
-      background 0.2s var(--ease);
+    transition: color 0.25s var(--ease);
+    letter-spacing: 0.2px;
   }
 
   .pill-item:hover {
     color: var(--text-strong);
-    background: rgba(255, 255, 255, 0.04);
   }
 
   .pill-item[data-active='true'] {
     color: var(--text-strong);
-    background: rgba(99, 102, 241, 0.16);
   }
 
   .pill-cta {
@@ -170,6 +202,7 @@ const items = isHome
     .pill-nav {
       gap: 2px;
       padding: 5px;
+      max-width: calc(100vw - 24px);
     }
     .pill-divider:first-of-type { display: none; }
     .pill-item { padding: 6px 9px; font-size: 0.72rem; }
@@ -177,14 +210,30 @@ const items = isHome
   }
 
   @media (max-width: 540px) {
-    .pill-items { display: none; }
+    .pill-nav {
+      gap: 0;
+      padding: 4px;
+    }
     .pill-divider { display: none; }
+    .pill-item { padding: 6px 8px; font-size: 0.7rem; }
+    .pill-cta { padding: 5px 10px; font-size: 0.7rem; }
+    .pill-brand { width: 30px; height: 30px; }
+  }
+
+  @media (max-width: 380px) {
+    /* Hide non-essential items on the smallest screens */
+    .pill-item[data-section='now'],
+    .pill-item[data-section='experience'] {
+      display: none;
+    }
   }
 </style>
 
 <script>
-  // Floating-nav active section + scroll state
+  // Floating-nav: scroll-aware backdrop, IntersectionObserver-driven active
+  // section, and a sliding pill indicator that morphs between items.
   const nav = document.querySelector<HTMLElement>('.pill-nav');
+  const itemList = document.querySelector<HTMLElement>('.pill-items');
   const items = document.querySelectorAll<HTMLAnchorElement>('.pill-item[data-section]');
   const sectionToItem = new Map<string, HTMLAnchorElement>();
 
@@ -201,6 +250,21 @@ const items = isHome
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  const moveIndicatorTo = (el: HTMLElement | null) => {
+    if (!itemList) return;
+    if (!el) {
+      itemList.dataset.hasActive = 'false';
+      return;
+    }
+    const listRect = itemList.getBoundingClientRect();
+    const itemRect = el.getBoundingClientRect();
+    const x = itemRect.left - listRect.left;
+    const w = itemRect.width;
+    itemList.style.setProperty('--ind-x', `${x}px`);
+    itemList.style.setProperty('--ind-w', `${w}px`);
+    itemList.dataset.hasActive = 'true';
+  };
+
   if (sectionToItem.size > 0) {
     const visible = new Map<string, number>();
 
@@ -215,7 +279,12 @@ const items = isHome
       }
       for (const item of items) item.dataset.active = 'false';
       const active = sectionToItem.get(activeId);
-      if (active) active.dataset.active = 'true';
+      if (active) {
+        active.dataset.active = 'true';
+        moveIndicatorTo(active);
+      } else {
+        moveIndicatorTo(null);
+      }
     };
 
     const io = new IntersectionObserver(
@@ -240,5 +309,22 @@ const items = isHome
       const el = document.getElementById(id);
       if (el) io.observe(el);
     }
+
+    // Hover preview: temporarily glide indicator to the hovered item
+    let restoreTimer: number | undefined;
+    const findActive = () => Array.from(items).find((i) => i.dataset.active === 'true') ?? null;
+
+    items.forEach((it) => {
+      it.addEventListener('mouseenter', () => {
+        if (restoreTimer) clearTimeout(restoreTimer);
+        moveIndicatorTo(it);
+      });
+      it.addEventListener('mouseleave', () => {
+        restoreTimer = window.setTimeout(() => moveIndicatorTo(findActive()), 80);
+      });
+    });
+
+    // Recompute on resize so indicator stays aligned
+    window.addEventListener('resize', () => moveIndicatorTo(findActive()), { passive: true });
   }
 </script>
