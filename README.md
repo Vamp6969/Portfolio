@@ -5,6 +5,7 @@ Source for [tushar-a.dev](https://tushar-a.dev) — Tushar A.'s personal portfol
 ```
 .
 ├── public/                 # static assets served from the site root
+│   ├── _headers            # Cloudflare Pages cache + security headers
 │   ├── Resume.pdf          # downloadable resume
 │   ├── Case-Study/         # downloadable case studies (Witchly etc.)
 │   ├── fonts/              # subset Inter + JetBrains Mono variable WOFF2
@@ -23,7 +24,6 @@ Source for [tushar-a.dev](https://tushar-a.dev) — Tushar A.'s personal portfol
 ├── scripts/                # build helpers (link checker, OG image, favicons)
 ├── astro.config.mjs
 ├── package.json            # pnpm-managed; Node 20+
-├── vercel.json             # Vercel framework + cache + security headers
 └── README.md               # you are here
 ```
 
@@ -116,15 +116,30 @@ node scripts/build-favicons.mjs   # → public/favicon{,-16,-180,-192,-512}.png
 
 ---
 
-## Deploy
+## Deploy — Cloudflare Pages
 
-Configured for **Vercel** (`vercel.json`):
+Configured for **Cloudflare Pages**. Cache and security headers live in `public/_headers`, which Pages reads at deploy time.
 
-- Connect the GitHub repo to a Vercel project. Build command: `pnpm build`. Output: `dist`.
-- Production deploys on push to `main`. PRs get preview URLs automatically.
-- Domain: point `tushar-a.dev` apex DNS at Vercel (one-time switch at the registrar).
-- Cache headers: immutable for `/_astro/*` and `/fonts/*`; 1-day for images/PDFs; security headers for everything else.
-- Analytics: Vercel built-in (no third-party scripts).
+**One-time setup (Cloudflare dashboard):**
+
+1. **Workers & Pages → Create → Pages → Connect to Git**, pick this repo.
+2. **Framework preset:** Astro (auto-detected).
+3. **Build command:** `pnpm build`
+4. **Build output directory:** `dist`
+5. **Root directory:** *(leave default)*
+6. **Environment variables:** add `NODE_VERSION=20` (Pages also reads `.nvmrc`, which is set to `20`, but the env var is explicit).
+7. Pages installs dependencies via `pnpm` automatically because `package.json` declares `"packageManager": "pnpm@10.33.3"`.
+
+**Custom domain:**
+
+- **Custom domains → Set up a custom domain → `tushar-a.dev`.** Pages walks you through the DNS records.
+- If `tushar-a.dev` already has DNS in Cloudflare, Pages adds a `CNAME` automatically; if it's elsewhere, copy the records to your registrar.
+
+**Production:** every push to `main` deploys. PRs get preview URLs automatically.
+
+**Headers (`public/_headers`):** immutable cache for `/_astro/*` and `/fonts/*`, one-day cache for images/PDFs, security headers (`X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options`) for everything.
+
+**Analytics & WAF:** Pages exposes Cloudflare Web Analytics and basic DDoS / bot protection on the free tier — opt in via the dashboard, no code changes needed.
 
 ---
 
