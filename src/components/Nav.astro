@@ -55,10 +55,12 @@ const items = [
 <style>
   .pill-nav {
     position: fixed;
-    top: 18px;
+    top: max(18px, env(safe-area-inset-top, 0px));
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
+    /* don't run off the viewport on narrow screens */
+    max-width: calc(100vw - 16px);
     display: flex;
     align-items: center;
     gap: 4px;
@@ -118,6 +120,11 @@ const items = [
     display: flex;
     align-items: center;
     gap: 0;
+    flex-wrap: nowrap;
+  }
+
+  .pill-items > li {
+    flex-shrink: 0;
   }
 
   .pill-indicator {
@@ -154,7 +161,8 @@ const items = [
     z-index: 1;
     display: inline-flex;
     align-items: center;
-    padding: 7px 12px;
+    padding: 9px 12px;
+    min-height: 32px;
     color: var(--muted);
     font-size: 0.78rem;
     font-weight: 500;
@@ -175,7 +183,8 @@ const items = [
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 7px 14px;
+    padding: 9px 14px;
+    min-height: 32px;
     background: var(--text-strong);
     color: var(--bg) !important;
     font-size: 0.78rem;
@@ -188,33 +197,15 @@ const items = [
     transform: translateY(-1px);
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 760px) {
     .pill-nav {
-      gap: 2px;
+      gap: 8px;
       padding: 5px;
-      max-width: calc(100vw - 24px);
-    }
-    .pill-divider:first-of-type { display: none; }
-    .pill-item { padding: 6px 9px; font-size: 0.72rem; }
-    .pill-cta { padding: 6px 11px; font-size: 0.72rem; }
-  }
-
-  @media (max-width: 540px) {
-    .pill-nav {
-      gap: 0;
-      padding: 4px;
     }
     .pill-divider { display: none; }
-    .pill-item { padding: 6px 8px; font-size: 0.7rem; }
-    .pill-cta { padding: 5px 10px; font-size: 0.7rem; }
-    .pill-brand { width: 30px; height: 30px; }
-  }
-
-  @media (max-width: 380px) {
-    .pill-item[data-section='now'],
-    .pill-item[data-section='experience'] {
-      display: none;
-    }
+    .pill-items { display: none; }
+    .pill-brand { width: 32px; height: 32px; }
+    .pill-cta { padding: 9px 14px; font-size: 0.76rem; }
   }
 </style>
 
@@ -240,15 +231,21 @@ const items = [
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
-  // Sliding indicator
+  // Sliding indicator. Hide if the list is itself hidden (mobile) or the
+  // target item is display:none, so the indicator never sits on nothing.
   const moveIndicatorTo = (el: HTMLElement | null) => {
     if (!itemList) return;
-    if (!el) {
+    const listVisible = itemList.offsetParent !== null && itemList.getBoundingClientRect().width > 0;
+    if (!el || !listVisible || el.offsetParent === null) {
       itemList.dataset.hasActive = 'false';
       return;
     }
     const listRect = itemList.getBoundingClientRect();
     const itemRect = el.getBoundingClientRect();
+    if (itemRect.width === 0) {
+      itemList.dataset.hasActive = 'false';
+      return;
+    }
     const x = itemRect.left - listRect.left;
     const w = itemRect.width;
     itemList.style.setProperty('--ind-x', `${x}px`);

@@ -331,6 +331,13 @@ import Footer from '../components/Footer.astro';
     display: block;
   }
 
+  @media (max-width: 540px) {
+    .pdf-frame {
+      height: 70vh;
+      min-height: 420px;
+    }
+  }
+
   .pdf-fallback {
     padding: 60px 30px;
     text-align: center;
@@ -364,10 +371,4 @@ import Footer from '../components/Footer.astro';
     flex-wrap: wrap;
   }
 
-  @media (max-width: 540px) {
-    .pdf-frame {
-      height: 70vh;
-      min-height: 500px;
-    }
-  }
 </style>

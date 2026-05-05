@@ -50,6 +50,7 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   font-weight: 400;
+  font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
   background-image:
@@ -58,7 +59,21 @@ body {
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Long URLs and emails wrap instead of overflowing on narrow screens */
+p, li, a, span, dd {
+  overflow-wrap: anywhere;
+}
+
+/* Buttons and links: kill the 300ms tap delay; nicer mobile interaction */
+button, a, [role='button'], [role='menuitem'] {
+  touch-action: manipulation;
 }
 
 a {

@@ -156,9 +156,10 @@ const contacts: Contact[] = [
 
   .contact-row {
     display: grid;
-    grid-template-columns: 100px 1fr 14px;
+    grid-template-columns: minmax(80px, auto) 1fr 14px;
     gap: 14px;
     align-items: center;
+    min-height: 44px;
     padding: 12px 14px;
     border-radius: 8px;
     transition: background 0.2s var(--ease);
@@ -178,6 +179,10 @@ const contacts: Contact[] = [
     color: var(--text-strong);
     font-size: 0.92rem;
     font-weight: 500;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-align: right;
+    min-width: 0;
   }
 
   .contact-arrow {
