@@ -4,114 +4,241 @@ import avatar from '../assets/avatar.png';
 
 const path = Astro.url.pathname;
 const isHome = path === '/' || path === '';
+
+const items = isHome
+  ? [
+      { label: 'about', href: '#about' },
+      { label: 'now', href: '#now' },
+      { label: 'work', href: '#experience' },
+      { label: 'projects', href: '#projects' },
+      { label: 'contact', href: '#contact' },
+    ]
+  : [
+      { label: 'home', href: '/' },
+      { label: 'witchly', href: '/witchly' },
+      { label: 'resume', href: '/resume' },
+    ];
 ---
 
-<nav class="nav">
-  <a href="/" class="nav-brand" aria-label="Home">
+<nav class="pill-nav" aria-label="Primary navigation">
+  <a href="/" class="pill-brand" aria-label="Home">
     <Image
       src={avatar}
       alt="Tushar A. — Minecraft-style avatar"
-      width={28}
-      height={28}
+      width={26}
+      height={26}
       loading="eager"
-      class="nav-avatar"
+      class="pill-avatar"
     />
-    <span class="nav-logo">Tushar<span class="dot">.dev</span></span>
   </a>
 
-  <div class="nav-links">
-    {isHome ? (
-      <>
-        <a href="#about">about</a>
-        <a href="#experience">work</a>
-        <a href="#projects">projects</a>
-        <a href="#contact">contact</a>
-      </>
-    ) : (
-      <>
-        <a href="/">home</a>
-        <a href="/witchly">witchly</a>
-        <a href="/resume">resume</a>
-      </>
-    )}
-    <a href="/Resume.pdf" class="nav-cta" target="_blank" rel="noopener">Resume</a>
-  </div>
+  <span class="pill-divider" aria-hidden="true"></span>
+
+  <ul class="pill-items" role="menubar">
+    {items.map((item) => (
+      <li role="none">
+        <a
+          href={item.href}
+          class="pill-item"
+          data-section={item.href.startsWith('#') ? item.href.slice(1) : ''}
+          role="menuitem"
+        >
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <span class="pill-divider" aria-hidden="true"></span>
+
+  <a href="/resume" class="pill-cta">
+    Resume
+    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+      <path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </a>
 </nav>
 
 <style>
-  .nav {
+  .pill-nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 14px clamp(16px, 4vw, 40px);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    background: rgba(5, 5, 8, 0.7);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .nav-avatar {
-    border-radius: 6px;
-    image-rendering: pixelated;
-    border: 1px solid var(--border-strong);
-  }
-
-  .nav-logo {
-    font-weight: 800;
-    font-size: 1rem;
-    letter-spacing: -0.5px;
-    color: var(--text);
-  }
-
-  .nav-logo .dot {
-    color: var(--primary-soft);
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 22px;
-    align-items: center;
+    gap: 4px;
+    padding: 6px 8px 6px 6px;
+    background: rgba(10, 10, 16, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.05) inset,
+      0 12px 40px rgba(0, 0, 0, 0.45),
+      0 0 0 1px rgba(99, 102, 241, 0.05);
+    transition:
+      transform 0.4s var(--ease),
+      box-shadow 0.4s var(--ease),
+      background 0.4s var(--ease);
     font-family: var(--font-mono);
+  }
+
+  .pill-nav.scrolled {
+    background: rgba(10, 10, 16, 0.85);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.05) inset,
+      0 16px 48px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(99, 102, 241, 0.08);
+  }
+
+  .pill-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    transition: transform 0.2s var(--ease);
+  }
+
+  .pill-brand:hover {
+    transform: scale(1.05);
+  }
+
+  .pill-avatar {
+    border-radius: 50%;
+    image-rendering: pixelated;
+  }
+
+  .pill-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+
+  .pill-items {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .pill-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 12px;
+    color: var(--muted);
     font-size: 0.78rem;
+    border-radius: 999px;
+    transition:
+      color 0.2s var(--ease),
+      background 0.2s var(--ease);
   }
 
-  .nav-links a {
-    color: var(--muted-3);
-    transition: color 0.2s var(--ease);
+  .pill-item:hover {
+    color: var(--text-strong);
+    background: rgba(255, 255, 255, 0.04);
   }
 
-  .nav-links a:hover {
-    color: var(--text);
+  .pill-item[data-active='true'] {
+    color: var(--text-strong);
+    background: rgba(99, 102, 241, 0.16);
   }
 
-  .nav-cta {
+  .pill-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
     background: var(--text-strong);
     color: var(--bg) !important;
-    padding: 6px 14px;
-    border-radius: 6px;
-    font-weight: 600;
     font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: 999px;
+    transition: transform 0.2s var(--ease);
   }
 
-  .nav-cta:hover {
-    background: #fff;
+  .pill-cta:hover {
     transform: translateY(-1px);
   }
 
-  @media (max-width: 640px) {
-    .nav-links a:not(.nav-cta) {
-      display: none;
+  @media (max-width: 720px) {
+    .pill-nav {
+      gap: 2px;
+      padding: 5px;
     }
+    .pill-divider:first-of-type { display: none; }
+    .pill-item { padding: 6px 9px; font-size: 0.72rem; }
+    .pill-cta { padding: 6px 11px; font-size: 0.72rem; }
+  }
+
+  @media (max-width: 540px) {
+    .pill-items { display: none; }
+    .pill-divider { display: none; }
   }
 </style>
+
+<script>
+  // Floating-nav active section + scroll state
+  const nav = document.querySelector<HTMLElement>('.pill-nav');
+  const items = document.querySelectorAll<HTMLAnchorElement>('.pill-item[data-section]');
+  const sectionToItem = new Map<string, HTMLAnchorElement>();
+
+  for (const item of items) {
+    const sec = item.dataset.section;
+    if (sec) sectionToItem.set(sec, item);
+  }
+
+  if (nav) {
+    const onScroll = () => {
+      nav.classList.toggle('scrolled', window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (sectionToItem.size > 0) {
+    const visible = new Map<string, number>();
+
+    const setActive = () => {
+      let activeId = '';
+      let topRatio = -1;
+      for (const [id, ratio] of visible) {
+        if (ratio > topRatio) {
+          topRatio = ratio;
+          activeId = id;
+        }
+      }
+      for (const item of items) item.dataset.active = 'false';
+      const active = sectionToItem.get(activeId);
+      if (active) active.dataset.active = 'true';
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = entry.target.id;
+          if (entry.isIntersecting) {
+            visible.set(id, entry.intersectionRatio);
+          } else {
+            visible.delete(id);
+          }
+        }
+        setActive();
+      },
+      {
+        rootMargin: '-30% 0px -55% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      },
+    );
+
+    for (const id of sectionToItem.keys()) {
+      const el = document.getElementById(id);
+      if (el) io.observe(el);
+    }
+  }
+</script>

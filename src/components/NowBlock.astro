@@ -1,0 +1,100 @@
+---
+import { getEntry } from 'astro:content';
+
+const entry = await getEntry('now', 'now');
+const { Content } = entry ? await entry.render() : { Content: null };
+const data = entry?.data;
+
+const updated = data
+  ? new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).format(data.updated)
+  : '';
+---
+
+<section class="now-section section" id="now" aria-label="What I'm doing now">
+  <div class="container">
+    <div class="now-card reveal">
+      <div class="now-head">
+        <div class="now-pill">
+          <span class="dot"></span>
+          /now
+        </div>
+        <div class="now-meta">{data?.location} · Updated {updated}</div>
+      </div>
+      <div class="now-body">
+        {Content ? <Content /> : <p>Updates coming soon.</p>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .now-section {
+    padding-block: clamp(36px, 4vw, 48px);
+  }
+
+  .now-card {
+    background:
+      linear-gradient(135deg, rgba(34, 197, 94, 0.04), rgba(99, 102, 241, 0.04)),
+      var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: var(--tile-radius);
+    padding: clamp(20px, 2.5vw, 28px);
+    backdrop-filter: blur(12px);
+    transition: border-color 0.3s var(--ease);
+  }
+
+  .now-card:hover {
+    border-color: rgba(0, 255, 122, 0.18);
+  }
+
+  .now-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .now-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--good-soft);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .now-pill .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 10px var(--good);
+    animation: pulse 2.4s var(--ease) infinite;
+  }
+
+  .now-meta {
+    color: var(--muted-3);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+  }
+
+  .now-body {
+    color: var(--text);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .now-body :global(p) {
+    margin: 0;
+  }
+
+  .now-body :global(strong) {
+    color: var(--primary-soft);
+    font-weight: 600;
+  }
+</style>

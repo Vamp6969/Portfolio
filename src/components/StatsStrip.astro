@@ -5,92 +5,74 @@ interface Stat {
   numeric: number;
   prefix?: string;
   suffix?: string;
-  color?: 'primary' | 'good';
-  spark?: number[]; // optional sparkline points (0-10 range)
+  variant?: 'primary' | 'good';
 }
 
 const stats: Stat[] = [
-  {
-    value: '10K+',
-    label: 'users',
-    numeric: 10000,
-    suffix: '+',
-    color: 'primary',
-    spark: [1, 1.5, 2, 2.2, 3.1, 3.8, 4.6, 6, 7, 8.2, 9, 10],
-  },
-  {
-    value: '99.9%',
-    label: 'uptime',
-    numeric: 99.9,
-    suffix: '%',
-    color: 'good',
-    spark: [9.9, 9.8, 9.95, 9.92, 9.95, 9.98, 9.95, 9.99, 9.98, 9.99, 9.97, 9.99],
-  },
-  { value: '5+', label: 'yrs sysadmin', numeric: 5, suffix: '+', color: 'primary' },
-  { value: '5', label: 'shipped', numeric: 5, color: 'primary' },
+  { value: '10K+', label: 'Users scaled', numeric: 10000, suffix: '+', variant: 'primary' },
+  { value: '99.9%', label: 'Uptime sustained', numeric: 99.9, suffix: '%', variant: 'good' },
+  { value: '5+', label: 'Years sysadmin', numeric: 5, suffix: '+', variant: 'primary' },
+  { value: '5', label: 'Shipped projects', numeric: 5, variant: 'primary' },
 ];
-
-function buildPolyline(spark: number[]): string {
-  const w = 80;
-  const h = 18;
-  const max = Math.max(...spark);
-  const min = Math.min(...spark);
-  const range = max - min || 1;
-  return spark
-    .map((v, i) => {
-      const x = (i / (spark.length - 1)) * w;
-      const y = h - ((v - min) / range) * (h - 2) - 1;
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(' ');
-}
 ---
 
-{stats.map((stat, i) => (
-  <article class:list={['tile stat-tile span-2 row-2 reveal', `stat-${stat.color}`]}>
-    <p class="tile-label">/{stat.label}</p>
-    <div class="stat-body">
-      <span
-        class="stat-value"
-        data-numeric={stat.numeric}
-        data-prefix={stat.prefix ?? ''}
-        data-suffix={stat.suffix ?? ''}
-        data-final={stat.value}
-      >{stat.value}</span>
-      <span class="stat-label-sub">{i === 0 ? 'scaled' : i === 1 ? 'sustained' : i === 2 ? 'sysadmin' : 'projects'}</span>
-      {stat.spark && (
-        <svg class="stat-spark" viewBox="0 0 80 18" preserveAspectRatio="none" aria-hidden="true">
-          <polyline points={buildPolyline(stat.spark)} fill="none" stroke-width="1.5" />
-        </svg>
-      )}
+<section class="stats" aria-label="Career stats">
+  <div class="container">
+    <div class="stats-row reveal">
+      {stats.map((stat, i) => (
+        <>
+          <div class:list={['stat', `stat-${stat.variant}`]}>
+            <span
+              class="stat-value"
+              data-numeric={stat.numeric}
+              data-prefix={stat.prefix ?? ''}
+              data-suffix={stat.suffix ?? ''}
+              data-final={stat.value}
+            >{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+          </div>
+          {i < stats.length - 1 && <div class="stat-divider" aria-hidden="true"></div>}
+        </>
+      ))}
     </div>
-  </article>
-))}
+  </div>
+</section>
 
 <style>
-  .stat-tile {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 96px;
+  .stats {
+    padding-block: clamp(40px, 5vw, 64px);
   }
 
-  .stat-body {
+  .stats-row {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px clamp(20px, 3vw, 36px);
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: var(--tile-radius);
+    backdrop-filter: blur(12px);
+  }
+
+  .stat {
+    flex: 1;
+    text-align: center;
+    min-width: 120px;
   }
 
   .stat-value {
-    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    display: block;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
     font-weight: 800;
-    letter-spacing: -1px;
     line-height: 1;
+    letter-spacing: -1.2px;
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum';
     background: linear-gradient(135deg, var(--primary-soft), var(--accent));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-feature-settings: 'tnum';
   }
 
   .stat-good .stat-value {
@@ -100,31 +82,37 @@ function buildPolyline(spark: number[]): string {
     -webkit-text-fill-color: transparent;
   }
 
-  .stat-label-sub {
+  .stat-label {
+    display: block;
+    margin-top: 8px;
     color: var(--muted-3);
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: 0.7rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
   }
 
-  .stat-spark {
-    height: 18px;
-    width: 100%;
-    margin-top: 4px;
-    opacity: 0.55;
+  .stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
   }
 
-  .stat-primary .stat-spark polyline {
-    stroke: var(--primary-soft);
-  }
-  .stat-good .stat-spark polyline {
-    stroke: var(--good-soft);
+  @media (max-width: 720px) {
+    .stats-row {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px 16px;
+      padding: 28px 20px;
+    }
+    .stat {
+      flex: 0 1 calc(50% - 16px);
+    }
+    .stat-divider { display: none; }
   }
 </style>
 
 <script>
-  // Animate counters once on first scroll-into-view. Disabled under reduced-motion.
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reduceMotion) {
@@ -136,7 +124,7 @@ function buildPolyline(spark: number[]): string {
       const suffix = el.dataset.suffix ?? '';
       const final = el.dataset.final ?? el.textContent ?? '';
       const isDecimal = !Number.isInteger(target);
-      const duration = 1400;
+      const duration = 1500;
       const start = performance.now();
 
       const tick = (now: number) => {
@@ -145,14 +133,13 @@ function buildPolyline(spark: number[]): string {
         const current = target * eased;
         if (target >= 1000 && !isDecimal) {
           const k = current / 1000;
-          el.textContent = prefix + (k < 10 ? k.toFixed(1) : Math.round(k)) + 'K' + suffix;
+          el.textContent = prefix + (k < 10 ? k.toFixed(1) : Math.round(k).toString()) + 'K' + suffix;
         } else {
           el.textContent = prefix + (isDecimal ? current.toFixed(1) : Math.round(current).toString()) + suffix;
         }
         if (t < 1) requestAnimationFrame(tick);
         else el.textContent = final;
       };
-
       requestAnimationFrame(tick);
     };
 

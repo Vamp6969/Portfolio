@@ -1,0 +1,239 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.png';
+---
+
+<section class="hero" id="about" aria-label="Introduction">
+  <div class="hero-mesh" aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <p class="section-eyebrow reveal">Tushar A. — Bangalore, India</p>
+      <h1 class="hero-name reveal">
+        <span>I scale</span>
+        <span class="hero-grad">infrastructure.</span>
+      </h1>
+      <p class="hero-blurb reveal">
+        Founded a game-hosting ISP at 17. Still running it solo at 10,000 users
+        on bare-metal Hetzner. Also shipping AI/ML projects and maintaining MistyMC.
+      </p>
+      <div class="hero-row reveal">
+        <a href="/witchly" class="btn btn-primary">
+          Read the Witchly case study
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#contact" class="btn btn-outline">Get in touch</a>
+      </div>
+      <span class="status-pill reveal">Available — full-time</span>
+    </div>
+
+    <div class="hero-avatar-wrap reveal">
+      <div class="hero-avatar-glow" aria-hidden="true"></div>
+      <Image
+        src={avatar}
+        alt="Tushar A. — Minecraft-style avatar"
+        width={180}
+        height={180}
+        loading="eager"
+        class="hero-avatar"
+      />
+      <div class="hero-avatar-tag" aria-hidden="true">
+        <span class="dot"></span>
+        @vamp
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-cue reveal" aria-hidden="true">
+    <span>scroll</span>
+    <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
+      <rect x="1" y="1" width="10" height="18" rx="5" stroke="currentColor" stroke-opacity="0.3"/>
+      <circle cx="6" cy="6" r="1.5" fill="currentColor">
+        <animate attributeName="cy" values="6;12;6" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+    </svg>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    padding-top: 90px;
+    padding-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-mesh {
+    position: absolute;
+    inset: -20%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 600px 400px at 18% 30%, rgba(99, 102, 241, 0.18), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 82% 70%, rgba(168, 85, 247, 0.14), transparent 60%);
+    animation: meshDrift 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes meshDrift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-3%, 4%) scale(1.05); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-mesh { animation: none; }
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 56px;
+    align-items: center;
+  }
+
+  @media (max-width: 860px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+
+  .hero-text {
+    max-width: 680px;
+  }
+
+  .hero-name {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 0.95;
+    color: var(--text-strong);
+    margin-bottom: 24px;
+  }
+
+  .hero-name span {
+    display: block;
+  }
+
+  .hero-grad {
+    background: linear-gradient(135deg, var(--primary-soft) 0%, var(--accent) 60%, var(--accent-strong) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-blurb {
+    color: var(--muted);
+    font-size: clamp(1rem, 1.6vw, 1.18rem);
+    line-height: 1.65;
+    margin-bottom: 28px;
+    max-width: 580px;
+  }
+
+  .hero-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  /* Avatar */
+  .hero-avatar-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-avatar-glow {
+    position: absolute;
+    inset: -28px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 65%);
+    filter: blur(28px);
+    z-index: 0;
+    animation: pulseGlow 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes pulseGlow {
+    0%   { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1;   transform: scale(1.08); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-avatar-glow { animation: none; }
+  }
+
+  .hero-avatar {
+    position: relative;
+    z-index: 1;
+    border-radius: 24px;
+    image-rendering: pixelated;
+    border: 2px solid rgba(255, 255, 255, 0.10);
+    box-shadow:
+      0 0 0 1px rgba(99, 102, 241, 0.25),
+      0 30px 60px rgba(0, 0, 0, 0.5);
+    transition: transform 0.5s var(--ease);
+  }
+
+  .hero-avatar-wrap:hover .hero-avatar {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+
+  .hero-avatar-tag {
+    position: absolute;
+    bottom: -12px;
+    right: -10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 11px;
+    background: rgba(10, 10, 16, 0.85);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .hero-avatar-tag .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--good);
+    box-shadow: 0 0 6px var(--good);
+  }
+
+  /* Scroll cue */
+  .hero-scroll-cue {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted-3);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 720px) {
+    .hero-scroll-cue { display: none; }
+  }
+</style>

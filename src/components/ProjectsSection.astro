@@ -1,0 +1,364 @@
+---
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const featured = projects.find((p) => p.data.featured);
+const others = projects.filter((p) => !p.data.featured);
+
+const isExternal = (url: string) => /^https?:\/\//.test(url);
+---
+
+<section class="projects section" id="projects" aria-label="Projects">
+  <div class="container">
+    <header class="reveal">
+      <p class="section-eyebrow">/projects</p>
+      <h2 class="section-title">Things I've built and shipped</h2>
+      <p class="section-lede">
+        One signature deep-dive, plus four shipped side projects across infra, ML, MCP, and SaaS.
+      </p>
+    </header>
+
+    {featured && (
+      <article class="featured-card reveal" data-featured>
+        <div class="featured-grad" aria-hidden="true"></div>
+        <div class="featured-content">
+          <div class="featured-meta">
+            <span class="featured-badge">★ Featured · Case study</span>
+            <span class="featured-tags">
+              {featured.data.tags.map((t) => <span class="tag">{t}</span>)}
+            </span>
+          </div>
+
+          <h3 class="featured-title">{featured.data.title}</h3>
+          <p class="featured-tagline">{featured.data.tagline}</p>
+          {featured.data.description && (
+            <p class="featured-desc">{featured.data.description}</p>
+          )}
+
+          <div class="featured-stats">
+            <div class="fstat"><span class="fstat-num">10,000+</span><span class="fstat-lab">Users</span></div>
+            <div class="fstat"><span class="fstat-num">99.9%</span><span class="fstat-lab">Uptime</span></div>
+            <div class="fstat"><span class="fstat-num">$0</span><span class="fstat-lab">Funding</span></div>
+            <div class="fstat"><span class="fstat-num">10/10</span><span class="fstat-lab">Email score</span></div>
+          </div>
+
+          <div class="featured-ctas">
+            {featured.data.links.internal && (
+              <a href={featured.data.links.internal} class="btn btn-primary">
+                Read the case study
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            )}
+            {featured.data.links.live && (
+              <a href={featured.data.links.live} class="btn btn-outline" target="_blank" rel="noopener">
+                Visit witchly.host
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+    )}
+
+    <div class="proj-grid">
+      {others.map((p) => {
+        const ctas = [] as { key: 'live' | 'repo'; label: string; url: string }[];
+        if (p.data.links.live) ctas.push({ key: 'live', label: 'Live', url: p.data.links.live });
+        if (p.data.links.repo) ctas.push({ key: 'repo', label: 'GitHub', url: p.data.links.repo });
+        return (
+          <article class="proj-card reveal">
+            <header class="proj-head">
+              <h3 class="proj-title">{p.data.title}</h3>
+              {p.data.links.live && <span class="proj-flag">live</span>}
+            </header>
+            <p class="proj-tagline">{p.data.tagline}</p>
+            {p.data.description && <p class="proj-desc">{p.data.description}</p>}
+            <ul class="tags-list" aria-label="Tags">
+              {p.data.tags.map((t) => <li class="tag">{t}</li>)}
+            </ul>
+            <footer class="proj-foot">
+              {ctas.map((c, i) => (
+                <a
+                  href={c.url}
+                  class:list={['proj-cta', i === 0 ? 'primary' : 'secondary']}
+                  target={isExternal(c.url) ? '_blank' : undefined}
+                  rel={isExternal(c.url) ? 'noopener' : undefined}
+                >
+                  {c.label} {i === 0 && <span aria-hidden="true">→</span>}
+                </a>
+              ))}
+            </footer>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Featured card */
+  .featured-card {
+    position: relative;
+    background:
+      linear-gradient(135deg, rgba(168, 85, 247, 0.06), rgba(99, 102, 241, 0.04)),
+      var(--tile-bg);
+    border: 1px solid rgba(168, 85, 247, 0.16);
+    border-radius: 20px;
+    padding: clamp(28px, 3.5vw, 48px);
+    margin-bottom: 32px;
+    overflow: hidden;
+    transition:
+      border-color 0.4s var(--ease),
+      transform 0.4s var(--ease);
+    backdrop-filter: blur(14px);
+  }
+
+  .featured-card:hover {
+    border-color: rgba(168, 85, 247, 0.36);
+    transform: translateY(-3px);
+  }
+
+  .featured-grad {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 600px 400px at 90% 0%, rgba(168, 85, 247, 0.20), transparent 50%),
+      radial-gradient(ellipse 500px 300px at 0% 100%, rgba(99, 102, 241, 0.14), transparent 50%);
+    opacity: 0.8;
+  }
+
+  .featured-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .featured-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .featured-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    background: rgba(168, 85, 247, 0.18);
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+
+  .featured-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    background: rgba(99, 102, 241, 0.10);
+    color: var(--accent);
+    border-radius: 4px;
+    list-style: none;
+  }
+
+  .featured-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-weight: 800;
+    color: var(--text-strong);
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+
+  .featured-tagline {
+    color: var(--accent);
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    line-height: 1.5;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .featured-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    margin-bottom: 28px;
+    max-width: 720px;
+  }
+
+  .featured-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 720px) {
+    .featured-stats {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px 12px;
+    }
+  }
+
+  .fstat {
+    text-align: center;
+  }
+
+  .fstat-num {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -1px;
+  }
+
+  .fstat-lab {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted-3);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .featured-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Project grid */
+  .proj-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 720px) {
+    .proj-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .proj-card {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: var(--tile-radius);
+    padding: clamp(20px, 2.5vw, 26px);
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    transition:
+      border-color 0.3s var(--ease),
+      transform 0.3s var(--ease),
+      background 0.3s var(--ease);
+  }
+
+  .proj-card:hover {
+    border-color: var(--tile-border-hover);
+    transform: translateY(-3px);
+    background: var(--tile-bg-hover);
+  }
+
+  .proj-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .proj-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-strong);
+    letter-spacing: -0.3px;
+  }
+
+  .proj-flag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--good-soft);
+    background: rgba(0, 255, 122, 0.07);
+    border: 1px solid rgba(0, 255, 122, 0.18);
+    padding: 2px 7px;
+    border-radius: 999px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .proj-tagline {
+    color: var(--text);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .proj-desc {
+    color: var(--muted-2);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .tags-list {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    list-style: none;
+  }
+
+  .proj-foot {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--divider);
+  }
+
+  .proj-cta {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    transition: all 0.2s var(--ease);
+  }
+
+  .proj-cta.primary {
+    color: var(--primary-soft);
+    font-weight: 600;
+  }
+
+  .proj-cta.primary:hover {
+    color: var(--accent);
+    transform: translateX(2px);
+  }
+
+  .proj-cta.secondary {
+    color: var(--muted-3);
+  }
+
+  .proj-cta.secondary:hover {
+    color: var(--text);
+  }
+</style>

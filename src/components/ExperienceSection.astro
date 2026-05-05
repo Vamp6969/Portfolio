@@ -1,0 +1,183 @@
+---
+interface Entry {
+  role: string;
+  org: string;
+  link?: string;
+  period: string;
+  location?: string;
+  bullets: string[];
+}
+
+interface Props {
+  entries: Entry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<section class="experience section" id="experience" aria-label="Where I've worked">
+  <div class="container">
+    <header class="reveal">
+      <p class="section-eyebrow">/experience</p>
+      <h2 class="section-title">Where I've worked</h2>
+      <p class="section-lede">
+        Two ongoing roles right now — one I own end-to-end, one with a focused scope.
+      </p>
+    </header>
+
+    <ol class="timeline">
+      {entries.map((e) => (
+        <li class="job-card reveal">
+          <span class="job-marker" aria-hidden="true"></span>
+          <div class="job-tile">
+            <div class="job-head">
+              <div>
+                <h3 class="job-role">
+                  {e.role}
+                  <span class="job-org">@ {e.link ? <a href={e.link} target="_blank" rel="noopener">{e.org}</a> : e.org}</span>
+                </h3>
+                <p class="job-meta">{e.period}{e.location ? ` · ${e.location}` : ''}</p>
+              </div>
+            </div>
+            <ul class="job-bullets">
+              {e.bullets.map((b) => <li>{b}</li>)}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline {
+    list-style: none;
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 7px;
+    width: 1px;
+    background: linear-gradient(180deg,
+      transparent,
+      var(--border-strong) 6%,
+      var(--border-strong) 94%,
+      transparent
+    );
+  }
+
+  .job-card {
+    position: relative;
+    margin-bottom: 28px;
+  }
+
+  .job-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .job-marker {
+    position: absolute;
+    left: -38px;
+    top: 24px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--primary);
+    box-shadow:
+      0 0 0 4px var(--bg),
+      0 0 14px rgba(99, 102, 241, 0.5);
+  }
+
+  .job-tile {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: var(--tile-radius);
+    padding: clamp(20px, 2.5vw, 28px);
+    backdrop-filter: blur(12px);
+    transition:
+      border-color 0.3s var(--ease),
+      transform 0.3s var(--ease);
+  }
+
+  .job-tile:hover {
+    border-color: var(--tile-border-hover);
+    transform: translateY(-2px);
+  }
+
+  .job-head {
+    margin-bottom: 16px;
+  }
+
+  .job-role {
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    font-weight: 700;
+    color: var(--text-strong);
+    letter-spacing: -0.3px;
+  }
+
+  .job-org {
+    color: var(--primary-soft);
+    font-weight: 500;
+  }
+
+  .job-org a {
+    color: inherit;
+    border-bottom: 1px dashed transparent;
+    transition: border-color 0.2s var(--ease);
+  }
+
+  .job-org a:hover {
+    border-bottom-color: currentColor;
+  }
+
+  .job-meta {
+    margin-top: 5px;
+    color: var(--muted-3);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+
+  .job-bullets {
+    list-style: none;
+  }
+
+  .job-bullets li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 8px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .job-bullets li:last-child {
+    margin-bottom: 0;
+  }
+
+  .job-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  @media (max-width: 540px) {
+    .timeline {
+      padding-left: 28px;
+    }
+    .job-marker {
+      left: -28px;
+      width: 12px;
+      height: 12px;
+    }
+  }
+</style>

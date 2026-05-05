@@ -1,22 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
-import HeroTile from '../components/HeroTile.astro';
+import Hero from '../components/Hero.astro';
 import StatsStrip from '../components/StatsStrip.astro';
-import NowTile from '../components/NowTile.astro';
-import ExperienceTile from '../components/ExperienceTile.astro';
-import ProjectTile from '../components/ProjectTile.astro';
-import SkillsTile from '../components/SkillsTile.astro';
-import ContactTile from '../components/ContactTile.astro';
+import NowBlock from '../components/NowBlock.astro';
+import ExperienceSection from '../components/ExperienceSection.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import SkillsSection from '../components/SkillsSection.astro';
+import ContactSection from '../components/ContactSection.astro';
 import Footer from '../components/Footer.astro';
-
-const projects = (await getCollection('projects')).sort(
-  (a, b) => a.data.order - b.data.order,
-);
-
-const featured = projects.find((p) => p.data.featured);
-const others = projects.filter((p) => !p.data.featured);
 
 const experience = [
   {
@@ -24,24 +16,48 @@ const experience = [
     org: 'Witchly.host',
     link: 'https://witchly.host',
     period: '2021 — Present',
-    blurb:
-      'Single-handedly own and operate a game-hosting ISP — infra, ops, support, billing, the public site. 10,000+ users on Hetzner bare-metal, 99.9% uptime. Docker + Pterodactyl tenant isolation. Self-hosted Mailcow at 10/10 deliverability.',
+    location: 'Remote',
+    bullets: [
+      'Single-handedly own and operate a game-hosting ISP — infrastructure, ops, support, billing, and the customer-facing site.',
+      'Scaled to 10,000+ users on Hetzner bare-metal with zero external funding. 99.9% uptime under high-concurrency workloads via kernel tuning.',
+      'Engineered isolated game environments with Docker + Pterodactyl and cgroup limits to prevent tenant resource contention.',
+      'Self-hosted Mailcow with full SPF/DKIM/DMARC/PTR — 10/10 deliverability for transactional email.',
+      'Mitigated volumetric DDoS attacks and brute-force SSH attempts via UFW firewalls and Fail2Ban jails.',
+    ],
   },
   {
     role: 'Web Developer',
     org: 'MistyMC.xyz',
     link: 'https://mistymc.xyz',
-    period: 'May 2026 — Now',
-    blurb:
-      'Develop and maintain the main public site for a Minecraft network. Scope: website only.',
+    period: 'May 2026 — Present',
+    location: 'Remote',
+    bullets: [
+      'Develop and maintain the main public site for a Minecraft network. Scope: website only — not the network or its infrastructure.',
+    ],
   },
 ];
 
 const skillGroups = [
-  { cat: 'infra', tags: ['linux', 'docker', 'pterodactyl', 'bare-metal', 'hetzner'] },
-  { cat: 'net+sec', tags: ['nginx', 'cloudflare', 'ufw', 'fail2ban', 'mailcow'] },
-  { cat: 'code', tags: ['python', 'typescript', 'c++', 'java', 'bash', 'mysql'] },
-  { cat: 'ai/ml', tags: ['openenv', 'fastmcp', 'fastapi', 'hono', 'next.js'] },
+  {
+    cat: 'infra',
+    description: 'Bare-metal Linux, container orchestration, the boring foundations.',
+    tags: ['Linux (Ubuntu/CentOS)', 'Docker', 'Pterodactyl', 'Bare Metal', 'Hetzner Cloud'],
+  },
+  {
+    cat: 'net+sec',
+    description: 'Edge, DNS, mail authentication, intrusion mitigation.',
+    tags: ['Nginx Reverse Proxy', 'Cloudflare DNS', 'UFW / Fail2Ban', 'SSL / TLS', 'Mailcow'],
+  },
+  {
+    cat: 'code',
+    description: 'Languages and storage I reach for daily.',
+    tags: ['Python', 'TypeScript', 'C++', 'Java', 'Bash', 'MySQL / MariaDB', 'LAMP'],
+  },
+  {
+    cat: 'ai/ml',
+    description: 'Newer plumbing — RL environments, MCP servers, edge runtimes.',
+    tags: ['OpenEnv', 'FastMCP', 'FastAPI', 'Hono', 'Next.js', 'Cloudflare Workers'],
+  },
 ];
 ---
 
@@ -51,25 +67,15 @@ const skillGroups = [
 >
   <Nav />
 
-  <main class="container main">
-    <div class="bento" id="projects">
-      <HeroTile />
-      <StatsStrip />
-      <NowTile />
-      <ExperienceTile entries={experience} />
-      {featured && <ProjectTile project={featured} />}
-      {others.map((p) => <ProjectTile project={p} />)}
-      <SkillsTile groups={skillGroups} />
-      <ContactTile />
-    </div>
+  <main>
+    <Hero />
+    <NowBlock />
+    <StatsStrip />
+    <ExperienceSection entries={experience} />
+    <ProjectsSection />
+    <SkillsSection groups={skillGroups} />
+    <ContactSection />
   </main>
 
   <Footer />
 </BaseLayout>
-
-<style>
-  .main {
-    padding-top: 88px;
-    padding-bottom: 32px;
-  }
-</style>

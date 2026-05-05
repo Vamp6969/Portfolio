@@ -1,0 +1,105 @@
+---
+interface Group {
+  cat: string;
+  description: string;
+  tags: string[];
+}
+
+interface Props {
+  groups: Group[];
+}
+
+const { groups } = Astro.props;
+---
+
+<section class="skills section" id="skills" aria-label="Technical skills">
+  <div class="container">
+    <header class="reveal">
+      <p class="section-eyebrow">/skills</p>
+      <h2 class="section-title">Technical arsenal</h2>
+      <p class="section-lede">
+        What I reach for first. Years of running production infra make some of these
+        muscle memory.
+      </p>
+    </header>
+
+    <div class="skills-grid">
+      {groups.map((g) => (
+        <article class="skill-card reveal">
+          <header class="skill-head">
+            <span class="skill-cat">[{g.cat}]</span>
+            <p class="skill-desc">{g.description}</p>
+          </header>
+          <ul class="tags-list">
+            {g.tags.map((t) => <li class="tag">{t}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 720px) {
+    .skills-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .skill-card {
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: var(--tile-radius);
+    padding: clamp(20px, 2.5vw, 26px);
+    backdrop-filter: blur(12px);
+    transition:
+      border-color 0.3s var(--ease),
+      transform 0.3s var(--ease);
+  }
+
+  .skill-card:hover {
+    border-color: var(--tile-border-hover);
+    transform: translateY(-2px);
+  }
+
+  .skill-head {
+    margin-bottom: 14px;
+  }
+
+  .skill-cat {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .skill-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 4px;
+    line-height: 1.55;
+  }
+
+  .tags-list {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    list-style: none;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    padding: 4px 10px;
+    background: rgba(99, 102, 241, 0.10);
+    color: var(--accent);
+    border-radius: 5px;
+    list-style: none;
+  }
+</style>
