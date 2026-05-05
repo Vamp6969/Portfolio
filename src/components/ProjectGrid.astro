@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<section class="projects section" id="projects">
+  <h2 class="section-title reveal">
+    <span class="section-number">02.</span> Things I've built and shipped
+  </h2>
+
+  <div class="container">
+    <div class="project-grid">
+      {projects.map((p) => (
+        <div class:list={['project-cell reveal', { 'span-full': p.data.featured }]}>
+          <ProjectCard project={p} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 720px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .project-cell.span-full {
+    grid-column: 1 / -1;
+  }
+
+  .project-cell {
+    display: flex;
+  }
+
+  .project-cell > :global(*) {
+    flex: 1;
+  }
+</style>

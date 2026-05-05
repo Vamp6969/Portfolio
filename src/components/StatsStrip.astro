@@ -1,0 +1,134 @@
+---
+interface Stat {
+  value: string;
+  label: string;
+  numeric: number;
+  suffix?: string;
+  prefix?: string;
+}
+
+const stats: Stat[] = [
+  { value: '10K+', label: 'Users scaled', numeric: 10000, suffix: '+', prefix: '' },
+  { value: '99.9%', label: 'Uptime', numeric: 99.9, suffix: '%', prefix: '' },
+  { value: '5+', label: 'Years sysadmin', numeric: 5, suffix: '+', prefix: '' },
+  { value: '5', label: 'Shipped projects', numeric: 5, suffix: '', prefix: '' },
+];
+---
+
+<section class="stats reveal" aria-label="Career stats">
+  <div class="container">
+    <ul class="stats-grid">
+      {stats.map((stat) => (
+        <li class="stat">
+          <span
+            class="stat-value"
+            data-numeric={stat.numeric}
+            data-prefix={stat.prefix}
+            data-suffix={stat.suffix}
+            data-final={stat.value}
+          >{stat.value}</span>
+          <span class="stat-label">{stat.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stats {
+    background:
+      linear-gradient(180deg, transparent, rgba(6, 182, 212, 0.03), transparent);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding-block: clamp(40px, 6vw, 60px);
+  }
+
+  .stats-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 720px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px 24px;
+    }
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-value {
+    display: block;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 800;
+    color: var(--accent);
+    font-family: var(--font-mono);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .stat-label {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+</style>
+
+<script>
+  // Animate counters on scroll-into-view, once. Skipped under reduced-motion.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion) {
+    const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const animate = (el: HTMLElement) => {
+      const target = Number(el.dataset.numeric ?? '0');
+      const prefix = el.dataset.prefix ?? '';
+      const suffix = el.dataset.suffix ?? '';
+      const final = el.dataset.final ?? el.textContent ?? '';
+      const isDecimal = !Number.isInteger(target);
+      const duration = 1400;
+      const start = performance.now();
+
+      const tick = (now: number) => {
+        const t = Math.min((now - start) / duration, 1);
+        const eased = easeOut(t);
+        const current = target * eased;
+        const formatted = isDecimal ? current.toFixed(1) : Math.round(current).toLocaleString();
+        if (target >= 1000 && !isDecimal) {
+          // 10000 -> "10K"
+          const k = current / 1000;
+          el.textContent = prefix + (k < 10 ? k.toFixed(1) : Math.round(k)) + 'K' + suffix;
+        } else {
+          el.textContent = prefix + formatted + suffix;
+        }
+        if (t < 1) requestAnimationFrame(tick);
+        else el.textContent = final;
+      };
+
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            animate(entry.target as HTMLElement);
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.4 },
+    );
+
+    document.querySelectorAll<HTMLElement>('.stat-value').forEach((el) => io.observe(el));
+  }
+</script>

@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.png';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <Image
+        src={avatar}
+        alt=""
+        width={20}
+        height={20}
+        loading="lazy"
+        class="footer-avatar"
+      />
+      <span>Designed & built by Tushar A.</span>
+    </div>
+    <p class="footer-copy">
+      © {year} Tushar A. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    margin-top: 40px;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+
+  .footer-avatar {
+    border-radius: 4px;
+    image-rendering: pixelated;
+  }
+
+  .footer-copy {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+</style>
