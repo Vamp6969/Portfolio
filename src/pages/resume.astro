@@ -6,7 +6,7 @@ import Footer from '../components/Footer.astro';
 
 <BaseLayout
   title="Tushar A. — Resume"
-  description="Tushar A. resume — Systems Engineer & Founder. Linux, Docker, Hetzner, Mailcow, MCP, OpenEnv."
+  description="Tushar A. resume — Systems Engineer & Founder. Linux, Docker, Hetzner, Mailcow, MCP, OpenEnv. Available for full-time DevOps roles."
 >
   <Nav />
 
@@ -17,8 +17,8 @@ import Footer from '../components/Footer.astro';
       <p class="section-eyebrow">/resume</p>
       <h1 class="resume-title">Resume</h1>
       <p class="resume-deck">
-        Systems Engineer & Founder · Bangalore, India · 5+ years scaling distributed
-        infrastructure. Available for full-time DevOps / infra / platform roles.
+        Systems Engineer & Founder. Bangalore, India. 5+ years scaling distributed
+        infrastructure. Available for full-time DevOps / infrastructure / platform roles.
       </p>
       <div class="resume-meta">
         <a href="mailto:tushar@tushar-a.dev">tushar@tushar-a.dev</a>
@@ -29,6 +29,53 @@ import Footer from '../components/Footer.astro';
         <span class="dot">·</span>
         <a href="/Resume.pdf" target="_blank" rel="noopener">Download PDF →</a>
       </div>
+    </article>
+
+    <section class="resume-stats reveal" aria-label="Resume highlights">
+      <div class="resume-stats-row">
+        <div class="rstat">
+          <span class="rstat-value">5+</span>
+          <span class="rstat-label">Years experience</span>
+        </div>
+        <div class="rstat-divider" aria-hidden="true"></div>
+        <div class="rstat">
+          <span class="rstat-value">10K+</span>
+          <span class="rstat-label">Users scaled</span>
+        </div>
+        <div class="rstat-divider" aria-hidden="true"></div>
+        <div class="rstat">
+          <span class="rstat-value">5</span>
+          <span class="rstat-label">Projects shipped</span>
+        </div>
+        <div class="rstat-divider" aria-hidden="true"></div>
+        <div class="rstat">
+          <span class="rstat-value">B.Tech</span>
+          <span class="rstat-label">CSE · AI/ML</span>
+        </div>
+      </div>
+    </section>
+
+    <article class="tile resume-intro reveal">
+      <h2 class="resume-h">What's inside</h2>
+      <ul class="resume-bullets">
+        <li>
+          <strong>Witchly.host</strong> — founded a game-hosting ISP at 17, still running it
+          solo. Bare-metal Hetzner, Docker + Pterodactyl, Mailcow, custom billing.
+        </li>
+        <li>
+          <strong>MistyMC.xyz</strong> — currently maintaining the main site for a
+          Minecraft network.
+        </li>
+        <li>
+          <strong>Selected projects:</strong> India Finance MCP (Apify + Cloudflare Workers),
+          Auto-Examiner & Code Debug Env (OpenEnv RL hackathon entries),
+          Docspell (Notion-style SaaS docs platform).
+        </li>
+        <li>
+          <strong>Education:</strong> B.Tech CSE (AI/ML), Presidency University Bangalore.
+          On a strategic gap year — available for immediate full-time work.
+        </li>
+      </ul>
     </article>
 
     <article class="tile resume-pdf reveal" aria-label="Resume PDF">
@@ -47,6 +94,16 @@ import Footer from '../components/Footer.astro';
           </p>
         </div>
       </object>
+    </article>
+
+    <article class="tile resume-cta reveal">
+      <h2>Want to chat about a role?</h2>
+      <div class="resume-cta-row">
+        <a href="/#contact" class="btn btn-primary">Get in touch</a>
+        <a href="/Resume.pdf" class="btn btn-outline" target="_blank" rel="noopener">
+          Download PDF
+        </a>
+      </div>
     </article>
   </main>
 
@@ -125,8 +182,124 @@ import Footer from '../components/Footer.astro';
     color: var(--accent);
   }
 
+  /* Stats row — same pattern as home + /witchly */
+  .resume-stats {
+    margin-bottom: 18px;
+  }
+
+  .resume-stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 28px clamp(20px, 3vw, 36px);
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-border);
+    border-radius: var(--tile-radius);
+    backdrop-filter: blur(12px);
+  }
+
+  .rstat {
+    flex: 1;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .rstat-value {
+    display: block;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -1.2px;
+    font-family: var(--font-mono);
+    background: linear-gradient(135deg, var(--primary-soft), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .rstat-label {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted-3);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  .rstat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 720px) {
+    .resume-stats-row {
+      flex-wrap: wrap;
+      gap: 24px 16px;
+      padding: 24px 16px;
+    }
+    .rstat {
+      flex: 0 1 calc(50% - 16px);
+    }
+    .rstat-divider { display: none; }
+  }
+
+  @media (max-width: 380px) {
+    .rstat {
+      flex: 0 1 100%;
+    }
+  }
+
+  /* Intro */
+  .resume-intro {
+    padding: clamp(24px, 3vw, 32px);
+    margin-bottom: 18px;
+  }
+
+  .resume-h {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-strong);
+    margin-bottom: 14px;
+  }
+
+  .resume-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .resume-bullets li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .resume-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 11px;
+    width: 8px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .resume-bullets strong {
+    color: var(--text-strong);
+    font-weight: 600;
+  }
+
+  /* PDF */
   .resume-pdf {
     padding: 8px;
+    margin-bottom: 18px;
   }
 
   .pdf-frame {
@@ -146,6 +319,29 @@ import Footer from '../components/Footer.astro';
 
   .pdf-fallback a {
     color: var(--primary-soft);
+  }
+
+  /* CTA */
+  .resume-cta {
+    text-align: center;
+    padding: clamp(32px, 5vw, 48px);
+    background:
+      linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.06)),
+      var(--tile-bg);
+  }
+
+  .resume-cta h2 {
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    font-weight: 700;
+    color: var(--text-strong);
+    margin-bottom: 18px;
+  }
+
+  .resume-cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
   @media (max-width: 540px) {
