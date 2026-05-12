@@ -23,9 +23,10 @@
 /*.ico
   Cache-Control: public, max-age=86400
 
-# PDFs — 1 day cache
+# PDFs — short cache so resume/case-study updates propagate fast.
+# 5 min browser/CDN cache + must-revalidate (browser checks before serving stale).
 /*.pdf
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=300, must-revalidate
 
 # Security headers for everything (HTML included)
 /*
