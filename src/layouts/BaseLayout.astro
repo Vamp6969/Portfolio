@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 
 interface Props {
@@ -145,8 +144,6 @@ const websiteJsonLd = {
     <!-- JSON-LD structured data -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify(personJsonLd)} />
     {isHome && <script type="application/ld+json" is:inline set:html={JSON.stringify(websiteJsonLd)} />}
-
-    <ClientRouter />
   </head>
   <body>
     <slot />
