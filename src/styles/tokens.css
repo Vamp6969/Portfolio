@@ -1,43 +1,85 @@
 :root {
-  /* Surface */
-  --bg: #050508;
-  --bg-elev: #0a0a10;
-  --tile-bg: rgba(255, 255, 255, 0.025);
-  --tile-bg-hover: rgba(255, 255, 255, 0.04);
-  --tile-border: rgba(255, 255, 255, 0.06);
-  --tile-border-hover: rgba(165, 180, 252, 0.3);
+  /* Paper + ink */
+  --bg: #fbf8f1;            /* sketchbook paper */
+  --bg-elev: #fffdf8;       /* slightly brighter sheet for cards */
+  --grid: rgba(31, 29, 26, 0.09);
+  --ink: #1f1d1a;
+  --text: #2b2824;
+  --text-strong: var(--ink);
+  --muted: #5b5650;         /* 6.9:1 on paper */
+  --muted-2: #6e685f;       /* 5.2:1 on paper */
 
-  /* Brand */
-  --primary: #6366f1;        /* indigo-500 */
-  --primary-soft: #a5b4fc;   /* indigo-300 */
-  --accent: #c4b5fd;         /* violet-300 */
-  --accent-strong: #a855f7;  /* violet-500 */
-  --good: #00ff7a;
-  --good-soft: #6ee787;
-  --warn: #febc2e;
+  /* Highlighters / sticky-note fills */
+  --violet: #b9a7ff;
+  --violet-ink: #4b33c4;    /* readable violet for links/accents, 7.4:1 */
+  --yellow: #ffe27a;
+  --mint: #a6ecc9;
+  --pink: #ffb8cc;
+  --good: #1f8f4e;
 
-  /* Text */
-  --text: #e7e9ee;
-  --text-strong: #ffffff;
-  --muted: #aab0bf;
-  --muted-2: #8b91a3;
-  --muted-3: #6c7086;
-
-  /* Borders / dividers */
-  --border: rgba(255, 255, 255, 0.06);
-  --border-strong: rgba(255, 255, 255, 0.12);
-  --divider: rgba(255, 255, 255, 0.04);
+  /* Legacy names → doodle values (keeps old selectors sane) */
+  --primary: var(--violet);
+  --primary-soft: var(--violet-ink);
+  --accent: var(--violet-ink);
+  --border: var(--ink);
+  --border-strong: var(--ink);
 
   /* Type */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
+  --font-hand: 'Gochi Hand', 'Comic Sans MS', cursive;
+  --font-sans: 'Shantell Sans', 'Comic Sans MS', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Hand-drawn shapes */
+  --wobble: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --wobble-2: 15px 255px 15px 225px / 225px 15px 255px 15px;
+  --stroke: 2px solid var(--ink);
+  --shadow: 4px 4px 0 var(--ink);
+  --shadow-hover: 6px 6px 0 var(--ink);
+  --paper-shadow: 0 1px 1px rgba(0, 0, 0, 0.08), 0 10px 18px -8px rgba(60, 40, 10, 0.35);
 
   /* Motion */
   --ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* Layout */
-  --max-w: 1180px;
+  --max-w: 1120px;
   --pad-x: clamp(20px, 5vw, 48px);
-  --tile-radius: 16px;
   --tile-pad: clamp(20px, 2.4vw, 28px);
+}
+
+/* Night sketchbook */
+[data-theme='dark'] {
+  --bg: #1c1b19;
+  --bg-elev: #262421;
+  --grid: rgba(255, 255, 255, 0.07);
+  --ink: #f1ece2;
+  --text: #e4ded2;
+  --muted: #b8b0a2;       /* 8:1 on --bg */
+  --muted-2: #a49c8e;
+  --violet-ink: #c9bbff;
+  --good: #6fe3a1;
+  --hl-strength: 42%;
+  --paper-shadow: 0 1px 1px rgba(0, 0, 0, 0.4), 0 14px 22px -8px rgba(0, 0, 0, 0.7);
+  color-scheme: dark;
+}
+
+/* Physical paper objects stay light-paper in both themes */
+.note,
+.sheet,
+.polaroid,
+.diagram,
+.on-paper {
+  --ink: #1f1d1a;
+  --text: #2b2824;
+  --muted: #5b5650;
+  --muted-2: #6e685f;
+  --violet-ink: #4b33c4;
+  --good: #1f8f4e;
+  --bg: #fbf8f1;
+  --bg-elev: #fffdf8;
+  --hl-strength: 100%;
+  --stroke: 2px solid #1f1d1a;
+  --shadow: 4px 4px 0 #1f1d1a;
+  --shadow-hover: 6px 6px 0 #1f1d1a;
+  color: var(--text);
 }

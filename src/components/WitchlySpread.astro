@@ -1,0 +1,170 @@
+---
+import { getEntry } from 'astro:content';
+import Scribble from './Scribble.astro';
+
+const w = await getEntry('projects', 'witchly');
+const stats = [
+  { n: '10,000+', l: 'registered users' },
+  { n: '99.9%', l: 'uptime' },
+  { n: '50 Gbps+', l: 'L7 DDoS, back in <20 min' },
+  { n: '€100/mo', l: 'vs $3,000+ on AWS' },
+];
+---
+
+<section class="spread section" id="witchly" aria-label="Featured project: Witchly">
+  <div class="container spread-inner">
+    <div class="spread-text">
+      <div class="reveal">
+        <p class="section-eyebrow">★ featured · case study</p>
+        <h2 class="section-title">Witchly, on one page</h2>
+        <Scribble kind="underline" color="var(--yellow)" class="title-underline" />
+      </div>
+      <p class="spread-tagline reveal">{w?.data.tagline}</p>
+      <p class="spread-desc reveal">{w?.data.description}</p>
+
+      <ul class="spread-stats reveal">
+        {stats.map((s) => (
+          <li><b>{s.n}</b><span>{s.l}</span></li>
+        ))}
+      </ul>
+
+      <div class="spread-ctas reveal">
+        <a href="/witchly" class="btn btn-primary">Read the case study →</a>
+        <a href="https://witchly.host" class="btn" target="_blank" rel="noopener">witchly.host ↗</a>
+      </div>
+    </div>
+
+    <figure class="sketch diagram reveal" style="--tilt: 0.8deg">
+      <svg viewBox="0 0 520 470" role="img" aria-labelledby="dg-title dg-desc">
+        <title id="dg-title">Witchly architecture sketch</title>
+        <desc id="dg-desc">
+          Players reach a web frontend and, separately, game servers. The frontend talks to a control plane
+          (API, billing, Discord bot) that provisions containers on the data plane: Hetzner bare metal running Docker
+          with cgroup isolation. A 50 Gbps L7 DDoS hit the control plane; game traffic on the data plane was never touched.
+        </desc>
+        <defs>
+          <filter id="wobble">
+            <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="2" seed="3" />
+            <feDisplacementMap in="SourceGraphic" scale="3.5" />
+          </filter>
+          <marker id="head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M1 1 L9 5 L1 9" fill="none" stroke="#1f1d1a" stroke-width="1.8" stroke-linecap="round" />
+          </marker>
+        </defs>
+
+        <g filter="url(#wobble)" stroke="#1f1d1a" stroke-width="2.2" fill="none" stroke-linecap="round">
+          <!-- boxes -->
+          <rect x="185" y="14" width="150" height="50" rx="8" fill="#fffdf8" />
+          <rect x="24" y="130" width="190" height="56" rx="8" fill="#a6ecc9" />
+          <rect x="24" y="250" width="210" height="70" rx="8" fill="#b9a7ff" />
+          <rect x="24" y="380" width="472" height="70" rx="8" fill="#ffe27a" />
+
+          <!-- arrows -->
+          <path d="M220 66 C 190 90, 150 100, 130 126" marker-end="url(#head)" />
+          <path d="M119 188 L 119 246" marker-end="url(#head)" />
+          <path d="M129 322 L 129 376" marker-end="url(#head)" />
+          <path d="M310 66 C 400 120, 430 250, 410 374" marker-end="url(#head)" stroke-dasharray="7 7" />
+
+          <!-- DDoS bolt -->
+          <path d="M392 196 L 330 246 L 360 252 L 266 300" stroke="#c2410c" stroke-width="3" marker-end="url(#head)" />
+        </g>
+
+        <g font-family="Gochi Hand, cursive" fill="#1f1d1a" text-anchor="middle">
+          <text x="260" y="46" font-size="22">players</text>
+          <text x="119" y="165" font-size="20">frontend · dashboard</text>
+          <text x="129" y="280" font-size="20">control plane</text>
+          <text x="129" y="303" font-size="14" font-family="Shantell Sans, sans-serif">API · Stripe · Discord bot</text>
+          <text x="260" y="412" font-size="21">data plane: Hetzner bare metal</text>
+          <text x="260" y="435" font-size="14" font-family="Shantell Sans, sans-serif">Docker · cgroups (CPU pin, RAM caps) · Pterodactyl</text>
+
+          <text x="146" y="352" font-size="16" text-anchor="start">provisions</text>
+          <text x="462" y="150" font-size="17" fill="#c2410c">50 Gbps+ DDoS</text>
+          <text x="462" y="170" font-size="15" fill="#c2410c">hits only this ✗</text>
+          <text x="402" y="322" font-size="17" text-anchor="end">game traffic</text>
+          <text x="402" y="342" font-size="17" text-anchor="end">untouched ✓</text>
+        </g>
+      </svg>
+      <figcaption>fig. 2: why the attack never reached a single game server</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .spread-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+
+  .spread-text :global(.title-underline) {
+    width: min(380px, 80%);
+    height: 16px;
+    margin: -10px 0 18px;
+  }
+
+  .spread-tagline {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  .spread-desc {
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+
+  .spread-stats {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 24px;
+    margin-bottom: 30px;
+  }
+
+  .spread-stats li {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .spread-stats b {
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: 2.3rem;
+    color: var(--ink);
+    width: fit-content;
+    --y: color-mix(in srgb, var(--yellow) var(--hl-strength, 100%), transparent);
+    background: linear-gradient(100deg, transparent 2%, var(--y) 4%, var(--y) 94%, transparent 97%) no-repeat 0 85% / 100% 0.45em;
+  }
+
+  .spread-stats span {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .spread-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .diagram {
+    padding: 18px 18px 12px;
+  }
+
+  .diagram svg { width: 100%; height: auto; }
+
+  .diagram figcaption {
+    font-family: var(--font-hand);
+    font-size: 1.15rem;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 980px) {
+    .spread-inner { grid-template-columns: 1fr; }
+  }
+</style>

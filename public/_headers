@@ -1,15 +1,15 @@
-# Cloudflare Pages headers — applied to the served files in dist/.
+# Cloudflare Pages headers: applied to the served files in dist/.
 # Most specific paths first; the global /* rule applies to everything else.
 
-# Hashed Astro assets — safe to cache forever (filename changes on rebuild)
+# Hashed Astro assets: safe to cache forever (filename changes on rebuild)
 /_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Self-hosted variable fonts — versioned by filename, immutable
+# Self-hosted variable fonts: versioned by filename, immutable
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Images, OG, favicons — 1 day cache (filenames are stable; bust on regen)
+# Images, OG, favicons: 1 day cache (filenames are stable; bust on regen)
 /*.png
   Cache-Control: public, max-age=86400
 /*.webp
@@ -23,7 +23,7 @@
 /*.ico
   Cache-Control: public, max-age=86400
 
-# PDFs — short cache so resume/case-study updates propagate fast.
+# PDFs: short cache so resume/case-study updates propagate fast.
 # 5 min browser/CDN cache + must-revalidate (browser checks before serving stale).
 /*.pdf
   Cache-Control: public, max-age=300, must-revalidate

@@ -1,277 +1,240 @@
 ---
 import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.png';
+import Doodle from './Doodle.astro';
+import Scribble from './Scribble.astro';
+
+const hasPortrait = Object.keys(import.meta.glob('../assets/doodles/portrait.*')).length > 0;
+
+// Hand-written callouts around the portrait ("fig. 1"). pos = corner on desktop.
+const callouts = [
+  { pos: 'tl', text: 'founded Witchly at 17', sub: 'bootstrapped, zero funding' },
+  { pos: 'tr', text: '10K+ users', sub: '99.9% uptime on bare metal' },
+  { pos: 'bl', text: 'Bangalore, IN', sub: 'remote / on-site' },
+  { pos: 'br', text: 'TS · Rust · Python', sub: '+ a lot of Linux' },
+];
 ---
 
 <section class="hero" id="about" aria-label="Introduction">
-  <div class="hero-mesh" aria-hidden="true"></div>
+  <Doodle name="rocket" width={120} class="margin-doodle md-rocket" />
+  <Doodle name="coffee" width={100} class="margin-doodle md-coffee" />
 
   <div class="container hero-inner">
     <div class="hero-text">
-      <p class="section-eyebrow reveal">Tushar A. — Bangalore, India</p>
-      <h1 class="hero-name reveal">
-        <span>I scale</span>
-        <span class="hero-grad">infrastructure.</span>
-      </h1>
+      <p class="section-eyebrow reveal">hi, my name is</p>
+      <h1 class="hero-name reveal">Tushar</h1>
+      <p class="hero-tagline reveal">I scale <span class="hl">infrastructure.</span></p>
       <p class="hero-blurb reveal">
-        Founded a free game-server hosting platform at 17 → 10,000+ users on
-        bare-metal Hetzner, fully bootstrapped. Now shipping AI/ML and MCP work
-        across TypeScript, Rust, and Python.
+        Systems engineer &amp; founder. I took a free game-server host from zero to
+        <strong>10,000+ users</strong> on bare-metal Hetzner. These days I also ship AI/ML and MCP work.
       </p>
       <div class="hero-row reveal">
-        <a href="/witchly" class="btn btn-primary">
-          Read the Witchly case study
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7H12M12 7L7 2M12 7L7 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-        <a href="#contact" class="btn btn-outline">Get in touch</a>
+        <a href="#witchly" class="btn btn-primary">See how Witchly works ↓</a>
+        <a href="#contact" class="btn">Say hi</a>
       </div>
-      <span class="status-pill reveal">Available — full-time</span>
+      <span class="status-pill reveal">available for full-time</span>
     </div>
 
-    <div class="hero-avatar-wrap reveal">
-      <div class="hero-avatar-glow" aria-hidden="true"></div>
-      <Image
-        src={avatar}
-        alt="Tushar A. — Minecraft-style avatar"
-        width={180}
-        height={180}
-        loading="eager"
-        class="hero-avatar"
-      />
-      <a
-        href="https://discord.com/users/844426168793825330"
-        class="hero-avatar-tag"
-        target="_blank"
-        rel="noopener"
-        aria-label="Discord — @vamp_"
-      >
-        <span class="dot" aria-hidden="true"></span>
-        @vamp
-      </a>
-    </div>
-  </div>
+    <div class="fig reveal">
+      <figure class="polaroid" style="--tilt: 3deg">
+        <span class="polaroid-tape" aria-hidden="true"></span>
+        <div class="polaroid-photo">
+          {hasPortrait ? (
+            <Doodle name="portrait" width={280} alt="Doodle portrait of Tushar" loading="eager" class="portrait" />
+          ) : (
+            <Image src={avatar} alt="Tushar A., Minecraft-style avatar" width={200} height={200} loading="eager" class="portrait pixel" />
+          )}
+        </div>
+        <figcaption>
+          <a href="https://discord.com/users/844426168793825330" target="_blank" rel="noopener" aria-label="Discord: @vamp_">fig. 1: me (@vamp)</a>
+        </figcaption>
+      </figure>
 
-  <div class="hero-scroll-cue reveal" aria-hidden="true">
-    <span>scroll</span>
-    <svg width="12" height="20" viewBox="0 0 12 20" fill="none">
-      <rect x="1" y="1" width="10" height="18" rx="5" stroke="currentColor" stroke-opacity="0.3"/>
-      <circle cx="6" cy="6" r="1.5" fill="currentColor">
-        <animate attributeName="cy" values="6;12;6" dur="1.8s" repeatCount="indefinite"/>
-      </circle>
-    </svg>
+      <ul class="callouts">
+        {callouts.map((c) => (
+          <li class={`callout callout-${c.pos}`}>
+            <span class="callout-text">{c.text}</span>
+            <span class="callout-sub">{c.sub}</span>
+            <Scribble kind="arrow" class="callout-arrow" />
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </section>
 
 <style>
   .hero {
-    min-height: 100vh;
     min-height: 100dvh;
     display: flex;
     align-items: center;
-    padding-top: 90px;
-    padding-bottom: 40px;
+    padding-top: 120px;
+    padding-bottom: 56px;
     position: relative;
     overflow: hidden;
   }
 
-  .hero-mesh {
-    position: absolute;
-    inset: -20%;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 600px 400px at 18% 30%, rgba(99, 102, 241, 0.18), transparent 60%),
-      radial-gradient(ellipse 600px 400px at 82% 70%, rgba(168, 85, 247, 0.14), transparent 60%);
-    animation: meshDrift 18s ease-in-out infinite alternate;
-  }
-
-  @keyframes meshDrift {
-    0%   { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(-3%, 4%) scale(1.05); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-mesh { animation: none; }
-  }
-
   .hero-inner {
-    position: relative;
-    z-index: 1;
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 56px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 560px);
+    gap: clamp(24px, 4vw, 56px);
     align-items: center;
   }
 
-  @media (max-width: 860px) {
-    .hero-inner {
-      grid-template-columns: 1fr;
-      gap: 28px;
-    }
-    .hero-avatar-wrap {
-      order: -1;
-      align-self: flex-start;
-    }
-  }
-
-  @media (max-width: 540px) {
-    .hero {
-      padding-top: 84px;
-    }
-    .hero-avatar {
-      width: 120px !important;
-      height: 120px !important;
-      border-radius: 18px;
-    }
-    .hero-avatar-tag {
-      bottom: -10px;
-      right: -8px;
-      padding: 4px 9px;
-      font-size: 0.7rem;
-    }
-  }
-
-  .hero-text {
-    max-width: 680px;
-  }
-
   .hero-name {
-    font-size: clamp(2.4rem, 7vw, 5.5rem);
-    font-weight: 800;
-    letter-spacing: -2px;
-    line-height: 0.95;
-    color: var(--text-strong);
-    margin-bottom: 24px;
-    overflow-wrap: anywhere;
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: clamp(4rem, 11vw, 8rem);
+    line-height: 0.9;
+    color: var(--ink);
   }
 
-  .hero-name span {
-    display: block;
-  }
-
-  .hero-grad {
-    background: linear-gradient(135deg, var(--primary-soft) 0%, var(--accent) 60%, var(--accent-strong) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .hero-tagline {
+    font-family: var(--font-hand);
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 6px 0 22px;
   }
 
   .hero-blurb {
     color: var(--muted);
-    font-size: clamp(1rem, 1.6vw, 1.18rem);
-    line-height: 1.65;
+    font-size: clamp(1.05rem, 1.6vw, 1.15rem);
+    max-width: 520px;
     margin-bottom: 28px;
-    max-width: 580px;
   }
+
+  .hero-blurb strong { color: var(--ink); }
 
   .hero-row {
     display: flex;
-    gap: 12px;
-    margin-bottom: 22px;
     flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 26px;
   }
 
-  /* Avatar */
-  .hero-avatar-wrap {
+  /* fig. 1: labelled diagram */
+  .fig {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 520px;
+    display: grid;
+    place-items: center;
   }
 
-  .hero-avatar-glow {
-    position: absolute;
-    inset: -28px;
-    border-radius: 50%;
-    background:
-      radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 65%);
-    filter: blur(28px);
-    z-index: 0;
-    animation: pulseGlow 4s ease-in-out infinite alternate;
-  }
-
-  @keyframes pulseGlow {
-    0%   { opacity: 0.7; transform: scale(1); }
-    100% { opacity: 1;   transform: scale(1.08); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-avatar-glow { animation: none; }
-  }
-
-  .hero-avatar {
+  .polaroid {
     position: relative;
     z-index: 1;
-    border-radius: 24px;
-    image-rendering: pixelated;
-    border: 2px solid rgba(255, 255, 255, 0.10);
-    box-shadow:
-      0 0 0 1px rgba(99, 102, 241, 0.25),
-      0 30px 60px rgba(0, 0, 0, 0.5);
-    transition: transform 0.5s var(--ease);
+    background: #fff;
+    padding: 14px 14px 8px;
+    box-shadow: var(--paper-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    width: 250px;
+    transform: rotate(var(--tilt));
   }
 
-  .hero-avatar-wrap:hover .hero-avatar {
-    transform: translateY(-4px) rotate(-1deg);
-  }
-
-  .hero-avatar-tag {
+  .polaroid-tape {
     position: absolute;
-    bottom: -12px;
-    right: -10px;
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 11px;
-    background: rgba(10, 10, 16, 0.85);
-    backdrop-filter: blur(14px);
-    border: 1px solid var(--border-strong);
-    border-radius: 999px;
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    transition: all 0.25s var(--ease);
-    cursor: pointer;
-  }
-
-  .hero-avatar-tag:hover {
-    background: rgba(99, 102, 241, 0.18);
-    border-color: var(--primary-soft);
-    color: var(--text-strong);
-    transform: translate(-2px, 2px);
-  }
-
-  .hero-avatar-tag .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--good);
-    box-shadow: 0 0 6px var(--good);
-  }
-
-  /* Scroll cue */
-  .hero-scroll-cue {
-    position: absolute;
-    bottom: 28px;
+    top: -14px;
     left: 50%;
-    transform: translateX(-50%);
+    width: 100px;
+    height: 28px;
+    transform: translateX(-50%) rotate(-4deg);
+    background: color-mix(in srgb, var(--yellow) 70%, transparent);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .polaroid-photo {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: var(--bg);
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+  }
+
+  .polaroid-photo :global(.portrait) { width: 100%; height: 100%; object-fit: contain; }
+  .polaroid-photo :global(.pixel) { image-rendering: pixelated; width: 74%; height: auto; }
+
+  .polaroid figcaption {
+    text-align: center;
+    font-family: var(--font-hand);
+    font-size: 1.3rem;
+    padding-top: 6px;
+  }
+
+  .polaroid figcaption a:hover { color: var(--violet-ink); }
+
+  .callouts { list-style: none; }
+
+  .callout {
+    position: absolute;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    color: var(--muted-3);
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.6;
+    width: 170px;
+    line-height: 1.15;
   }
 
-  @media (max-width: 720px) {
-    .hero-scroll-cue { display: none; }
+  .callout-text {
+    font-family: var(--font-hand);
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+
+  .callout-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .callout :global(.callout-arrow) {
+    position: absolute;
+    width: 70px;
+    height: 52px;
+  }
+
+  /* corners; arrows point inward to the portrait */
+  .callout-tl { top: 10px; left: 0; }
+  .callout-tl :global(.callout-arrow) { top: 52px; left: 90px; }
+
+  .callout-tr { top: 30px; right: 0; text-align: right; align-items: flex-end; }
+  .callout-tr :global(.callout-arrow) { top: 56px; right: 96px; transform: scaleX(-1); }
+
+  .callout-bl { bottom: 30px; left: 0; }
+  .callout-bl :global(.callout-arrow) { bottom: 56px; left: 92px; transform: scaleY(-1); }
+
+  .callout-br { bottom: 10px; right: 0; text-align: right; align-items: flex-end; }
+  .callout-br :global(.callout-arrow) { bottom: 52px; right: 90px; transform: scale(-1, -1); }
+
+  /* Margin doodles */
+  .hero :global(.margin-doodle) { position: absolute; }
+  .hero :global(.md-rocket) { top: 110px; right: 2%; transform: rotate(14deg); }
+  .hero :global(.md-coffee) { bottom: 30px; left: 2%; transform: rotate(-8deg); }
+
+  @media (max-width: 1240px) {
+    .hero :global(.margin-doodle) { display: none; }
+  }
+
+  @media (max-width: 980px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .fig {
+      height: auto;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 24px;
+      margin-top: 16px;
+      justify-items: center;
+    }
+    .polaroid { grid-column: 1 / -1; width: 210px; margin-bottom: 8px; }
+    .callouts { display: contents; }
+    .callout {
+      position: static;
+      width: auto;
+      text-align: center !important;
+      align-items: center !important;
+    }
+    .callout :global(.callout-arrow) { display: none; }
+  }
+
+  @media (max-width: 540px) {
+    .callout-text { font-size: 1.25rem; }
   }
 </style>

@@ -5,3 +5,6 @@ dist/
 .vercel/
 .DS_Store
 *.log
+
+# raw Gemini art before watermark removal
+art-raw/

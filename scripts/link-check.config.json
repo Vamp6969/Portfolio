@@ -2,5 +2,5 @@
   "softFail": [
     "https://mistymc.xyz"
   ],
-  "_comment": "Domains in 'softFail' warn but do not fail the build. Remove an entry once the link is consistently reachable. Do NOT add calendar dates here — soft-fail status persists until the user removes the entry."
+  "_comment": "Domains in 'softFail' warn but do not fail the build. Remove an entry once the link is consistently reachable. Do NOT add calendar dates here: soft-fail status persists until the user removes the entry."
 }

@@ -5,8 +5,8 @@ import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout
-  title="Tushar A. — Resume | Systems Engineer & Founder"
-  description="Resume of Tushar A. — Systems Engineer & Founder of Witchly.host. 5+ years scaling infrastructure. Linux, Docker, Hetzner, Mailcow, MCP, OpenEnv."
+  title="Resume | Tushar A., Systems Engineer & Founder"
+  description="Resume of Tushar A., Systems Engineer & Founder of Witchly.host. 5+ years scaling infrastructure. Linux, Docker, Hetzner, Mailcow, MCP, OpenEnv."
   keywords="Tushar A resume, devops engineer, systems engineer, infrastructure, hire, Bangalore, full-time"
 >
   <Nav />
@@ -14,7 +14,7 @@ import Footer from '../components/Footer.astro';
   <main class="container resume-page">
     <a href="/" class="back-link">← Back to home</a>
 
-    <article class="tile resume-head reveal">
+    <article class="sketch resume-head reveal">
       <p class="section-eyebrow">/resume</p>
       <h1 class="resume-title">Resume</h1>
       <p class="resume-deck">
@@ -39,17 +39,14 @@ import Footer from '../components/Footer.astro';
           <span class="rstat-value">4+</span>
           <span class="rstat-label">Years experience</span>
         </div>
-        <div class="rstat-divider" aria-hidden="true"></div>
         <div class="rstat">
           <span class="rstat-value">10K+</span>
           <span class="rstat-label">Users scaled</span>
         </div>
-        <div class="rstat-divider" aria-hidden="true"></div>
         <div class="rstat">
           <span class="rstat-value">Finalist</span>
           <span class="rstat-label">Meta×Scaler hackathon</span>
         </div>
-        <div class="rstat-divider" aria-hidden="true"></div>
         <div class="rstat">
           <span class="rstat-value">B.Tech</span>
           <span class="rstat-label">CSE · AI/ML</span>
@@ -57,48 +54,48 @@ import Footer from '../components/Footer.astro';
       </div>
     </section>
 
-    <article class="tile resume-intro reveal">
+    <article class="sketch resume-intro reveal">
       <h2 class="resume-h">What's inside</h2>
       <ul class="resume-bullets">
         <li>
-          <strong>Witchly.host</strong> — founder & lead systems engineer of a free
+          <strong>Witchly.host</strong>: founder & lead systems engineer of a free
           game-server hosting platform. 10,000+ users on bare-metal Hetzner with
           cgroup tenant isolation. Mitigated a 50 Gbps L7 DDoS in under 20 minutes.
           Built the dashboard, billing, and Discord-bot order pipeline from scratch.
         </li>
         <li>
-          <strong>MistyMC.xyz</strong> — co-founder & web developer. Designed and
+          <strong>MistyMC.xyz</strong>: co-founder & web developer. Designed and
           maintain the public-facing site and web infrastructure for a Minecraft
           server network.
         </li>
         <li>
-          <strong>Auto-Examiner</strong> — self-improving RL environment on PyTorch +
+          <strong>Auto-Examiner</strong>: self-improving RL environment on PyTorch +
           FastAPI. <em>Finalist</em> at the Meta PyTorch × Scaler Hackathon out of
           31,000+ registered participants.
         </li>
         <li>
-          <strong>Code Debug Env</strong> — OpenEnv where AI agents debug
+          <strong>Code Debug Env</strong>: OpenEnv where AI agents debug
           progressively harder Python via subprocess-sandboxed execution with
           partial-credit scoring.
         </li>
         <li>
-          <strong>India Finance MCP</strong> — MCP server + REST API exposing
+          <strong>India Finance MCP</strong>: MCP server + REST API exposing
           47,000+ AMFI mutual fund NAVs and GSTIN validation. Hono on Cloudflare
           Workers; deployed on Apify for AI-agent discovery.
         </li>
         <li>
-          <strong>Docspell</strong> — AI document platform on Cloudflare Pages + D1
+          <strong>Docspell</strong>: AI document platform on Cloudflare Pages + D1
           + R2 with Gemini and Claude APIs. Three-tier SaaS (Free / $16 Pro / $49
           Team), in active development.
         </li>
         <li>
-          <strong>Education</strong> — B.Tech CSE (AI/ML), Presidency University
+          <strong>Education</strong>: B.Tech CSE (AI/ML), Presidency University
           Bangalore. Expected 2028.
         </li>
       </ul>
     </article>
 
-    <article class="tile resume-pdf reveal" aria-label="Resume PDF">
+    <article class="sketch resume-pdf reveal" aria-label="Resume PDF">
       <object
         data="/Resume.pdf"
         type="application/pdf"
@@ -116,11 +113,11 @@ import Footer from '../components/Footer.astro';
       </object>
     </article>
 
-    <article class="tile resume-cta reveal">
+    <article class="note note-violet resume-cta reveal" style="--tilt:-0.8deg">
       <h2>Want to chat about a role?</h2>
       <div class="resume-cta-row">
         <a href="/#contact" class="btn btn-primary">Get in touch</a>
-        <a href="/Resume.pdf" class="btn btn-outline" target="_blank" rel="noopener">
+        <a href="/Resume.pdf" class="btn" target="_blank" rel="noopener">
           Download PDF
         </a>
       </div>
@@ -132,158 +129,92 @@ import Footer from '../components/Footer.astro';
 
 <style>
   .resume-page {
-    padding-top: 100px;
-    padding-bottom: 40px;
-    max-width: 1100px;
+    padding-top: 110px;
+    padding-bottom: 56px;
+    max-width: 1060px;
   }
 
   .back-link {
     display: inline-block;
-    color: var(--muted-3);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    margin-bottom: 24px;
-    transition: color 0.2s var(--ease);
+    font-family: var(--font-hand);
+    font-size: 1.25rem;
+    color: var(--muted);
+    margin-bottom: 20px;
   }
 
-  .back-link:hover {
-    color: var(--primary-soft);
-  }
+  .back-link:hover { color: var(--violet-ink); }
 
-  .resume-head {
-    padding: clamp(28px, 4vw, 44px);
-    background:
-      radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.10), transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.08), transparent 50%),
-      var(--tile-bg);
-    margin-bottom: 18px;
-  }
+  .resume-head,
+  .resume-intro,
+  .resume-pdf { margin-bottom: 32px; }
+
+  .resume-head { padding: clamp(28px, 4vw, 44px); }
 
   .resume-title {
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
-    font-weight: 800;
-    letter-spacing: -2px;
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 4.6rem);
     line-height: 1;
-    background: linear-gradient(135deg, #fff 0%, var(--primary-soft) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin: 8px 0 14px;
+    color: var(--ink);
+    margin: 4px 0 14px;
   }
 
   .resume-deck {
-    color: var(--text);
-    font-size: clamp(0.98rem, 1.6vw, 1.12rem);
-    line-height: 1.6;
+    font-size: clamp(1rem, 1.6vw, 1.12rem);
     max-width: 760px;
     margin-bottom: 18px;
   }
 
   .resume-meta {
-    color: var(--muted-3);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
+    font-weight: 600;
   }
 
-  .resume-meta .dot {
-    opacity: 0.5;
-  }
+  .resume-meta .dot { color: var(--muted); }
 
   .resume-meta a {
-    color: var(--primary-soft);
-    transition: color 0.2s var(--ease);
+    color: var(--violet-ink);
+    text-decoration: underline wavy color-mix(in srgb, var(--violet-ink) 40%, transparent);
+    text-underline-offset: 4px;
   }
 
-  .resume-meta a:hover {
-    color: var(--accent);
-  }
-
-  /* Stats row — same pattern as home + /witchly */
-  .resume-stats {
-    margin-bottom: 18px;
-  }
+  .resume-stats { margin-bottom: 40px; }
 
   .resume-stats-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 28px clamp(20px, 3vw, 36px);
-    background: var(--tile-bg);
-    border: 1px solid var(--tile-border);
-    border-radius: var(--tile-radius);
-    backdrop-filter: blur(12px);
-  }
-
-  .rstat {
-    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
     text-align: center;
-    min-width: 0;
   }
 
   .rstat-value {
     display: block;
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    font-weight: 800;
+    font-family: var(--font-hand);
+    font-size: clamp(2.2rem, 4vw, 3rem);
     line-height: 1;
-    letter-spacing: -1.2px;
-    font-family: var(--font-mono);
-    background: linear-gradient(135deg, var(--primary-soft), var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--ink);
   }
 
   .rstat-label {
     display: block;
-    margin-top: 8px;
-    color: var(--muted-3);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-  }
-
-  .rstat-divider {
-    width: 1px;
-    height: 40px;
-    background: var(--border);
-    flex-shrink: 0;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
 
   @media (max-width: 720px) {
-    .resume-stats-row {
-      flex-wrap: wrap;
-      gap: 24px 16px;
-      padding: 24px 16px;
-    }
-    .rstat {
-      flex: 0 1 calc(50% - 16px);
-    }
-    .rstat-divider { display: none; }
-  }
-
-  @media (max-width: 380px) {
-    .rstat {
-      flex: 0 1 100%;
-    }
-  }
-
-  /* Intro */
-  .resume-intro {
-    padding: clamp(24px, 3vw, 32px);
-    margin-bottom: 18px;
+    .resume-stats-row { grid-template-columns: repeat(2, 1fr); }
   }
 
   .resume-h {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-strong);
-    margin-bottom: 14px;
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: 2rem;
+    color: var(--ink);
+    margin-bottom: 12px;
   }
 
   .resume-bullets {
@@ -295,47 +226,35 @@ import Footer from '../components/Footer.astro';
 
   .resume-bullets li {
     position: relative;
-    padding-left: 22px;
+    padding-left: 26px;
     color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.65;
   }
 
   .resume-bullets li::before {
-    content: '';
+    content: '→';
     position: absolute;
     left: 0;
-    top: 11px;
-    width: 8px;
-    height: 1px;
-    background: var(--accent);
+    font-family: var(--font-hand);
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: var(--ink);
   }
 
-  .resume-bullets strong {
-    color: var(--text-strong);
-    font-weight: 600;
-  }
+  .resume-bullets strong { color: var(--ink); }
 
-  /* PDF */
-  .resume-pdf {
-    padding: 8px;
-    margin-bottom: 18px;
-  }
+  .resume-pdf { padding: 10px; }
 
   .pdf-frame {
     width: 100%;
     height: 85vh;
     min-height: 600px;
-    border-radius: 10px;
-    background: #1a1a22;
     display: block;
+    border-radius: 4px;
+    background: #fff;
   }
 
   @media (max-width: 540px) {
-    .pdf-frame {
-      height: 70vh;
-      min-height: 420px;
-    }
+    .pdf-frame { height: 70vh; min-height: 420px; }
   }
 
   .pdf-fallback {
@@ -344,31 +263,26 @@ import Footer from '../components/Footer.astro';
     color: var(--muted);
   }
 
-  .pdf-fallback a {
-    color: var(--primary-soft);
-  }
+  .pdf-fallback a { color: var(--violet-ink); font-weight: 700; }
 
-  /* CTA */
   .resume-cta {
     text-align: center;
-    padding: clamp(32px, 5vw, 48px);
-    background:
-      linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(168, 85, 247, 0.06)),
-      var(--tile-bg);
+    padding: clamp(36px, 5vw, 52px);
+    max-width: 720px;
+    margin: 56px auto 0;
   }
 
   .resume-cta h2 {
-    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
-    font-weight: 700;
-    color: var(--text-strong);
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 3.4vw, 2.4rem);
     margin-bottom: 18px;
   }
 
   .resume-cta-row {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 14px;
     flex-wrap: wrap;
   }
-
 </style>

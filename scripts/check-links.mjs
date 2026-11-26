@@ -1,7 +1,7 @@
 // scripts/check-links.mjs
 // Walks the built dist/ for external HTTP(S) links, fetches them with HEAD
 // (falls back to GET), and reports broken ones. Soft-failure list lives in
-// scripts/link-check.config.json — entries warn instead of failing the build.
+// scripts/link-check.config.json: entries warn instead of failing the build.
 
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -15,10 +15,10 @@ const configPath = join(__dirname, 'link-check.config.json');
 const config = JSON.parse(await readFile(configPath, 'utf8'));
 const softFail = new Set(config.softFail ?? []);
 
-// Skip self-canonicals — these will only resolve once the site is deployed.
+// Skip self-canonicals: these will only resolve once the site is deployed.
 const SELF_PREFIX = 'https://tushar-a.dev';
 
-// LinkedIn aggressively blocks bot-like User-Agents — sometimes 999, sometimes
+// LinkedIn aggressively blocks bot-like User-Agents: sometimes 999, sometimes
 // 404 (vanity URLs only resolve when scraped with a session cookie).
 // We trust the URL if it returned any of these statuses.
 const QUIRKY_HOSTS = {
@@ -54,7 +54,7 @@ async function collectLinks(files) {
     while ((m = HREF_RE.exec(text))) {
       const url = m[1];
       if (!/^https?:\/\//i.test(url)) continue;
-      // Self-canonicals (canonical, og:url) — skip; they won't resolve until deploy.
+      // Self-canonicals (canonical, og:url): skip; they won't resolve until deploy.
       if (url.startsWith(SELF_PREFIX)) continue;
       if (!links.has(url)) links.set(url, new Set());
       links.get(url).add(file.replace(distDir + '/', ''));
@@ -162,7 +162,7 @@ async function main() {
   if (softFails.length) {
     console.log(`\nsoft-fail (warning, not fatal):`);
     for (const r of softFails) {
-      console.log(`  ⚠ ${r.url} — ${r.status || 'no response'} ${r.error ? `(${r.error})` : ''}`);
+      console.log(`  ⚠ ${r.url}: ${r.status || 'no response'} ${r.error ? `(${r.error})` : ''}`);
     }
   }
 

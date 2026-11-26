@@ -12,309 +12,165 @@ const items = [
 ];
 ---
 
-<nav class="pill-nav" aria-label="Primary navigation">
-  <a href="/" class="pill-brand" aria-label="Home">
-    <Image
-      src={avatar}
-      alt="Tushar A. — Minecraft-style avatar"
-      width={26}
-      height={26}
-      loading="eager"
-      class="pill-avatar"
-    />
+<nav class="nav" aria-label="Primary navigation">
+  <a href="/" class="nav-brand" aria-label="Home">
+    <Image src={avatar} alt="" width={30} height={30} loading="eager" class="nav-avatar" />
+    <span class="nav-name">tushar.</span>
   </a>
 
-  <span class="pill-divider" aria-hidden="true"></span>
-
-  <ul class="pill-items" role="menubar">
-    <span class="pill-indicator" aria-hidden="true"></span>
+  <ul class="nav-items">
     {items.map((item) => (
-      <li role="none">
-        <a
-          href={item.href}
-          class="pill-item"
-          data-section={item.section}
-          role="menuitem"
-        >
-          {item.label}
-        </a>
+      <li>
+        <a href={item.href} class="nav-item" data-section={item.section}>{item.label}</a>
       </li>
     ))}
   </ul>
 
-  <span class="pill-divider" aria-hidden="true"></span>
-
-  <a href="/resume" class="pill-cta">
-    Resume
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-      <path d="M2 8L8 2M8 2H3.5M8 2V6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-  </a>
+  <div class="nav-right">
+    <button class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+      </svg>
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="2" />
+        <path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+    <a href="/resume" class="btn btn-primary nav-cta">Resume ↗</a>
+  </div>
 </nav>
 
 <style>
-  .pill-nav {
+  .nav {
     position: fixed;
-    top: max(18px, env(safe-area-inset-top, 0px));
+    top: 14px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(-0.4deg);
     z-index: 100;
-    /* don't run off the viewport on narrow screens */
-    max-width: calc(100vw - 16px);
+    width: min(calc(100% - 28px), 860px);
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 6px 8px 6px 6px;
-    background: rgba(10, 10, 16, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 999px;
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.05) inset,
-      0 12px 40px rgba(0, 0, 0, 0.45),
-      0 0 0 1px rgba(99, 102, 241, 0.05);
-    transition:
-      box-shadow 0.4s var(--ease),
-      background 0.4s var(--ease);
-    font-family: var(--font-mono);
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 10px 8px 14px;
+    background: var(--bg-elev);
+    border: var(--stroke);
+    border-radius: var(--wobble);
+    box-shadow: var(--shadow);
   }
 
-  .pill-nav.scrolled {
-    background: rgba(10, 10, 16, 0.85);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.05) inset,
-      0 16px 48px rgba(0, 0, 0, 0.55),
-      0 0 0 1px rgba(99, 102, 241, 0.08);
-  }
-
-  .pill-brand {
+  .nav-brand {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 999px;
-    transition: transform 0.2s var(--ease);
+    gap: 8px;
+    font-family: var(--font-hand);
+    font-size: 1.5rem;
+    color: var(--ink);
+    line-height: 1;
   }
 
-  .pill-brand:hover {
-    transform: scale(1.05);
-  }
-
-  .pill-avatar {
-    border-radius: 50%;
+  .nav-avatar {
     image-rendering: pixelated;
+    border: 2px solid var(--ink);
+    border-radius: 8px 10px 7px 11px;
   }
 
-  .pill-divider {
-    width: 1px;
-    height: 20px;
-    background: var(--border);
-    margin: 0 4px;
-  }
-
-  .pill-items {
-    position: relative;
+  .nav-items {
+    display: flex;
+    gap: 4px;
     list-style: none;
+  }
+
+  .nav-item {
+    display: block;
+    padding: 4px 12px 8px;
+    font-weight: 550;
+    font-size: 0.95rem;
+    color: var(--muted);
+    position: relative;
+    transition: color 0.2s;
+  }
+
+  /* scribbled underline, drawn on hover/active */
+  .nav-item::after {
+    content: '';
+    position: absolute;
+    inset: auto 10% 0;
+    height: 9px;
+    background: var(--violet-ink);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6 C 25 2, 50 9, 75 4 S 95 5, 98 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6 C 25 2, 50 9, 75 4 S 95 5, 98 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.35s var(--ease);
+  }
+
+  .nav-item:hover,
+  .nav-item[data-active='true'] {
+    color: var(--ink);
+  }
+
+  .nav-item:hover::after,
+  .nav-item[data-active='true']::after {
+    clip-path: inset(0 0 0 0);
+  }
+
+  .nav-right {
     display: flex;
     align-items: center;
-    gap: 0;
-    flex-wrap: nowrap;
+    gap: 10px;
   }
 
-  .pill-items > li {
-    flex-shrink: 0;
+  .theme-toggle {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    color: var(--ink);
+    border: var(--stroke);
+    border-radius: 50% 45% 52% 48%;
+    transition: transform 0.4s var(--spring);
   }
 
-  .pill-indicator {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translate3d(var(--ind-x, 0), -50%, 0);
-    width: var(--ind-w, 0);
-    height: 28px;
-    background: rgba(99, 102, 241, 0.16);
-    border: 1px solid rgba(165, 180, 252, 0.18);
-    border-radius: 999px;
-    pointer-events: none;
-    transition:
-      transform 0.45s cubic-bezier(0.5, 0, 0.1, 1),
-      width 0.45s cubic-bezier(0.5, 0, 0.1, 1),
-      opacity 0.3s var(--ease);
-    opacity: 0;
-    z-index: 0;
-  }
+  .theme-toggle:hover { transform: rotate(-20deg) scale(1.06); }
+  .theme-toggle svg { width: 20px; height: 20px; }
+  .i-sun { display: none; }
+  :global([data-theme='dark']) .i-sun { display: block; }
+  :global([data-theme='dark']) .i-moon { display: none; }
 
-  .pill-items[data-has-active='true'] .pill-indicator {
-    opacity: 1;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .pill-indicator {
-      transition: opacity 0.2s var(--ease);
-    }
-  }
-
-  .pill-item {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    padding: 9px 12px;
-    min-height: 32px;
-    color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 500;
-    border-radius: 999px;
-    transition: color 0.25s var(--ease);
-    letter-spacing: 0.2px;
-  }
-
-  .pill-item:hover {
-    color: var(--text-strong);
-  }
-
-  .pill-item[data-active='true'] {
-    color: var(--text-strong);
-  }
-
-  .pill-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 9px 14px;
-    min-height: 32px;
-    background: var(--text-strong);
-    color: var(--bg) !important;
-    font-size: 0.78rem;
-    font-weight: 600;
-    border-radius: 999px;
-    transition: transform 0.2s var(--ease);
-  }
-
-  .pill-cta:hover {
-    transform: translateY(-1px);
+  .nav-cta {
+    padding: 7px 16px;
+    font-size: 0.9rem;
   }
 
   @media (max-width: 760px) {
-    .pill-nav {
-      gap: 8px;
-      padding: 5px;
-    }
-    .pill-divider { display: none; }
-    .pill-items { display: none; }
-    .pill-brand { width: 32px; height: 32px; }
-    .pill-cta { padding: 9px 14px; font-size: 0.76rem; }
+    .nav-items { display: none; }
   }
 </style>
 
 <script>
-  // Floating-nav: scroll-aware backdrop, hide-on-scroll-down/show-on-scroll-up,
-  // IntersectionObserver-driven active section, and a sliding pill indicator.
-  const nav = document.querySelector<HTMLElement>('.pill-nav');
-  const itemList = document.querySelector<HTMLElement>('.pill-items');
-  const items = document.querySelectorAll<HTMLAnchorElement>('.pill-item[data-section]');
-  const sectionToItem = new Map<string, HTMLAnchorElement>();
+  document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('theme', next);
+  });
 
-  for (const item of items) {
-    const sec = item.dataset.section;
-    if (sec) sectionToItem.set(sec, item);
-  }
+  // Mark the nav link for whichever home-page section is in view.
+  const items = document.querySelectorAll<HTMLAnchorElement>('.nav-item[data-section]');
+  const onHome = location.pathname === '/' || location.pathname === '/index.html';
 
-  // Sticky nav with backdrop intensifying on scroll.
-  if (nav) {
-    const onScroll = () => {
-      nav.classList.toggle('scrolled', window.scrollY > 8);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
-  // Sliding indicator. Hide if the list is itself hidden (mobile) or the
-  // target item is display:none, so the indicator never sits on nothing.
-  const moveIndicatorTo = (el: HTMLElement | null) => {
-    if (!itemList) return;
-    const listVisible = itemList.offsetParent !== null && itemList.getBoundingClientRect().width > 0;
-    if (!el || !listVisible || el.offsetParent === null) {
-      itemList.dataset.hasActive = 'false';
-      return;
-    }
-    const listRect = itemList.getBoundingClientRect();
-    const itemRect = el.getBoundingClientRect();
-    if (itemRect.width === 0) {
-      itemList.dataset.hasActive = 'false';
-      return;
-    }
-    const x = itemRect.left - listRect.left;
-    const w = itemRect.width;
-    itemList.style.setProperty('--ind-x', `${x}px`);
-    itemList.style.setProperty('--ind-w', `${w}px`);
-    itemList.dataset.hasActive = 'true';
-  };
-
-  const onHomePage =
-    location.pathname === '/' || location.pathname === '/index.html';
-
-  if (sectionToItem.size > 0 && onHomePage) {
-    const visible = new Map<string, number>();
-
-    const setActive = () => {
-      let activeId = '';
-      let topRatio = -1;
-      for (const [id, ratio] of visible) {
-        if (ratio > topRatio) {
-          topRatio = ratio;
-          activeId = id;
-        }
-      }
-      for (const item of items) item.dataset.active = 'false';
-      const active = sectionToItem.get(activeId);
-      if (active) {
-        active.dataset.active = 'true';
-        moveIndicatorTo(active);
-      } else {
-        moveIndicatorTo(null);
-      }
-    };
-
+  if (onHome && items.length) {
     const io = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          const id = entry.target.id;
-          if (entry.isIntersecting) {
-            visible.set(id, entry.intersectionRatio);
-          } else {
-            visible.delete(id);
-          }
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          items.forEach((i) => (i.dataset.active = String(i.dataset.section === e.target.id)));
         }
-        setActive();
       },
-      {
-        rootMargin: '-30% 0px -55% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      },
+      { rootMargin: '-40% 0px -55% 0px' },
     );
-
-    for (const id of sectionToItem.keys()) {
-      const el = document.getElementById(id);
+    items.forEach((i) => {
+      const el = document.getElementById(i.dataset.section!);
       if (el) io.observe(el);
-    }
-
-    // Hover preview: glide indicator to hovered item, restore on leave
-    let restoreTimer: number | undefined;
-    const findActive = () => Array.from(items).find((i) => i.dataset.active === 'true') ?? null;
-
-    items.forEach((it) => {
-      it.addEventListener('mouseenter', () => {
-        if (restoreTimer) clearTimeout(restoreTimer);
-        moveIndicatorTo(it);
-      });
-      it.addEventListener('mouseleave', () => {
-        restoreTimer = window.setTimeout(() => moveIndicatorTo(findActive()), 80);
-      });
     });
-
-    window.addEventListener('resize', () => moveIndicatorTo(findActive()), { passive: true });
   }
 </script>

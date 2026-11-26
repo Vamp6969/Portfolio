@@ -1,4 +1,6 @@
 ---
+import Doodle from './Doodle.astro';
+
 interface Group {
   cat: string;
   description: string;
@@ -14,92 +16,110 @@ const { groups } = Astro.props;
 
 <section class="skills section" id="skills" aria-label="Technical skills">
   <div class="container">
-    <header class="reveal">
-      <p class="section-eyebrow">/skills</p>
-      <h2 class="section-title">Technical arsenal</h2>
-      <p class="section-lede">
-        What I reach for first. Years of running production infra make some of these
-        muscle memory.
-      </p>
-    </header>
+    <div class="sheet reveal" style="--tilt: -0.5deg">
+      <span class="sheet-tape" aria-hidden="true"></span>
+      <Doodle name="terminal" width={150} class="sheet-doodle" />
 
-    <div class="skills-grid">
-      {groups.map((g) => (
-        <article class="skill-card reveal">
-          <header class="skill-head">
-            <span class="skill-cat">[{g.cat}]</span>
-            <p class="skill-desc">{g.description}</p>
-          </header>
-          <ul class="tags-list">
-            {g.tags.map((t) => <li class="tag">{t}</li>)}
-          </ul>
-        </article>
-      ))}
+      <header class="sheet-head">
+        <p class="section-eyebrow">/skills</p>
+        <h2 class="section-title">My toolbox</h2>
+        <p class="sheet-lede">What I reach for first. Years of running production infra make some of these muscle memory.</p>
+      </header>
+
+      <div class="sheet-cols">
+        {groups.map((g, i) => (
+          <div class="col">
+            <h3 class="col-cat">
+              <span class="hl" style={`--hl:var(${['--violet', '--mint', '--yellow', '--pink'][i % 4]})`}>{g.cat}</span>
+            </h3>
+            <ul class="col-list">
+              {g.tags.map((t) => <li>{t}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .skills-grid {
+  /* Lined notebook sheet: 34px rule height = list line-height */
+  .sheet {
+    --rule: 34px;
+    position: relative;
+    background:
+      linear-gradient(90deg, transparent 63px, rgba(220, 70, 90, 0.45) 63px, rgba(220, 70, 90, 0.45) 65px, transparent 65px),
+      repeating-linear-gradient(180deg, transparent 0, transparent calc(var(--rule) - 1px), rgba(70, 110, 180, 0.22) calc(var(--rule) - 1px), rgba(70, 110, 180, 0.22) var(--rule)),
+      #fffefa;
+    background-position: 0 0, 0 18px, 0 0;
+    padding: 48px clamp(20px, 4vw, 56px) 48px 92px;
+    box-shadow: var(--paper-shadow);
+    border-radius: 3px;
+  }
+
+  .sheet-tape {
+    position: absolute;
+    top: -14px;
+    left: 40%;
+    width: 130px;
+    height: 30px;
+    background: color-mix(in srgb, var(--mint) 70%, transparent);
+    transform: rotate(2deg);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .sheet :global(.sheet-doodle) {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    transform: rotate(6deg);
+  }
+
+  .sheet-head { margin-bottom: 28px; max-width: 600px; }
+
+  .sheet-lede { color: var(--muted); }
+
+  .sheet-cols {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    gap: 8px 40px;
+  }
+
+  .col-cat {
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: 1.7rem;
+    line-height: var(--rule);
+    height: calc(var(--rule) * 1.5);
+    display: flex;
+    align-items: center;
+    color: var(--ink);
+  }
+
+  .col-list {
+    list-style: none;
+    margin-bottom: var(--rule);
+  }
+
+  .col-list li {
+    line-height: var(--rule);
+    font-size: 1.02rem;
+    color: var(--text);
+    padding-left: 28px;
+    position: relative;
+  }
+
+  .col-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 2px;
+    font-family: var(--font-hand);
+    font-size: 1.3rem;
+    color: var(--good);
   }
 
   @media (max-width: 720px) {
-    .skills-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .skill-card {
-    background: var(--tile-bg);
-    border: 1px solid var(--tile-border);
-    border-radius: var(--tile-radius);
-    padding: clamp(20px, 2.5vw, 26px);
-    backdrop-filter: blur(12px);
-    transition:
-      border-color 0.3s var(--ease),
-      transform 0.3s var(--ease);
-  }
-
-  .skill-card:hover {
-    border-color: var(--tile-border-hover);
-    transform: translateY(-2px);
-  }
-
-  .skill-head {
-    margin-bottom: 14px;
-  }
-
-  .skill-cat {
-    color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    font-weight: 700;
-  }
-
-  .skill-desc {
-    color: var(--muted);
-    font-size: 0.88rem;
-    margin-top: 4px;
-    line-height: 1.55;
-  }
-
-  .tags-list {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    list-style: none;
-  }
-
-  .tag {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    padding: 4px 10px;
-    background: rgba(99, 102, 241, 0.10);
-    color: var(--accent);
-    border-radius: 5px;
-    list-style: none;
+    .sheet { padding-left: 52px; background-position: -36px 0, 0 18px, 0 0; }
+    .sheet :global(.sheet-doodle) { display: none; }
   }
 </style>

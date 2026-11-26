@@ -2,10 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Doodle from '../components/Doodle.astro';
 ---
 
 <BaseLayout
-  title="404 — Not found | Tushar A."
+  title="404: Not found | Tushar A."
   description="The page you're looking for doesn't exist on tushar-a.dev. Head back home or try one of the suggested routes."
   noindex
 >
@@ -13,6 +14,7 @@ import Footer from '../components/Footer.astro';
 
   <main class="not-found container">
     <div class="nf-block">
+      <Doodle name="crumpled" width={220} class="nf-doodle" />
       <p class="nf-code">404</p>
       <h1 class="nf-title">This page got DDoS'd off the internet.</h1>
       <p class="nf-body">
@@ -20,8 +22,8 @@ import Footer from '../components/Footer.astro';
       </p>
       <div class="nf-actions">
         <a href="/" class="btn btn-primary">Home</a>
-        <a href="/witchly" class="btn btn-outline">Witchly case study</a>
-        <a href="/resume" class="btn btn-outline">Resume</a>
+        <a href="/witchly" class="btn">Witchly case study</a>
+        <a href="/resume" class="btn">Resume</a>
       </div>
     </div>
   </main>
@@ -31,7 +33,7 @@ import Footer from '../components/Footer.astro';
 
 <style>
   .not-found {
-    min-height: 70vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,29 +42,25 @@ import Footer from '../components/Footer.astro';
     text-align: center;
   }
 
-  .nf-block {
-    max-width: 600px;
-  }
+  .nf-block { max-width: 620px; }
+
+  .nf-block :global(.nf-doodle) { margin: 0 auto 8px; transform: rotate(-8deg); }
 
   .nf-code {
-    font-family: var(--font-mono);
-    font-size: clamp(4rem, 12vw, 8rem);
-    font-weight: 800;
-    color: var(--accent);
-    letter-spacing: -3px;
-    line-height: 1;
-    margin-bottom: 16px;
-    background: linear-gradient(180deg, var(--accent), var(--primary));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-family: var(--font-hand);
+    font-size: clamp(6rem, 18vw, 10rem);
+    line-height: 0.9;
+    color: var(--ink);
+    transform: rotate(-3deg);
   }
 
   .nf-title {
-    font-size: clamp(1.4rem, 3vw, 2rem);
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 16px;
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 10px 0 14px;
   }
 
   .nf-body {
@@ -74,38 +72,7 @@ import Footer from '../components/Footer.astro';
   .nf-actions {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 14px;
     flex-wrap: wrap;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 12px 26px;
-    border-radius: 6px;
-    font-weight: 600;
-    border: 1px solid transparent;
-    transition: all 0.25s var(--ease);
-    font-size: 0.95rem;
-  }
-
-  .btn-primary {
-    background: var(--primary);
-    color: #fff;
-  }
-
-  .btn-primary:hover {
-    background: #2563eb;
-    transform: translateY(-2px);
-  }
-
-  .btn-outline {
-    border-color: var(--border-strong);
-    color: var(--text);
-  }
-
-  .btn-outline:hover {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.05);
   }
 </style>

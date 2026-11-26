@@ -21,7 +21,7 @@ const targets = [
 for (const t of targets) {
   const out = join(root, 'public', t.name);
   await sharp(src)
-    .resize(t.size, t.size, { kernel: 'nearest' })  // pixel art — no smoothing
+    .resize(t.size, t.size, { kernel: 'nearest' })  // pixel art: no smoothing
     .png({ compressionLevel: 9 })
     .toFile(out);
   console.log(`favicon: wrote ${t.name} (${t.size}×${t.size})`);

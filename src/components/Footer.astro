@@ -1,23 +1,10 @@
 ---
-import { Image } from 'astro:assets';
-import avatar from '../assets/avatar.png';
-
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
   <div class="container footer-inner">
-    <div class="footer-brand">
-      <Image
-        src={avatar}
-        alt=""
-        width={20}
-        height={20}
-        loading="lazy"
-        class="footer-avatar"
-      />
-      <span>Designed & built by Tushar A. — © {year}</span>
-    </div>
+    <p class="footer-sign">~ drawn &amp; built by Tushar A., © {year}</p>
     <div class="footer-links">
       <a href="https://github.com/Vamp6969" target="_blank" rel="noopener">GitHub</a>
       <a href="/resume">Resume</a>
@@ -28,9 +15,8 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    margin-top: 32px;
-    padding: 24px 0 32px;
-    border-top: 1px solid var(--border);
+    border-top: 2px dashed color-mix(in srgb, var(--ink) 30%, transparent);
+    padding-block: 28px 36px;
   }
 
   .footer-inner {
@@ -38,36 +24,24 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 12px 24px;
   }
 
-  .footer-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--muted-3);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-  }
-
-  .footer-avatar {
-    border-radius: 4px;
-    image-rendering: pixelated;
+  .footer-sign {
+    font-family: var(--font-hand);
+    font-size: 1.35rem;
+    color: var(--muted);
+    transform: rotate(-1deg);
   }
 
   .footer-links {
     display: flex;
-    gap: 18px;
-  }
-
-  .footer-links a {
-    color: var(--muted-3);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    transition: color 0.2s var(--ease);
+    gap: 20px;
+    font-weight: 600;
   }
 
   .footer-links a:hover {
-    color: var(--text);
+    text-decoration: underline wavy;
+    text-underline-offset: 4px;
   }
 </style>

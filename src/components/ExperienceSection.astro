@@ -1,48 +1,48 @@
 ---
+import Doodle from './Doodle.astro';
+import Scribble from './Scribble.astro';
+
 interface Entry {
   role: string;
   org: string;
   link?: string;
   period: string;
   location?: string;
+  doodle?: string;
   bullets: string[];
 }
-
 interface Props {
   entries: Entry[];
 }
-
 const { entries } = Astro.props;
+const dots = ['var(--violet)', 'var(--mint)', 'var(--pink)', 'var(--yellow)'];
 ---
-
-<section class="experience section" id="experience" aria-label="Where I've worked">
+<section class="journey section" id="experience" aria-label="Where I've worked">
   <div class="container">
     <header class="reveal">
       <p class="section-eyebrow">/experience</p>
-      <h2 class="section-title">Where I've worked</h2>
-      <p class="section-lede">
-        Two ongoing roles right now — one I own end-to-end, one with a focused scope.
-      </p>
+      <h2 class="section-title">The road so far</h2>
+      <Scribble kind="underline" color="var(--violet)" class="title-underline" />
+      <p class="section-lede">Three ongoing roles, all still running. Follow the dotted line.</p>
     </header>
 
-    <ol class="timeline">
-      {entries.map((e) => (
-        <li class="job-card reveal">
-          <span class="job-marker" aria-hidden="true"></span>
-          <div class="job-tile">
-            <div class="job-head">
-              <div>
-                <h3 class="job-role">
-                  {e.role}
-                  <span class="job-org">@ {e.link ? <a href={e.link} target="_blank" rel="noopener">{e.org}</a> : e.org}</span>
-                </h3>
-                <p class="job-meta">{e.period}{e.location ? ` · ${e.location}` : ''}</p>
-              </div>
-            </div>
-            <ul class="job-bullets">
+    <ol class="path">
+      {entries.map((e, i) => (
+        <li class:list={['stop', i % 2 ? 'stop-right' : 'stop-left']}>
+          <div class="stop-year reveal" style={`--dot:${dots[i % 4]}`}>
+            <span>{e.period.split(' ')[0]}</span>
+            <Doodle name={e.doodle ?? ''} width={130} class="stop-doodle" />
+          </div>
+          <article class="sketch stop-card reveal" style={`--tilt:${i % 2 ? 0.8 : -0.8}deg`}>
+            <h3 class="stop-role">{e.role}</h3>
+            <p class="stop-org">
+              @ {e.link ? <a href={e.link} target="_blank" rel="noopener">{e.org}</a> : e.org}
+              <span class="stop-meta">{e.period}{e.location ? ` · ${e.location}` : ''}</span>
+            </p>
+            <ul class="stop-bullets">
               {e.bullets.map((b) => <li>{b}</li>)}
             </ul>
-          </div>
+          </article>
         </li>
       ))}
     </ol>
@@ -50,134 +50,139 @@ const { entries } = Astro.props;
 </section>
 
 <style>
-  .timeline {
+  header :global(.title-underline) {
+    width: min(340px, 80%);
+    height: 16px;
+    margin: -10px 0 18px;
+  }
+
+  .path {
     list-style: none;
     position: relative;
-    padding-left: 40px;
   }
 
-  .timeline::before {
+  .stop {
+    position: relative;
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+    width: min(100%, 860px);
+    padding-bottom: 96px;
+  }
+
+  .stop:last-child { padding-bottom: 0; }
+
+  .stop-right {
+    margin-left: auto;
+    grid-template-columns: minmax(0, 1fr) 200px;
+  }
+
+  .stop-right .stop-year { order: 2; }
+
+  /* dotted connector curving to the next stop */
+  .stop:not(:last-child)::after {
     content: '';
     position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: 7px;
-    width: 1px;
-    background: linear-gradient(180deg,
-      transparent,
-      var(--border-strong) 6%,
-      var(--border-strong) 94%,
-      transparent
-    );
+    bottom: 6px;
+    left: 25%;
+    width: 50%;
+    height: 80px;
+    background: var(--ink);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 80' preserveAspectRatio='none'%3E%3Cpath d='M4 4 C 120 90, 280 -10, 396 76' fill='none' stroke='black' stroke-width='2.5' stroke-dasharray='2 10' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 80' preserveAspectRatio='none'%3E%3Cpath d='M4 4 C 120 90, 280 -10, 396 76' fill='none' stroke='black' stroke-width='2.5' stroke-dasharray='2 10' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
   }
 
-  .job-card {
-    position: relative;
-    margin-bottom: 28px;
+  .stop-right:not(:last-child)::after { transform: scaleX(-1); }
+
+  .stop-year {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-top: 6px;
   }
 
-  .job-card:last-child {
-    margin-bottom: 0;
+  .stop-year span {
+    display: grid;
+    place-items: center;
+    width: 120px;
+    height: 120px;
+    font-family: var(--font-hand);
+    font-size: 2.6rem;
+    color: #1f1d1a;
+    background: var(--dot);
+    border: 2.5px solid var(--ink);
+    border-radius: 52% 48% 55% 45% / 47% 55% 45% 53%;
+    box-shadow: var(--shadow);
+    transform: rotate(-6deg);
   }
 
-  .job-marker {
-    position: absolute;
-    left: -38px;
-    top: 24px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--primary);
-    box-shadow:
-      0 0 0 4px var(--bg),
-      0 0 14px rgba(99, 102, 241, 0.5);
+  .stop-role {
+    font-family: var(--font-hand);
+    font-weight: 400;
+    font-size: clamp(1.6rem, 2.6vw, 2rem);
+    line-height: 1.1;
+    color: var(--ink);
   }
 
-  .job-tile {
-    background: var(--tile-bg);
-    border: 1px solid var(--tile-border);
-    border-radius: var(--tile-radius);
-    padding: clamp(20px, 2.5vw, 28px);
-    backdrop-filter: blur(12px);
-    transition:
-      border-color 0.3s var(--ease),
-      transform 0.3s var(--ease);
+  .stop-org {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 14px;
+    font-weight: 650;
+    color: var(--violet-ink);
+    margin: 4px 0 14px;
   }
 
-  .job-tile:hover {
-    border-color: var(--tile-border-hover);
-    transform: translateY(-2px);
+  .stop-org a {
+    text-decoration: underline wavy color-mix(in srgb, var(--violet-ink) 40%, transparent);
+    text-underline-offset: 4px;
   }
 
-  .job-head {
-    margin-bottom: 16px;
-  }
+  .stop-org a:hover { text-decoration-color: var(--violet-ink); }
 
-  .job-role {
-    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
-    font-weight: 700;
-    color: var(--text-strong);
-    letter-spacing: -0.3px;
-  }
-
-  .job-org {
-    color: var(--primary-soft);
-    font-weight: 500;
-  }
-
-  .job-org a {
-    color: inherit;
-    border-bottom: 1px dashed transparent;
-    transition: border-color 0.2s var(--ease);
-  }
-
-  .job-org a:hover {
-    border-bottom-color: currentColor;
-  }
-
-  .job-meta {
-    margin-top: 5px;
-    color: var(--muted-3);
+  .stop-meta {
     font-family: var(--font-mono);
     font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--muted-2);
   }
 
-  .job-bullets {
-    list-style: none;
-  }
+  .stop-bullets { list-style: none; }
 
-  .job-bullets li {
+  .stop-bullets li {
     position: relative;
-    padding-left: 22px;
+    padding-left: 26px;
     margin-bottom: 8px;
     color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 0.98rem;
   }
 
-  .job-bullets li:last-child {
-    margin-bottom: 0;
-  }
+  .stop-bullets li:last-child { margin-bottom: 0; }
 
-  .job-bullets li::before {
-    content: '';
+  .stop-bullets li::before {
+    content: '→';
     position: absolute;
     left: 0;
-    top: 11px;
-    width: 8px;
-    height: 1px;
-    background: var(--accent);
+    font-family: var(--font-hand);
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: var(--ink);
   }
 
-  @media (max-width: 540px) {
-    .timeline {
-      padding-left: 28px;
+  @media (max-width: 760px) {
+    .stop,
+    .stop-right {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding-bottom: 72px;
     }
-    .job-marker {
-      left: -28px;
-      width: 12px;
-      height: 12px;
-    }
+    .stop-right .stop-year { order: 0; }
+    .stop-year { flex-direction: row; justify-content: flex-start; }
+    .stop-year span { width: 88px; height: 88px; font-size: 2rem; }
+    .stop-year :global(.stop-doodle) { width: 80px; }
+    .stop:not(:last-child)::after { left: 30px; width: 40px; height: 60px; }
   }
 </style>

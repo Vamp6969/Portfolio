@@ -1,223 +1,193 @@
-# tushar-a.dev
+<p align="center">
+  <img src="public/og.png" alt="Tushar: I scale infrastructure. A hand-drawn doodle banner with a sketched portrait." width="100%" />
+</p>
 
-Source for [tushar-a.dev](https://tushar-a.dev) — Tushar A.'s personal portfolio. Built with Astro 5, vanilla CSS, and shipped as a static site.
+<h1 align="center">tushar-a.dev</h1>
+
+<p align="center">
+  A personal portfolio drawn like a sketchbook: ink lines, highlighter swipes, sticky notes and taped polaroids.<br />
+  Built with Astro 5 and plain CSS. No UI framework, no Tailwind, no runtime dependencies.
+</p>
+
+<p align="center">
+  <a href="https://tushar-a.dev"><strong>Live site</strong></a> ·
+  <a href="https://tushar-a.dev/witchly">Witchly case study</a> ·
+  <a href="https://tushar-a.dev/resume">Resume</a>
+</p>
+
+---
+
+## Highlights
+
+- **Hand-drawn design system in ~400 lines of CSS.** Wobbly borders, sticky notes, highlighter text and self-drawing SVG scribbles, all from a handful of reusable classes.
+- **Light and dark themes.** The dark mode is a "night sketchbook": the page turns charcoal with light ink, while paper objects (notes, polaroid, notebook sheet, diagram) stay paper. The theme is set before first paint, so the page never flashes.
+- **Custom art pipeline.** Doodles were generated with Gemini, then sliced and converted into transparent PNGs by a small Sharp script, so the same art works on paper, on coloured notes and inverted in dark mode.
+- **A hand-drawn architecture diagram** (inline SVG) explains how Witchly survived a 50 Gbps DDoS.
+- **Content-driven.** Projects and the `/now` note are MDX files validated by a Zod schema. Change a file, push, and it's deployed.
+- **Small and fast.** About 16 KB gzipped for the home page's HTML, CSS and JS. Images are served as WebP through `astro:assets`.
+
+## A tour of the page
+
+| Section | Treatment |
+|---|---|
+| **Hero** | "fig. 1": a taped polaroid portrait with hand-written callouts and arrows pointing at it |
+| **Now** | A tilted yellow sticky note, sourced from `src/content/now/now.mdx` |
+| **Experience** | "The road so far": year bubbles connected by a winding dotted path |
+| **Witchly** | A two-page spread with stats and an SVG architecture sketch (frontend, control plane, data plane) |
+| **Projects** | A wall of equal-size sticky notes that lift off on hover |
+| **Skills** | A lined notebook page with a red margin and ticked lists |
+| **Contact** | A postcard with a pixel-avatar stamp, a postmark and links on the address lines |
+
+Other routes: `/witchly` (case study with an inline PDF), `/resume` (highlights plus an inline PDF) and a themed `/404`.
+
+## Design system
+
+All visual language lives in two files: `src/styles/tokens.css` (colours, fonts, shapes) and `src/styles/global.css` (primitives).
+
+| Class | What it draws |
+|---|---|
+| `.sketch` | A wobbly ink box. Uneven `border-radius` plus a hard offset shadow |
+| `.note` | A sticky note with a tape strip. Tilt via `--tilt`, colour via `.note-yellow` / `-mint` / `-pink` / `-violet` |
+| `.hl` | A highlighter swipe behind inline text (`--hl` picks the colour) |
+| `.tag` | A hand-circled monospace label |
+| `.btn` | A sketched button that presses in on click |
+| `.doodle` | A piece of art. Inverted automatically in dark mode |
+
+Two small components build on top:
+
+- **`Scribble.astro`**: an SVG underline, arrow or circle that draws itself in when its section scrolls into view.
+- **`Doodle.astro`**: renders `src/assets/doodles/<name>.png` if it exists, otherwise nothing. The layout works before (and without) any art.
+
+**Palette:** paper `#fbf8f1`, ink `#1f1d1a`, plus highlighters violet `#b9a7ff`, yellow `#ffe27a`, mint `#a6ecc9` and pink `#ffb8cc`. Text colours meet WCAG AA on paper and on every note colour.
+
+**Type:** [Gochi Hand](https://fonts.google.com/specimen/Gochi+Hand) for headings, [Shantell Sans](https://shantellsans.com/) for body text and [JetBrains Mono](https://www.jetbrains.com/lp/mono/) for tags. All are self-hosted WOFF2 files.
+
+## Tech stack
+
+- **[Astro 5](https://astro.build)**: static site generation, MDX content collections, `astro:assets`
+- **Vanilla CSS**: custom properties, `color-mix()`, CSS masks. No preprocessor
+- **TypeScript**: strict mode, with content frontmatter validated by Zod
+- **[Sharp](https://sharp.pixelplumbing.com/)**: image optimisation, the doodle slicer and the OG and favicon generators
+- **Cloudflare Pages**: hosting, cache rules and security headers via `public/_headers`
+
+Client-side JavaScript is limited to three small scripts: scroll reveals, active-section highlighting in the nav, and the theme toggle.
+
+## Project structure
 
 ```
 .
-├── public/                 # static assets served from the site root
-│   ├── _headers            # Cloudflare Pages cache + security headers
-│   ├── robots.txt          # search-engine directives
-│   ├── Resume.pdf          # downloadable resume
-│   ├── Case-Study/         # downloadable case studies (Witchly etc.)
-│   ├── fonts/              # subset Inter + JetBrains Mono variable WOFF2
-│   ├── og.png              # 1200×630 social card (generated)
-│   ├── favicon*.png        # favicons in 16/32/180/192/512 (generated)
-│   └── site.webmanifest    # PWA manifest
+├── public/
+│   ├── _headers              # Cloudflare Pages cache + security headers
+│   ├── fonts/                # Gochi Hand, Shantell Sans, JetBrains Mono (WOFF2)
+│   ├── Resume.pdf
+│   ├── Case-Study/           # Witchly case study PDF
+│   └── og.png                # 1200×630 social card
 ├── src/
-│   ├── pages/              # index.astro · witchly.astro · resume.astro · 404.astro
-│   ├── layouts/            # BaseLayout.astro
-│   ├── components/         # Nav, Hero, NowBlock, StatsStrip, ExperienceSection,
-│   │                       # ProjectsSection, SkillsSection, ContactSection, Footer
-│   ├── content/            # MDX content collections (projects/, now/) + Zod schema
-│   ├── styles/             # tokens.css · global.css
-│   ├── scripts/            # client-side TS (reveal-on-scroll)
-│   └── assets/             # avatar.png — handled by astro:assets
-├── scripts/                # build helpers (link checker, OG image, favicons)
-├── astro.config.mjs
-├── package.json            # pnpm-managed; Node 20+
-└── README.md               # you are here
+│   ├── pages/                # index · witchly · resume · 404
+│   ├── layouts/              # BaseLayout (meta, JSON-LD, theme bootstrap)
+│   ├── components/           # Nav, Hero, NowBlock, ExperienceSection, WitchlySpread,
+│   │                         # ProjectsSection, SkillsSection, ContactSection, Footer,
+│   │                         # Doodle, Scribble
+│   ├── content/              # MDX collections (projects/, now/) + Zod schema
+│   ├── styles/               # tokens.css · global.css
+│   ├── scripts/              # reveal-on-scroll
+│   └── assets/
+│       ├── avatar.png        # pixel-art avatar
+│       └── doodles/          # transparent doodle PNGs (generated)
+├── scripts/
+│   ├── slice-doodles.mjs     # raw art → transparent, trimmed doodles
+│   ├── build-og.mjs          # OG image
+│   ├── build-favicons.mjs    # favicons
+│   └── check-links.mjs       # external link checker
+└── docs/superpowers/         # design spec + implementation plan for the redesign
 ```
 
----
+## Running locally
 
-## Routes
-
-| Path                                     | What it is                                                       |
-|------------------------------------------|------------------------------------------------------------------|
-| `/`                                      | Single-scroll landing — hero, /now, stats, experience, projects, skills, contact |
-| `/witchly`                               | Witchly case study (intro + stats + inline-embedded PDF + stack) |
-| `/resume`                                | Resume — quick highlights + summary + inline-embedded PDF        |
-| `/Resume.pdf`                            | Direct PDF download                                              |
-| `/Case-Study/Witchly-scaling.pdf`        | Case study PDF download                                          |
-| `/404`                                   | Themed not-found page                                            |
-
-The header is the same across every page. On desktop and tablet it shows About · Now · Work · Projects · Contact with a sliding active-section indicator and a Resume CTA. On phones (≤760 px) it collapses to **avatar + Resume CTA** — users scroll naturally on mobile, and the cramped item layout is dropped intentionally.
-
----
-
-## Run locally
+Requires Node 20 or newer.
 
 ```bash
-pnpm install        # install deps (Node 20+ required)
-pnpm dev            # Astro dev server, http://localhost:4321
-pnpm build          # static site → ./dist
-pnpm preview        # serve ./dist locally
-pnpm check          # type-check + content-collection schema validation
-pnpm check:links    # verify external links in dist/ (run after build)
+npm install
+npm run dev          # http://localhost:4321
 ```
 
----
+| Command | What it does |
+|---|---|
+| `npm run build` | Build the static site into `dist/` |
+| `npm run preview` | Serve `dist/` locally |
+| `npm run check` | Type-check and validate content frontmatter |
+| `npm run check:links` | Verify every external link in `dist/` (run after a build) |
+
+`pnpm` works too; the repo declares `packageManager: pnpm@10`.
 
 ## Editing content
 
-Most copy lives in MDX or in two arrays at the top of `src/pages/index.astro`. No CMS, no DB — change a file, push, done.
+| What | Where |
+|---|---|
+| Projects | `src/content/projects/<slug>.mdx` |
+| The `/now` note | `src/content/now/now.mdx` (bump `updated:`) |
+| Experience and skills | The `experience` and `skillGroups` arrays in `src/pages/index.astro` |
+| Hero callouts | The `callouts` array in `src/components/Hero.astro` |
 
-**Add or edit a project card** — `src/content/projects/<slug>.mdx`:
+A project entry looks like this:
 
 ```yaml
 ---
-order: 6                                   # controls grid order (lower = earlier)
+order: 6                     # position on the notes wall
 title: My New Thing
-tagline: One-line punch.
+tagline: One-line pitch.
 description: |
-  Optional longer paragraph (only shown on featured cards by default).
-tags: [docker, mcp, ts]                    # max 6
-links:
-  internal: /case-study-slug               # at least one of internal | live | repo
+  A short paragraph shown on the note.
+tags: [docker, mcp, ts]      # up to 6
+links:                       # at least one of internal | live | repo
   live: https://example.com
   repo: https://github.com/Vamp6969/xyz
-featured: false                            # true = full-width gradient card
+featured: false              # the featured project gets its own spread
 ---
 ```
 
-The schema is enforced in `src/content/config.ts` via Zod. Run `pnpm check` to validate.
+To give a project a doodle, add an entry to `doodleFor` in `src/components/ProjectsSection.astro`.
 
-**Update `/now`** — edit `src/content/now/now.mdx`. Bump the `updated:` date in frontmatter.
+## Art pipeline
 
-**Experience timeline** — `experience` array near the top of `src/pages/index.astro`.
-
-**Skills** — `skillGroups` array, same file.
-
-**Hero copy** — `src/components/Hero.astro`.
-
-**Avatar** — `src/assets/avatar.png` (the canonical pixel-art Minecraft PFP). Used by the nav, hero, and footer via `astro:assets`. Replace this single file to update everywhere.
-
----
-
-## Regenerate generated assets
-
-The OG image and favicons are committed PNGs. Regenerate when the avatar or hero copy changes:
+The doodles started as Gemini-generated images: one portrait, two 3×2 icon sheets and a banner. Raw files go in `art-raw/` (gitignored), then:
 
 ```bash
-node scripts/build-og.mjs         # → public/og.png (1200×630)
-node scripts/build-favicons.mjs   # → public/favicon{,-16,-180,-192,-512}.png
+node scripts/slice-doodles.mjs   # → src/assets/doodles/*.png
+node scripts/build-og.mjs        # → public/og.png
 ```
 
----
+The slicer does three things to each image:
 
-## Stack
+1. Cuts each sheet into a grid, one cell per icon.
+2. Treats Gemini's textured off-white "paper" as blank and turns it transparent by mathematically removing the white. Each pixel becomes ink colour plus opacity.
+3. Trims each icon to its drawn area.
 
-- **[Astro 5](https://astro.build)** — static SSG, MDX content collections, View Transitions
-- **Vanilla CSS** — design tokens in `src/styles/tokens.css`, no Tailwind, no preprocessor
-- **TypeScript** — strict; content frontmatter validated by Zod
-- **[Inter](https://rsms.me/inter/) + [JetBrains Mono](https://www.jetbrains.com/lp/mono/)** — variable WOFF2, subset to Latin + the few symbols actually used (~67 KB combined), self-hosted
-- **[Sharp](https://sharp.pixelplumbing.com/)** — `astro:assets` image pipeline, plus the OG and favicon generators
-- **No client-side framework** — only ~5 KB of inline TS for scroll reveals, stat counters, and the floating-nav indicator
-- **Theme** — indigo (`#6366f1`) + violet (`#a855f7`) + glass tiles on near-black (`#050508`)
+The result sits cleanly on any background, and the dark theme simply inverts it with a CSS filter.
 
----
+## Deployment
 
-## Deploy — Cloudflare Pages
+The site deploys to Cloudflare Pages on every push to `main`.
 
-Configured for **Cloudflare Pages**. Cache and security headers live in `public/_headers`, which Pages reads at deploy time.
+| Setting | Value |
+|---|---|
+| Framework preset | Astro |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+| Environment | `NODE_VERSION=20` |
 
-**One-time setup (Cloudflare dashboard):**
+`public/_headers` caches hashed assets and fonts forever, images for a day and PDFs for 5 minutes (so resume updates go live quickly). It also sets `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy` and `X-Frame-Options`.
 
-1. **Workers & Pages → Create → Pages → Connect to Git**, pick this repo.
-2. **Framework preset:** Astro (auto-detected).
-3. **Build command:** `pnpm build`
-4. **Build output directory:** `dist`
-5. **Root directory:** *(leave default)*
-6. **Environment variables:** add `NODE_VERSION=20` (Pages also reads `.nvmrc`, which is set to `20`, but the env var is explicit).
-7. Pages installs dependencies via `pnpm` automatically because `package.json` declares `"packageManager": "pnpm@10.33.3"`.
+## Accessibility and SEO
 
-**Custom domain:**
-
-- **Custom domains → Set up a custom domain → `tushar-a.dev`.** Pages walks you through the DNS records.
-- If `tushar-a.dev` already has DNS in Cloudflare, Pages adds a `CNAME` automatically; if it's elsewhere, copy the records to your registrar.
-
-**Production:** every push to `main` deploys. PRs get preview URLs automatically.
-
-**Headers (`public/_headers`):** immutable cache for `/_astro/*` and `/fonts/*`, one-day cache for images/PDFs, security headers (`X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options`) for everything.
-
-**Analytics & WAF:** Pages exposes Cloudflare Web Analytics and basic DDoS / bot protection on the free tier — opt in via the dashboard, no code changes needed.
-
----
-
-## Performance budgets
-
-Verified after every build (gzipped):
-
-| Asset                         | Current  | Budget  |
-|-------------------------------|----------|---------|
-| Home HTML + CSS + JS          | ~16 KB   | 100 KB  |
-| Variable fonts (Latin subset) | 67 KB    | 120 KB  |
-| OG image                      | 73 KB    | 80 KB   |
-| Hero avatar (`.webp`)         | <2 KB    | 30 KB   |
-
-The home page payload is ~7× under budget. Lighthouse target is 100/100/100/100 on `/`, `/witchly`, `/resume`.
-
----
-
-## SEO & rich embeds
-
-Every page renders the full surface needed for clean unfurls on Discord, LinkedIn, WhatsApp, iMessage, Slack, X/Twitter:
-
-- **Open Graph** — `og:type`, `og:site_name`, `og:locale`, `og:url`, `og:title`, `og:description`, `og:image` (with explicit `width=1200`, `height=630`, `secure_url`, `type`, `alt`). Article-specific meta on `/witchly`.
-- **Twitter Card** — `summary_large_image` with image alt text.
-- **JSON-LD** — `Person` schema on every page (jobTitle, worksFor=Witchly.host, alumniOf=Presidency, knowsAbout, sameAs); `WebSite` schema on the home page.
-- **Robots** — `index, follow, max-image-preview:large, max-snippet:-1` everywhere; `noindex` on `/404`. `public/robots.txt` references the auto-generated sitemap.
-- **Sitemap** — generated by `@astrojs/sitemap` at `/sitemap-index.xml`.
-- Per-page descriptions kept under 160 chars for clean SERP snippets.
-
-Test the rich embeds after deploy at:
-[Facebook debugger](https://developers.facebook.com/tools/debug/) ·
-[LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) ·
-[Twitter Card Validator](https://cards-dev.twitter.com/validator) ·
-[Google Rich Results](https://search.google.com/test/rich-results)
-
----
-
-## Mobile
-
-- All interactive elements meet a ≥44 px touch target on mobile.
-- Floating nav respects `env(safe-area-inset-top)` so it clears the iOS notch.
-- `100dvh` for viewport-bound layouts (no jank when iOS Safari toolbar shows/hides).
-- `-webkit-tap-highlight-color: transparent` and `touch-action: manipulation` to kill the gray flash and the 300 ms tap delay.
-- Long emails / URLs use `overflow-wrap: anywhere` so they never push the layout wider than the viewport.
-- Hero text scales down via `clamp()` to fit 320 px screens.
-- The PDF embed on `/witchly` and `/resume` uses 70 vh / 420 px min on phones (vs 80 vh / 560–600 px on desktop).
-
----
-
-## Link checking
-
-```bash
-pnpm check:links    # crawls dist/ for external HTTP links and verifies them
-```
-
-The script (`scripts/check-links.mjs`):
-
-- Skips self-canonicals (links to `tushar-a.dev` only resolve once deployed).
-- Treats LinkedIn's HTTP 999 / 404 anti-bot statuses as OK (LinkedIn cloaks public profiles from anonymous bots).
-- Reads a soft-failure list from `scripts/link-check.config.json` — entries warn instead of failing the build. **Don't** add calendar dates here; soft-fail status persists until the entry is manually removed.
-- Currently soft-failing: `mistymc.xyz` (site is being built; remove the entry once it's consistently live).
-
----
-
-## Accessibility
-
-- All interactive elements reachable by keyboard with visible focus rings (`outline: 2px solid var(--primary-soft)`).
-- `prefers-reduced-motion: reduce` disables every animation (gradient mesh, pulses, scroll reveals, counters, indicator transitions, glow).
-- Avatar `<img>` has descriptive `alt` text.
-- One `<h1>` per page; semantic `<main>`, `<nav>`, `<footer>` landmarks.
-- Color contrast on body text against `--bg`: ≥4.5:1.
-- Touch targets ≥44 × 44 px on mobile.
-
----
+- **Keyboard:** every interactive element is reachable, with a dashed focus outline.
+- **Reduced motion:** `prefers-reduced-motion` turns off every animation, including scroll reveals, scribble draw-ins and note wiggles.
+- **Images:** decorative doodles are hidden from screen readers. The portrait and the architecture diagram have text alternatives.
+- **Structure:** one `<h1>` per page, with semantic landmarks.
+- **SEO:** full Open Graph and Twitter Card meta, plus JSON-LD `Person` and `WebSite` schemas, an auto-generated sitemap, and `noindex` on the 404 page.
 
 ## Author
 
-**Tushar A.** ([@Vamp6969](https://github.com/Vamp6969)) — Bangalore, India.
+**Tushar A.** ([@Vamp6969](https://github.com/Vamp6969)), systems engineer and founder of [Witchly](https://witchly.host), based in Bangalore.
 
-Designed and built end-to-end. Reach out: <tushar@tushar-a.dev>.
+Say hi at <tushar@tushar-a.dev>.

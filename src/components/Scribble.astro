@@ -1,0 +1,51 @@
+---
+// Hand-drawn SVG marks. They draw themselves in when an ancestor `.reveal` becomes `.active`.
+interface Props {
+  kind: 'underline' | 'arrow' | 'circle';
+  color?: string;
+  class?: string;
+}
+const { kind, color = 'var(--ink)', class: cls } = Astro.props;
+
+const shapes = {
+  underline: { vb: '0 0 300 20', d: ['M4 13 C 60 4, 120 18, 180 9 S 270 6, 296 11'] },
+  arrow: {
+    vb: '0 0 120 90',
+    d: ['M8 10 C 30 60, 60 78, 104 72', 'M88 60 L 106 72 L 90 84'],
+  },
+  circle: {
+    vb: '0 0 200 80',
+    d: ['M150 10 C 60 0, 6 22, 10 44 C 14 70, 120 80, 176 60 C 206 46, 196 18, 120 8'],
+  },
+} as const;
+const s = shapes[kind];
+---
+<svg
+  class:list={['scribble', `scribble-${kind}`, cls]}
+  viewBox={s.vb}
+  preserveAspectRatio="none"
+  fill="none"
+  aria-hidden="true"
+  style={`--c:${color}`}
+>
+  {s.d.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}
+</svg>
+
+<style>
+  .scribble path {
+    stroke: var(--c);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.9s var(--ease) calc(0.25s + var(--i) * 0.5s);
+  }
+  :global(.reveal.active) .scribble path,
+  .scribble.static path {
+    stroke-dashoffset: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scribble path { stroke-dashoffset: 0; }
+  }
+</style>

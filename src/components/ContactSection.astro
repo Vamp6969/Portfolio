@@ -1,4 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.png';
+import Doodle from './Doodle.astro';
+import Scribble from './Scribble.astro';
+
 interface Contact {
   label: string;
   value: string;
@@ -7,7 +12,6 @@ interface Contact {
 }
 
 const contacts: Contact[] = [
-  { label: 'Email', value: 'tushar@tushar-a.dev', href: 'mailto:tushar@tushar-a.dev' },
   { label: 'WhatsApp', value: '+91 9113058142', href: 'https://wa.me/+919113058142', external: true },
   { label: 'GitHub', value: '@Vamp6969', href: 'https://github.com/Vamp6969', external: true },
   { label: 'GitHub (org)', value: '@Witchly', href: 'https://github.com/Witchly', external: true },
@@ -18,180 +22,172 @@ const contacts: Contact[] = [
 
 <section class="contact section" id="contact" aria-label="Get in touch">
   <div class="container">
-    <header class="contact-head reveal">
-      <p class="section-eyebrow">/contact</p>
-      <h2 class="section-title">Let's build something.</h2>
-      <p class="section-lede">
-        Open to full-time DevOps / infrastructure / platform engineering roles. Also up
-        for consulting on scaling, hosting, and infra security. Inbox is always open.
-      </p>
-    </header>
+    <div class="postcard reveal" style="--tilt: -1deg">
+      <div class="pc-message">
+        <p class="section-eyebrow">/contact</p>
+        <h2 class="section-title">Let's build something.</h2>
+        <p class="pc-body">
+          Open to full-time DevOps / infrastructure / platform engineering roles. Also up for consulting on
+          scaling, hosting, and infra security. Inbox is always open.
+        </p>
+        <a href="mailto:tushar@tushar-a.dev" class="pc-email">
+          tushar@tushar-a.dev
+          <Scribble kind="underline" color="var(--violet-ink)" class="pc-underline" />
+        </a>
+        <span class="pc-hint">← email is best</span>
+        <Doodle name="paper-plane" width={150} class="pc-plane" />
+      </div>
 
-    <div class="contact-grid">
-      <a href="mailto:tushar@tushar-a.dev" class="contact-primary reveal">
-        <span class="cp-eyebrow">Email is best</span>
-        <span class="cp-value">tushar@tushar-a.dev</span>
-        <span class="cp-arrow" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 10H17M17 10L10 3M17 10L10 17" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-      </a>
+      <div class="pc-side">
+        <div class="pc-stamp" aria-hidden="true">
+          <Image src={avatar} alt="" width={84} height={84} class="pc-stamp-img" />
+          <span>BLR · IN</span>
+        </div>
+        <span class="pc-postmark" aria-hidden="true">open to<br />work</span>
 
-      <ul class="contact-list reveal">
-        {contacts.map((c) => (
-          <li>
-            <a
-              href={c.href}
-              class="contact-row"
-              target={c.external ? '_blank' : undefined}
-              rel={c.external ? 'noopener' : undefined}
-            >
-              <span class="contact-key">{c.label}</span>
-              <span class="contact-val">{c.value}</span>
-              <svg class="contact-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </a>
-          </li>
-        ))}
-      </ul>
+        <ul class="pc-lines">
+          {contacts.map((c) => (
+            <li>
+              <a href={c.href} target={c.external ? '_blank' : undefined} rel={c.external ? 'noopener' : undefined}>
+                <span class="pc-key">{c.label}</span>
+                <span class="pc-val">{c.value} ↗</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .contact-head {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .contact-head .section-eyebrow,
-  .contact-head .section-lede {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .contact-head .section-eyebrow {
-    justify-content: center;
-  }
-
-  .contact-grid {
+  .postcard {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 16px;
-    max-width: 980px;
-    margin: 0 auto;
-  }
-
-  @media (max-width: 720px) {
-    .contact-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .contact-primary {
+    grid-template-columns: 1.15fr 1fr;
+    background: var(--bg-elev);
+    border: var(--stroke);
+    box-shadow: var(--shadow), var(--paper-shadow);
+    border-radius: 6px;
+    padding: clamp(24px, 4vw, 48px);
+    gap: clamp(24px, 4vw, 48px);
     position: relative;
+  }
+
+  .pc-message {
+    position: relative;
+    padding-right: clamp(0px, 3vw, 40px);
+    border-right: 2px solid var(--ink);
+  }
+
+  .pc-body {
+    color: var(--muted);
+    margin-bottom: 26px;
+    max-width: 480px;
+  }
+
+  .pc-email {
+    display: inline-block;
+    font-family: var(--font-hand);
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .pc-email :global(.pc-underline) { width: 100%; height: 14px; }
+  .pc-email:hover { color: var(--violet-ink); }
+
+  .pc-hint {
+    display: block;
+    font-family: var(--font-hand);
+    font-size: 1.2rem;
+    color: var(--violet-ink);
+    margin-top: 4px;
+    transform: rotate(-2deg);
+  }
+
+  .pc-message :global(.pc-plane) {
+    position: absolute;
+    right: 24px;
+    bottom: -10px;
+    transform: rotate(-8deg);
+  }
+
+  .pc-side { position: relative; }
+
+  .pc-stamp {
+    float: right;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: clamp(28px, 3.5vw, 40px);
-    background:
-      linear-gradient(135deg, rgba(99, 102, 241, 0.10), rgba(168, 85, 247, 0.06)),
-      var(--tile-bg);
-    border: 1px solid var(--tile-border);
-    border-radius: var(--tile-radius);
-    backdrop-filter: blur(14px);
-    transition:
-      border-color 0.3s var(--ease),
-      transform 0.3s var(--ease),
-      box-shadow 0.3s var(--ease);
-    overflow: hidden;
-  }
-
-  .contact-primary:hover {
-    border-color: rgba(165, 180, 252, 0.4);
-    transform: translateY(-3px);
-    box-shadow: 0 20px 48px rgba(99, 102, 241, 0.18);
-  }
-
-  .cp-eyebrow {
-    color: var(--primary-soft);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .cp-value {
-    color: var(--text-strong);
-    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    word-break: break-all;
-  }
-
-  .cp-arrow {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    color: var(--primary-soft);
-    transition: transform 0.3s var(--ease);
-  }
-
-  .contact-primary:hover .cp-arrow {
-    transform: translate(4px, -4px);
-  }
-
-  .contact-list {
-    list-style: none;
-    background: var(--tile-bg);
-    border: 1px solid var(--tile-border);
-    border-radius: var(--tile-radius);
-    padding: 12px;
-    backdrop-filter: blur(12px);
-  }
-
-  .contact-row {
-    display: grid;
-    grid-template-columns: minmax(80px, auto) 1fr 14px;
-    gap: 14px;
     align-items: center;
-    min-height: 44px;
-    padding: 12px 14px;
-    border-radius: 8px;
-    transition: background 0.2s var(--ease);
-  }
-
-  .contact-row:hover {
-    background: rgba(165, 180, 252, 0.07);
-  }
-
-  .contact-key {
-    color: var(--muted);
+    gap: 4px;
+    padding: 8px 8px 4px;
+    background: var(--pink);
+    color: #1f1d1a;
+    /* perforated edge */
+    outline: 3px dotted var(--bg-elev);
+    outline-offset: -3px;
+    border: 2px solid var(--ink);
+    transform: rotate(4deg);
+    margin: 0 0 16px 16px;
     font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.65rem;
+    font-weight: 700;
   }
 
-  .contact-val {
-    color: var(--text-strong);
-    font-size: 0.92rem;
-    font-weight: 500;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    text-align: right;
-    min-width: 0;
+  .pc-stamp-img {
+    image-rendering: pixelated;
+    border: 1.5px solid var(--ink);
   }
 
-  .contact-arrow {
-    color: var(--muted-3);
-    transition: color 0.2s var(--ease), transform 0.2s var(--ease);
+  .pc-postmark {
+    position: absolute;
+    top: 30px;
+    right: 96px;
+    display: grid;
+    place-items: center;
+    width: 86px;
+    height: 86px;
+    border: 2px solid color-mix(in srgb, var(--violet-ink) 60%, transparent);
+    border-radius: 50%;
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    line-height: 1;
+    text-align: center;
+    color: color-mix(in srgb, var(--violet-ink) 75%, transparent);
+    transform: rotate(-14deg);
+    pointer-events: none;
   }
 
-  .contact-row:hover .contact-arrow {
-    color: var(--accent);
-    transform: translate(2px, -2px);
+  .pc-lines {
+    clear: both;
+    list-style: none;
+    padding-top: 8px;
+  }
+
+  .pc-lines a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 2px 6px;
+    border-bottom: 1.5px solid color-mix(in srgb, var(--ink) 50%, transparent);
+    transition: padding 0.2s var(--ease);
+  }
+
+  .pc-lines a:hover { padding-left: 8px; }
+  .pc-lines a:hover .pc-val { color: var(--violet-ink); }
+
+  .pc-key {
+    font-family: var(--font-hand);
+    font-size: 1.25rem;
+    color: var(--muted);
+  }
+
+  .pc-val { font-weight: 600; text-align: right; }
+
+  @media (max-width: 860px) {
+    .postcard { grid-template-columns: 1fr; }
+    .pc-message { border-right: 0; border-bottom: 2px solid var(--ink); padding: 0 0 28px; }
+    .pc-message :global(.pc-plane) { display: none; }
   }
 </style>
