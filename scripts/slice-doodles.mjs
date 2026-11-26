@@ -9,7 +9,6 @@ const OUT = 'src/assets/doodles';
 
 // file → single name, or a grid of names (row-major)
 const jobs = [
-  { file: 'portrait.png', name: 'portrait', pad: 24 },
   { file: 'sheet-1.png', cols: 3, rows: 2, names: ['server-rack', 'controller', 'robot', 'bug', 'plug', 'scroll'] },
   { file: 'sheet-2.png', cols: 3, rows: 2, names: ['paper-plane', 'crumpled', 'pickaxe', 'rocket', 'coffee', 'terminal'] },
 ];

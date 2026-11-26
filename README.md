@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/og.png" alt="Tushar: I scale infrastructure. A hand-drawn doodle banner with a sketched portrait." width="100%" />
+  <img src="public/og.jpg" alt="Tushar: I scale infrastructure. A hand-drawn doodle banner with a taped polaroid portrait." width="100%" />
 </p>
 
 <h1 align="center">tushar-a.dev</h1>
@@ -26,11 +26,24 @@
 - **Content-driven.** Projects and the `/now` note are MDX files validated by a Zod schema. Change a file, push, and it's deployed.
 - **Small and fast.** About 16 KB gzipped for the home page's HTML, CSS and JS. Images are served as WebP through `astro:assets`.
 
+## Lighthouse
+
+Measured on the production build with Lighthouse 12 (mobile uses simulated slow 4G).
+
+| Page | Performance | Accessibility | Best practices | SEO |
+|---|---|---|---|---|
+| `/` (desktop) | 100 | 100 | 100 | 100 |
+| `/` (mobile) | 99 | 100 | 100 | 100 |
+| `/witchly` (mobile) | 99 | 100 | 100 | 100 |
+| `/resume` (mobile) | 100 | 100 | 100 | 100 |
+
+Total blocking time is 0 ms and layout shift is 0 on every page.
+
 ## A tour of the page
 
 | Section | Treatment |
 |---|---|
-| **Hero** | "fig. 1": a taped polaroid portrait with hand-written callouts and arrows pointing at it |
+| **Hero** | "fig. 1": a taped polaroid of a hand-drawn portrait with hand-written callouts and arrows pointing at it |
 | **Now** | A tilted yellow sticky note, sourced from `src/content/now/now.mdx` |
 | **Experience** | "The road so far": year bubbles connected by a winding dotted path |
 | **Witchly** | A two-page spread with stats and an SVG architecture sketch (frontend, control plane, data plane) |
@@ -81,7 +94,7 @@ Client-side JavaScript is limited to three small scripts: scroll reveals, active
 │   ├── fonts/                # Gochi Hand, Shantell Sans, JetBrains Mono (WOFF2)
 │   ├── Resume.pdf
 │   ├── Case-Study/           # Witchly case study PDF
-│   └── og.png                # 1200×630 social card
+│   └── og.jpg                # 1200×630 social card
 ├── src/
 │   ├── pages/                # index · witchly · resume · 404
 │   ├── layouts/              # BaseLayout (meta, JSON-LD, theme bootstrap)
@@ -92,7 +105,8 @@ Client-side JavaScript is limited to three small scripts: scroll reveals, active
 │   ├── styles/               # tokens.css · global.css
 │   ├── scripts/              # reveal-on-scroll
 │   └── assets/
-│       ├── avatar.png        # pixel-art avatar
+│       ├── avatar.png        # pixel-art avatar (favicon, nav, postcard stamp)
+│       ├── portrait.webp     # hand-drawn portrait (hero + OG polaroid)
 │       └── doodles/          # transparent doodle PNGs (generated)
 ├── scripts/
 │   ├── slice-doodles.mjs     # raw art → transparent, trimmed doodles
@@ -150,11 +164,11 @@ To give a project a doodle, add an entry to `doodleFor` in `src/components/Proje
 
 ## Art pipeline
 
-The doodles started as Gemini-generated images: one portrait, two 3×2 icon sheets and a banner. Raw files go in `art-raw/` (gitignored), then:
+The doodles started as Gemini-generated images: two 3×2 icon sheets and a banner. Raw files go in `art-raw/` (gitignored), then:
 
 ```bash
 node scripts/slice-doodles.mjs   # → src/assets/doodles/*.png
-node scripts/build-og.mjs        # → public/og.png
+node scripts/build-og.mjs        # → public/og.jpg (needs Google Chrome)
 ```
 
 The slicer does three things to each image:
@@ -164,6 +178,8 @@ The slicer does three things to each image:
 3. Trims each icon to its drawn area.
 
 The result sits cleanly on any background, and the dark theme simply inverts it with a CSS filter.
+
+The OG image is the Gemini banner with a taped polaroid of the hand-drawn portrait placed on top. Its "fig. 1" caption is lettered in Gochi Hand by headless Chrome, since Sharp can't load web fonts on its own.
 
 ## Deployment
 
