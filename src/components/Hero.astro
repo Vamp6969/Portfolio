@@ -31,7 +31,6 @@ const callouts = [
         <a href="#witchly" class="btn btn-primary">See how Witchly works ↓</a>
         <a href="#contact" class="btn">Say hi</a>
       </div>
-      <span class="status-pill reveal">available for full-time</span>
     </div>
 
     <div class="fig reveal">
@@ -43,6 +42,10 @@ const callouts = [
         <figcaption>
           <a href="https://discord.com/users/844426168793825330" target="_blank" rel="noopener" aria-label="Discord: @vamp_">fig. 1: me (@vamp)</a>
         </figcaption>
+        <a href="#contact" class="stamp" aria-label="Open to full-time work. Get in touch">
+          <span class="stamp-big">open to work</span>
+          <span class="stamp-small">full-time · remote / BLR</span>
+        </a>
       </figure>
 
       <ul class="callouts">
@@ -157,6 +160,55 @@ const callouts = [
   }
 
   .polaroid figcaption a:hover { color: var(--violet-ink); }
+
+  /* Rubber stamp pressed onto the polaroid corner */
+  .stamp {
+    position: absolute;
+    right: -4px;
+    bottom: 46px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    padding: 5px 10px 4px;
+    color: #17803f;
+    background: rgba(255, 253, 248, 0.35);
+    border: 3px solid currentColor;
+    border-radius: 6px;
+    outline: 1.5px solid currentColor;
+    outline-offset: 3px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    line-height: 1.1;
+    mix-blend-mode: multiply;
+    transform: rotate(-12deg);
+    /* uneven ink: speckled mask */
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.1 1.45'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.1 1.45'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0;
+    scale: 1.6;
+    transition: opacity 0.2s ease 0.7s, scale 0.35s var(--spring) 0.7s;
+  }
+
+  .fig.active .stamp {
+    opacity: 0.92;
+    scale: 1;
+  }
+
+  .stamp:hover { opacity: 1; }
+
+  .stamp-big {
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+
+  .stamp-small {
+    font-size: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
 
   .callouts { list-style: none; }
 

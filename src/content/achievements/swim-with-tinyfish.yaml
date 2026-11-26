@@ -1,0 +1,9 @@
+order: 2
+title: 3rd place
+event: Swim with TinyFish hackathon · Ignite Room
+kind: place
+place: 3
+date: Oct 2026
+detail: DarkSight, an undercover TinyFish web agent that audits checkout flows for dark patterns like drip pricing, false urgency and basket sneaking.
+link: https://github.com/Vamp6969/darksight
+image: ../../assets/achievements/tinyfish.jpg

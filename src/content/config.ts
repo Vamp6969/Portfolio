@@ -29,4 +29,22 @@ const now = defineCollection({
   }),
 });
 
-export const collections = { projects, now };
+// One YAML file per achievement in src/content/achievements/.
+// Optional certificate scans go in src/assets/achievements/ and are referenced by relative path.
+const achievements = defineCollection({
+  type: 'data',
+  schema: ({ image }) =>
+    z.object({
+      order: z.number(),
+      title: z.string(), // e.g. "2nd place", "Participant", "AWS Certified Cloud Practitioner"
+      event: z.string(), // hackathon / issuer
+      kind: z.enum(['place', 'finalist', 'participation', 'cert']),
+      place: z.number().int().min(1).max(9).optional(), // shown inside the rosette for kind: place
+      date: z.string().optional(), // free text: "2025", "Mar 2025"
+      detail: z.string().optional(),
+      link: z.string().url().optional(),
+      image: image().optional(),
+    }),
+});
+
+export const collections = { projects, now, achievements };

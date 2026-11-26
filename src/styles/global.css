@@ -291,34 +291,6 @@ a.sketch:hover,
   border-radius: var(--wobble-2);
 }
 
-/* Status: hand-drawn "available" stamp */
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 14px;
-  font-family: var(--font-hand);
-  font-size: 1.15rem;
-  color: var(--good);
-  border: 2px solid var(--good);
-  border-radius: var(--wobble-2);
-  transform: rotate(-3deg);
-}
-
-.status-pill::before {
-  content: '';
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--good);
-  animation: pulse 2.4s var(--ease) infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.45; transform: scale(0.8); }
-}
-
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *,

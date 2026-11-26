@@ -48,6 +48,7 @@ Total blocking time is 0 ms and layout shift is 0 on every page.
 | **Experience** | "The road so far": year bubbles connected by a winding dotted path |
 | **Witchly** | A two-page spread with stats and an SVG architecture sketch (frontend, control plane, data plane) |
 | **Projects** | A wall of equal-size sticky notes that lift off on hover |
+| **Achievements** | Sketch cards with hand-drawn award rosettes, colour-coded by type, and taped certificate photos |
 | **Skills** | A lined notebook page with a red margin and ticked lists |
 | **Contact** | A postcard with a pixel-avatar stamp, a postmark and links on the address lines |
 
@@ -141,6 +142,7 @@ npm run dev          # http://localhost:4321
 | The `/now` note | `src/content/now/now.mdx` (bump `updated:`) |
 | Experience and skills | The `experience` and `skillGroups` arrays in `src/pages/index.astro` |
 | Hero callouts | The `callouts` array in `src/components/Hero.astro` |
+| Achievements | `src/content/achievements/<slug>.yaml` (certificate scans in `src/assets/achievements/`) |
 
 A project entry looks like this:
 
@@ -157,6 +159,20 @@ links:                       # at least one of internal | live | repo
   repo: https://github.com/Vamp6969/xyz
 featured: false              # the featured project gets its own spread
 ---
+```
+
+An achievement entry:
+
+```yaml
+order: 2                     # position on the wall
+title: 1st place
+event: Some Hackathon 2025
+kind: place                  # place | finalist | participation | cert (sets the rosette)
+place: 1                     # podium entries: number shown inside the rosette
+date: Mar 2025               # optional
+detail: What you built.      # optional
+link: https://...            # optional
+image: ../../assets/achievements/some-cert.jpg   # optional certificate scan
 ```
 
 To give a project a doodle, add an entry to `doodleFor` in `src/components/ProjectsSection.astro`.

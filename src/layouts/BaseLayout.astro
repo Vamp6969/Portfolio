@@ -91,7 +91,7 @@ const websiteJsonLd = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -99,12 +99,11 @@ const websiteJsonLd = {
     <meta name="description" content={description} />
     {keywords && <meta name="keywords" content={keywords} />}
     <meta name="author" content="Tushar A." />
-    <meta name="theme-color" content="#fbf8f1" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#1c1b19" />
+    <meta name="color-scheme" content="dark light" />
     <script is:inline>
-      // Set theme before first paint (no flash). Saved choice wins, else OS preference.
-      document.documentElement.dataset.theme =
-        localStorage.getItem('theme') ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      // Dark by default; a saved choice from the toggle wins. Runs before first paint (no flash).
+      document.documentElement.dataset.theme = localStorage.getItem('theme') ?? 'dark';
     </script>
     <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
 
