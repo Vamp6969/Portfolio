@@ -108,12 +108,11 @@ Client-side JavaScript is limited to three small scripts: scroll reveals, active
 │       ├── avatar.png        # pixel-art avatar (favicon, nav, postcard stamp)
 │       ├── portrait.webp     # hand-drawn portrait (hero + OG polaroid)
 │       └── doodles/          # transparent doodle PNGs (generated)
-├── scripts/
-│   ├── slice-doodles.mjs     # raw art → transparent, trimmed doodles
-│   ├── build-og.mjs          # OG image
-│   ├── build-favicons.mjs    # favicons
-│   └── check-links.mjs       # external link checker
-└── docs/superpowers/         # design spec + implementation plan for the redesign
+└── scripts/
+    ├── slice-doodles.mjs     # raw art → transparent, trimmed doodles
+    ├── build-og.mjs          # OG image
+    ├── build-favicons.mjs    # favicons
+    └── check-links.mjs       # external link checker
 ```
 
 ## Running locally

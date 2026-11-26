@@ -19,7 +19,7 @@ mkdirSync(OUT, { recursive: true });
 // (paper) colour becomes white, then "un-multiply" white into alpha: every pixel
 // becomes ink-colour + opacity, so the art sits on any background (paper, notes,
 // night mode via CSS invert) with no blend modes.
-const PAPER = 226; // ponytail: channel level treated as blank paper; raise if lines look faint, lower if grain shows
+const PAPER = 226; // channel level treated as blank paper; raise if lines look faint, lower if grain shows
 
 async function toTransparent(input, pad) {
   const { dominant } = await sharp(input).stats();
